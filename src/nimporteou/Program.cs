@@ -14,8 +14,9 @@ namespace nimporteou
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
                 .UseStartup<Startup>()
+                .UseUrls("http://*:4000")
+                .UseEnvironment("Development")
                 .Build();
 
             host.Run();

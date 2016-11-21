@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using nimporteou.Data;
 
 namespace nimporteou.Controllers
 {
@@ -10,6 +12,9 @@ namespace nimporteou.Controllers
     {
         public IActionResult Index()
         {
+            using (var db = new ApplicationDbContext(new DbContextOptionsBuilder<ApplicationDbContext>().UseNpgsql("Host=localhost;Username=nimporteou;Password=password").Options))
+                db.Database.Migrate();
+
             return View();
         }
 
