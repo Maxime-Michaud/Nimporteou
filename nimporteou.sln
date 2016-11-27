@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B8D50539-7E22-48D5-B500-2F5782900257}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2352F443-B987-48CE-A3D3-6A1ECDB1876F}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "nimporteou", "src\nimporteou\nimporteou.xproj", "{D294EF12-94FA-4E78-95AE-4DE83CB95653}"
 EndProject

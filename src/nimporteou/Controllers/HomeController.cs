@@ -10,11 +10,14 @@ namespace nimporteou.Controllers
 {
     public class HomeController : Controller
     {
+        private ApplicationDbContext db;
+        public HomeController(ApplicationDbContext db)
+        {
+            this.db = db;
+        }
+
         public IActionResult Index()
         {
-            using (var db = new ApplicationDbContext(new DbContextOptionsBuilder<ApplicationDbContext>().UseNpgsql("Host=localhost;Username=nimporteou;Password=password").Options))
-                db.Database.Migrate();
-
             return View();
         }
 

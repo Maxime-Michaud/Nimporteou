@@ -6,13 +6,39 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace nimporteou.Models
 {
-    // Add profile data for application users by adding properties to the ApplicationUser class
-    public class ApplicationUser : IdentityUser
+    /// <summary>
+    /// Un utilisateur de l'application
+    /// </summary>
+    public class ApplicationUser : IdentityUser<int>
     {
-        public List<Billet> Billets { get; set; }
-        public List<UtilisateurGroupe> Groupes { get; set; }
+        public ApplicationUser()
+        {
+            CategoriesPreferees = new List<CategorieUtilisateur>();
+        }
+
+        /// <summary>
+        /// Le nom de l'utilisateur
+        /// </summary>
         public string Nom { get; set; }
+
+        /// <summary>
+        /// Le prenom de l'utilisateur
+        /// </summary>
+        public string Prenom { get; set; }
+
+        /// <summary>
+        /// La date de naissance de l'utilisateur. Elle est optionelle, mais permet de valider qu'un utilisateur à au moins l'age minimum pour un evenement
+        /// </summary>
         public DateTime? DateNaissance { get; set; }
+
+        /// <summary>
+        /// Si l'utilisateur est un administrateur.
+        /// </summary>
         public bool Admin { get; set; }
+
+        /// <summary>
+        /// Les catégories d'événements préférés de l'utilisateur
+        /// </summary>
+        public IEnumerable<CategorieUtilisateur> CategoriesPreferees { get; set; }
     }
 }

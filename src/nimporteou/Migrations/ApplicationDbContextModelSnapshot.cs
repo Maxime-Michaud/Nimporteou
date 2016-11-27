@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using nimporteou.Data;
 
-namespace nimporteou.Data.Migrations
+namespace nimporteou.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -13,11 +13,13 @@ namespace nimporteou.Data.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.1");
+                .HasAnnotation("ProductVersion", "1.0.1")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole<int>", b =>
                 {
-                    b.Property<string>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -36,7 +38,7 @@ namespace nimporteou.Data.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -45,8 +47,7 @@ namespace nimporteou.Data.Migrations
 
                     b.Property<string>("ClaimValue");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired();
+                    b.Property<int>("RoleId");
 
                     b.HasKey("Id");
 
@@ -55,7 +56,7 @@ namespace nimporteou.Data.Migrations
                     b.ToTable("AspNetRoleClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -64,8 +65,7 @@ namespace nimporteou.Data.Migrations
 
                     b.Property<string>("ClaimValue");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+                    b.Property<int>("UserId");
 
                     b.HasKey("Id");
 
@@ -74,7 +74,7 @@ namespace nimporteou.Data.Migrations
                     b.ToTable("AspNetUserClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider");
 
@@ -82,8 +82,7 @@ namespace nimporteou.Data.Migrations
 
                     b.Property<string>("ProviderDisplayName");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+                    b.Property<int>("UserId");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -92,11 +91,11 @@ namespace nimporteou.Data.Migrations
                     b.ToTable("AspNetUserLogins");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<int>", b =>
                 {
-                    b.Property<string>("UserId");
+                    b.Property<int>("UserId");
 
-                    b.Property<string>("RoleId");
+                    b.Property<int>("RoleId");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -107,9 +106,9 @@ namespace nimporteou.Data.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserToken<int>", b =>
                 {
-                    b.Property<string>("UserId");
+                    b.Property<int>("UserId");
 
                     b.Property<string>("LoginProvider");
 
@@ -142,7 +141,8 @@ namespace nimporteou.Data.Migrations
 
             modelBuilder.Entity("nimporteou.Models.ApplicationUser", b =>
                 {
-                    b.Property<string>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
 
@@ -176,6 +176,8 @@ namespace nimporteou.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("Prenom");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
@@ -200,17 +202,11 @@ namespace nimporteou.Data.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AcheteurId");
-
                     b.Property<DateTime>("DateAchat");
 
-                    b.Property<int?>("Evenementid");
+                    b.Property<int>("Prix");
 
                     b.HasKey("id");
-
-                    b.HasIndex("AcheteurId");
-
-                    b.HasIndex("Evenementid");
 
                     b.ToTable("Billet");
                 });
@@ -220,13 +216,26 @@ namespace nimporteou.Data.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Description");
-
                     b.Property<string>("Nom");
 
                     b.HasKey("id");
 
-                    b.ToTable("Categorie");
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("nimporteou.Models.CategorieUtilisateur", b =>
+                {
+                    b.Property<int>("Categorie_id");
+
+                    b.Property<int>("Utilisateur_id");
+
+                    b.HasKey("Categorie_id", "Utilisateur_id");
+
+                    b.HasIndex("Categorie_id");
+
+                    b.HasIndex("Utilisateur_id");
+
+                    b.ToTable("CategorieUtilisateur");
                 });
 
             modelBuilder.Entity("nimporteou.Models.Evenement", b =>
@@ -234,11 +243,15 @@ namespace nimporteou.Data.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("Adresseid");
+                    b.Property<int?>("AgeMinimum");
 
-                    b.Property<bool>("BilletsNecessaire");
+                    b.Property<bool>("Annulé");
 
-                    b.Property<int?>("Categorieid");
+                    b.Property<bool>("BilletNecessaire");
+
+                    b.Property<int>("Categorie_id");
+
+                    b.Property<string>("CheminPhoto");
 
                     b.Property<DateTime?>("DateLimite");
 
@@ -246,39 +259,50 @@ namespace nimporteou.Data.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<int?>("Endroitid");
+
                     b.Property<DateTime>("Fin");
 
                     b.Property<string>("Nom");
 
-                    b.Property<int?>("Organisateursid");
+                    b.Property<int?>("PrixBillet");
 
-                    b.Property<string>("Photo");
-
-                    b.Property<int>("PrixBillet");
-
-                    b.Property<bool>("Publique");
+                    b.Property<bool>("Public");
 
                     b.HasKey("id");
 
-                    b.HasIndex("Adresseid");
+                    b.HasIndex("Categorie_id");
 
-                    b.HasIndex("Categorieid");
+                    b.HasIndex("Endroitid");
 
-                    b.HasIndex("Organisateursid");
-
-                    b.ToTable("Evenement");
+                    b.ToTable("Evenements");
                 });
 
-            modelBuilder.Entity("nimporteou.Models.Groupe", b =>
+            modelBuilder.Entity("nimporteou.Models.Participation", b =>
                 {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Participant_id");
 
-                    b.Property<string>("Nom");
+                    b.Property<int>("Evenement_id");
 
-                    b.HasKey("id");
+                    b.Property<int?>("Billetid");
 
-                    b.ToTable("Groupe");
+                    b.Property<int>("NombreParticipants");
+
+                    b.Property<int>("Role");
+
+                    b.Property<int?>("Signalementid");
+
+                    b.HasKey("Participant_id", "Evenement_id");
+
+                    b.HasIndex("Billetid");
+
+                    b.HasIndex("Evenement_id");
+
+                    b.HasIndex("Participant_id");
+
+                    b.HasIndex("Signalementid");
+
+                    b.ToTable("Participations");
                 });
 
             modelBuilder.Entity("nimporteou.Models.Signalement", b =>
@@ -286,35 +310,11 @@ namespace nimporteou.Data.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Description");
-
-                    b.Property<int?>("Evenementid");
+                    b.Property<string>("Commentaire");
 
                     b.HasKey("id");
-
-                    b.HasIndex("Evenementid");
 
                     b.ToTable("Signalement");
-                });
-
-            modelBuilder.Entity("nimporteou.Models.UtilisateurGroupe", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("Groupeid");
-
-                    b.Property<int>("Role");
-
-                    b.Property<string>("UtilisateurId");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("Groupeid");
-
-                    b.HasIndex("UtilisateurId");
-
-                    b.ToTable("UtilisateurGroupe");
                 });
 
             modelBuilder.Entity("nimporteou.Models.Ville", b =>
@@ -329,15 +329,15 @@ namespace nimporteou.Data.Migrations
                     b.ToTable("Ville");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
+                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole<int>")
                         .WithMany("Claims")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<int>", b =>
                 {
                     b.HasOne("nimporteou.Models.ApplicationUser")
                         .WithMany("Claims")
@@ -345,7 +345,7 @@ namespace nimporteou.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<int>", b =>
                 {
                     b.HasOne("nimporteou.Models.ApplicationUser")
                         .WithMany("Logins")
@@ -353,9 +353,9 @@ namespace nimporteou.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
+                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole<int>")
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -373,48 +373,50 @@ namespace nimporteou.Data.Migrations
                         .HasForeignKey("Villeid");
                 });
 
-            modelBuilder.Entity("nimporteou.Models.Billet", b =>
+            modelBuilder.Entity("nimporteou.Models.CategorieUtilisateur", b =>
                 {
-                    b.HasOne("nimporteou.Models.ApplicationUser", "Acheteur")
-                        .WithMany("Billets")
-                        .HasForeignKey("AcheteurId");
+                    b.HasOne("nimporteou.Models.Categorie", "Categorie")
+                        .WithMany()
+                        .HasForeignKey("Categorie_id")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("nimporteou.Models.Evenement", "Evenement")
-                        .WithMany("Billets")
-                        .HasForeignKey("Evenementid");
+                    b.HasOne("nimporteou.Models.ApplicationUser", "Utilisateur")
+                        .WithMany("CategoriesPreferees")
+                        .HasForeignKey("Utilisateur_id")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("nimporteou.Models.Evenement", b =>
                 {
-                    b.HasOne("nimporteou.Models.Adresse", "Adresse")
-                        .WithMany()
-                        .HasForeignKey("Adresseid");
-
                     b.HasOne("nimporteou.Models.Categorie", "Categorie")
                         .WithMany()
-                        .HasForeignKey("Categorieid");
+                        .HasForeignKey("Categorie_id")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("nimporteou.Models.Groupe", "Organisateurs")
+                    b.HasOne("nimporteou.Models.Adresse", "Endroit")
                         .WithMany()
-                        .HasForeignKey("Organisateursid");
+                        .HasForeignKey("Endroitid");
                 });
 
-            modelBuilder.Entity("nimporteou.Models.Signalement", b =>
+            modelBuilder.Entity("nimporteou.Models.Participation", b =>
                 {
-                    b.HasOne("nimporteou.Models.Evenement")
-                        .WithMany("Signalements")
-                        .HasForeignKey("Evenementid");
-                });
+                    b.HasOne("nimporteou.Models.Billet", "Billet")
+                        .WithMany()
+                        .HasForeignKey("Billetid");
 
-            modelBuilder.Entity("nimporteou.Models.UtilisateurGroupe", b =>
-                {
-                    b.HasOne("nimporteou.Models.Groupe", "Groupe")
-                        .WithMany("Membres")
-                        .HasForeignKey("Groupeid");
+                    b.HasOne("nimporteou.Models.Evenement", "Evenement")
+                        .WithMany()
+                        .HasForeignKey("Evenement_id")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("nimporteou.Models.ApplicationUser", "Utilisateur")
-                        .WithMany("Groupes")
-                        .HasForeignKey("UtilisateurId");
+                    b.HasOne("nimporteou.Models.ApplicationUser", "Participant")
+                        .WithMany()
+                        .HasForeignKey("Participant_id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("nimporteou.Models.Signalement", "Signalement")
+                        .WithMany()
+                        .HasForeignKey("Signalementid");
                 });
         }
     }

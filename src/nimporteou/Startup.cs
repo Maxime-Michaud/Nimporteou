@@ -40,13 +40,18 @@ namespace nimporteou
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            #region Ajoute le DBContext a services. La configuration en debug utilise une BD MSSQLEXPRESS sur localhost, les autres config utilisent une BD postgreSQL située sur db.nimporteou.tk
+#if DEBUG
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("LocalMSSQLServer")));
+#else
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("PostgreSQLConnection")));
+#endif
+            #endregion
 
-
-
-                services.AddIdentity<ApplicationUser, IdentityRole>()
-                    .AddEntityFrameworkStores<ApplicationDbContext>()
+            services.AddIdentity<ApplicationUser, IdentityRole<int>>()
+                    .AddEntityFrameworkStores<ApplicationDbContext, int>()
                     .AddDefaultTokenProviders();
 
             services.AddMvc();
@@ -76,7 +81,7 @@ namespace nimporteou
             app.UseStaticFiles();
 
             app.UseIdentity();
-
+            
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 
             app.UseMvc(routes =>
