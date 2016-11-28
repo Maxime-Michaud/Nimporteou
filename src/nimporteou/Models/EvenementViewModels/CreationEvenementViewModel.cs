@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace nimporteou.Models.EvenementViewModels
 {
-    public class CreationEvenementViewModel
+    public class CreationEvenementViewModel : EvenementViewModel
     {
         public bool Public { get; set; }
         public int? AgeMinimum { get; set; }

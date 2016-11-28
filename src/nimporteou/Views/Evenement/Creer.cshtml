@@ -1,0 +1,110 @@
+@model nimporteou.Models.EvenementViewModels.CreationEvenementViewModel
+
+@{
+    ViewData["Title"] = "Creer un evenement";
+}
+
+<h2>Creation d'evenement</h2>
+
+<form asp-action="Creer">
+    <div class="form-horizontal">
+        <h4>Quelles est votre evenement?</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Nom" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Nom" class="form-control" />
+                <span asp-validation-for="Nom" class="text-danger" />
+            </div>
+        </div>
+            <div class="form-group">
+            <label asp-for="Description" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Description" class="form-control"/>
+                <span asp-validation-for="Description" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Public" class="col-md-2 control-label">Public</label>
+            <div class="col-md-10 checkbox">
+                <input asp-for="Public" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="DateLimite" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DateLimite" class="form-control" />
+                <span asp-validation-for="DateLimite" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="BilletNecessaire" class="col-md-2 control-label">Vente de billet</label>
+            <div class="col-md-10 checkbox">
+                <input asp-for="BilletNecessaire" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="PrixBillet" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="PrixBillet" class="form-control" />
+                <span asp-validation-for="PrixBillet" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Debut" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Debut" class="form-control" />
+                <span asp-validation-for="Debut" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Fin" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Fin" class="form-control" />
+                <span asp-validation-for="Fin" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Categorie" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Categorie" class="form-control" />
+                <span asp-validation-for="Categorie" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="AgeMinimum" class="col-md-2 control-label">Age minimum</label>
+            <div class="col-md-10">
+                <input asp-for="AgeMinimum" class="form-control" />
+                <span asp-validation-for="AgeMinimum" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="AdresseComplete" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="AdresseComplete" class="form-control" />
+                <span asp-validation-for="AdresseComplete" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="CheminPhoto" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="CheminPhoto" class="form-control" />
+                <span asp-validation-for="CheminPhoto" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Creer" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

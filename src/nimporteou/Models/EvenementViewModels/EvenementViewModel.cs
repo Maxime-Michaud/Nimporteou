@@ -11,7 +11,7 @@ namespace nimporteou.Models.EvenementViewModels
         public string Description { get; set; }
         public string Nom { get; set; }
         public string CheminPhoto { get; set; }
-        public int PrixBillet { get; set; }
+        public int? PrixBillet { get; set; }
         public string Categorie { get; set; }
         public string AdresseComplete { get; set; }
     }
