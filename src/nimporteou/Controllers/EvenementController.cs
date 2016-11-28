@@ -60,11 +60,30 @@ namespace nimporteou.Controllers
         public IActionResult Creer(CreationEvenementViewModel e)
         {
             //todo creer et enregistrer dans la bd
-            //Creer l'evenement
-            Evenement ev = new Evenement();
-            ev.Nom = e.Nom;
-            int id = 0;
-            return RedirectToAction("Index", id);
+            if (ModelState.IsValid)
+            {
+                //Creer l'evenement
+                Evenement ev = new Evenement();
+                ev.Nom = e.Nom;
+                ev.Description = e.Nom;
+                ev.Public = e.Public;
+                ev.DateLimite = e.DateLimite;
+                ev.BilletNecessaire = e.BilletNecessaire;
+                ev.PrixBillet = e.PrixBillet;
+                ev.Debut = e.Debut;
+                ev.Fin = e.Fin;
+                ev.Categorie.Nom = e.Categorie;
+                ev.AgeMinimum = e.AgeMinimum;
+                Adresse ad = new Adresse();
+
+                //ad.NumeroCivique = 
+                //ev.Endroit = e.AdresseComplete;
+
+                int id = 0;
+                return RedirectToAction("Index", id);
+            }
+
+            return View();
         }
     }
 }

@@ -1,4 +1,4 @@
-@model nimporteou.Models.EvenementViewModels.CreationEvenementViewModel
+﻿@model nimporteou.Models.EvenementViewModels.CreationEvenementViewModel
 
 @{
     ViewData["Title"] = "Creer un evenement";
@@ -8,7 +8,7 @@
 
 <form asp-action="Creer">
     <div class="form-horizontal">
-        <h4>Quelles est votre evenement?</h4>
+        <h4>Quelles est votre événement?</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
@@ -68,7 +68,7 @@
         <div class="form-group">
             <label asp-for="Categorie" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Categorie" class="form-control" />
+                @*@Html.DropDownListFor(m => m.Categorie, new List<SelectListItem> { "Nain de ta màre" });*@
                 <span asp-validation-for="Categorie" class="text-danger" />
             </div>
         </div>
