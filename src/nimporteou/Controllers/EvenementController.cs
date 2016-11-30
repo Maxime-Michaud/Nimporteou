@@ -64,7 +64,7 @@ namespace nimporteou.Controllers
             {
                 //Creer l'evenement
                 Evenement ev = new Evenement();
-                ev.Nom = e.Nom;
+                ev.Nom = e.Description;
                 ev.Description = e.Nom;
                 ev.Public = e.Public;
                 ev.DateLimite = e.DateLimite;
@@ -72,15 +72,67 @@ namespace nimporteou.Controllers
                 ev.PrixBillet = e.PrixBillet;
                 ev.Debut = e.Debut;
                 ev.Fin = e.Fin;
-                ev.Categorie.Nom = e.Categorie;
+
+                Categorie cat = new Categorie();
+                cat.Nom = e.Categorie;
+                if (_db.Categories.Where(a => a.Nom == cat.Nom).FirstOrDefault() == null)
+                {
+                    _db.Categories.Add(cat);
+                    ev.Categorie = cat;
+                }
+                else
+                {
+                    ev.Categorie = _db.Categories.Where(a => a.Nom == cat.Nom).FirstOrDefault();
+                }
                 ev.AgeMinimum = e.AgeMinimum;
                 Adresse ad = new Adresse();
 
-                //ad.NumeroCivique = 
-                //ev.Endroit = e.AdresseComplete;
+                string adresseComplete = e.AdresseComplete;
+                string noCivique;
+                string rue;
+                string ville;
+                if (adresseComplete != null)
+                {
+                    adresseComplete = adresseComplete.Trim();
+                    adresseComplete = adresseComplete.Replace(',',' ');
+                    string []data = adresseComplete.Split(' ');
+                    noCivique = data[0].ToString();
+                    rue = data[1].ToString();
+                    ville = data[2].ToString();
 
-                int id = 0;
-                return RedirectToAction("Index", id);
+                    int x = 0;
+                    if (Int32.TryParse(noCivique, out x))
+                    {
+                        ad.NumeroCivique = x;
+                    }
+                    if (rue != null)
+                    {
+                        ad.Rue = rue;
+                    }
+                    if (ville != null)
+                    {
+                        if (_db.Villes.Where(a => a.Nom == ville).FirstOrDefault() != null)
+                        {
+                            ad.Ville = _db.Villes.Where(a => a.Nom == ville).FirstOrDefault();
+                        }
+                        else
+                        {
+                            Ville vi = new Models.Ville();
+                            vi.Nom = ville;
+                            _db.Villes.Add(vi);
+                            ad.Ville = vi;
+                        }
+                    }
+                }
+                if (ad != null)
+                {
+                    ev.Endroit = ad;
+                }
+                ev.CheminPhoto = e.CheminPhoto;
+
+                _db.Evenements.Add(ev);
+                _db.SaveChanges();
+                return RedirectToAction("Index", ev.id);
             }
 
             return View();

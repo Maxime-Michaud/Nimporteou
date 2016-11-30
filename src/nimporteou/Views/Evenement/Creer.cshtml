@@ -69,6 +69,7 @@
             <label asp-for="Categorie" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 @*@Html.DropDownListFor(m => m.Categorie, new List<SelectListItem> { "Nain de ta màre" });*@
+                <input asp-for="Categorie" class="form-control" />
                 <span asp-validation-for="Categorie" class="text-danger" />
             </div>
         </div>

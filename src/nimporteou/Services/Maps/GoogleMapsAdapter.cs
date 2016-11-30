@@ -45,6 +45,7 @@ namespace Dispatch_GUTAC.Gestionnaires
         private void CheckStatus(XDocument xdoc)
         {
             var status = xdoc.Descendants("status").Where(x => x.Name == "status").First().Value.ToString();
+            var adresse = xdoc.Descendants("origin_adress");
 
             switch (status)
             {

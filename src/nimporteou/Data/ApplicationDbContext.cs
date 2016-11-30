@@ -13,6 +13,7 @@ namespace nimporteou.Data
         public DbSet<Participation> Participations { get; set; }
         public DbSet<Evenement> Evenements { get; set; }
         public DbSet<Categorie> Categories { get; set; }
+        public DbSet<Ville> Villes { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
