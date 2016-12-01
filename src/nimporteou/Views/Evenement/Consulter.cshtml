@@ -1,0 +1,84 @@
+@model nimporteou.Models.EvenementViewModels.ConsultationEvenementViewModel
+
+@{
+    ViewData["Title"] = "Consulter";
+}
+
+<h2>Consultation</h2>
+
+<div>
+    <h4>Détail de ton événement</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EvenementID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EvenementID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BilletNecessaire)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BilletNecessaire)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateLimite)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateLimite)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Debut)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Debut)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Fin)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Fin)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Nom)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Nom)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CheminPhoto)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CheminPhoto)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PrixBillet)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PrixBillet)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Categorie)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Categorie)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdresseComplete)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdresseComplete)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>
