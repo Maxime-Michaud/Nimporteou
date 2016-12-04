@@ -20,6 +20,7 @@ namespace nimporteou
                 .Build();
 
             host.Run();
+            
         }
     }
 }

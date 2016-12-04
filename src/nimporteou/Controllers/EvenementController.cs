@@ -101,7 +101,7 @@ namespace nimporteou.Controllers
                     ville = data[2].ToString();
 
                     int x = 0;
-                    if (Int32.TryParse(noCivique, out x))
+                    if (int.TryParse(noCivique, out x))
                     {
                         ad.NumeroCivique = x;
                     }
@@ -117,7 +117,7 @@ namespace nimporteou.Controllers
                         }
                         else
                         {
-                            Ville vi = new Models.Ville();
+                            Ville vi = new Ville();
                             vi.Nom = ville;
                             _db.Villes.Add(vi);
                             ad.Ville = vi;
@@ -134,6 +134,7 @@ namespace nimporteou.Controllers
                 _db.SaveChanges();
                 return RedirectToAction("Index", ev.id);
             }
+
 
             return View();
         }

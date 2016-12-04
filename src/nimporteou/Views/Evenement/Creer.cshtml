@@ -68,7 +68,6 @@
         <div class="form-group">
             <label asp-for="Categorie" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                @*@Html.DropDownListFor(m => m.Categorie, new List<SelectListItem> { "Nain de ta màre" });*@
                 <input asp-for="Categorie" class="form-control" />
                 <span asp-validation-for="Categorie" class="text-danger" />
             </div>
@@ -83,7 +82,7 @@
         <div class="form-group">
             <label asp-for="AdresseComplete" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="AdresseComplete" class="form-control" />
+                <input id="adr" asp-for="AdresseComplete" class="form-control" />
                 <span asp-validation-for="AdresseComplete" class="text-danger" />
             </div>
         </div>
@@ -108,4 +107,6 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4uN51G6BRDYH9fBl-fPb7jCWx6r8wFpk&libraries=places"></script>
+    <script type="text/javascript" src="~/js/maps.js"></script>
 }
