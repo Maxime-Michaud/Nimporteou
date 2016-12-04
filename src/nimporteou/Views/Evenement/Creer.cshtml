@@ -6,7 +6,7 @@
 
 <h2>Creation d'evenement</h2>
 
-<form asp-action="Creer">
+<form method="post" asp-action="Creer" asp-controller="Evenement" enctype="multipart/form-data">
     <div class="form-horizontal">
         <h4>Quelles est votre événement?</h4>
         <hr />
@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="DateLimite" class="col-md-2 control-label"></label>
+            <label asp-for="DateLimite" class="col-md-2 control-label">Date limite d'inscription</label>
             <div class="col-md-10">
                 <input asp-for="DateLimite" class="form-control" />
                 <span asp-validation-for="DateLimite" class="text-danger" />
@@ -45,7 +45,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="PrixBillet" class="col-md-2 control-label"></label>
+            <label asp-for="PrixBillet" class="col-md-2 control-label">Prix du billet</label>
             <div class="col-md-10">
                 <input asp-for="PrixBillet" class="form-control" />
                 <span asp-validation-for="PrixBillet" class="text-danger" />
@@ -80,16 +80,16 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="AdresseComplete" class="col-md-2 control-label"></label>
+            <label asp-for="AdresseComplete" class="col-md-2 control-label">Adresse</label>
             <div class="col-md-10">
                 <input id="adr" asp-for="AdresseComplete" class="form-control" />
                 <span asp-validation-for="AdresseComplete" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="CheminPhoto" class="col-md-2 control-label"></label>
+            <label asp-for="CheminPhoto" class="col-md-2 control-label">Image</label>
             <div class="col-md-10">
-                <input asp-for="CheminPhoto" class="form-control" />
+                <input asp-for="CheminPhoto" type="file" name="files" multiple class="form-control" />
                 <span asp-validation-for="CheminPhoto" class="text-danger" />
             </div>
         </div>
@@ -102,7 +102,7 @@
 </form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Retour</a>
 </div>
 
 @section Scripts {

@@ -7,6 +7,10 @@ using nimporteou.Data;
 using nimporteou.Models.EvenementViewModels;
 using Microsoft.AspNetCore.Identity;
 using nimporteou.Models;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace nimporteou.Controllers
 {
@@ -14,11 +18,13 @@ namespace nimporteou.Controllers
     {
         private ApplicationDbContext _db;
         private UserManager<ApplicationUser> _userManager;
+        private IHostingEnvironment _environment;
 
-        public EvenementController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
+        public EvenementController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IHostingEnvironment environment)
         {
             _db = db;
             _userManager = userManager;
+            _environment = environment;
         }
 
         public IActionResult Index(int? id)
@@ -26,26 +32,7 @@ namespace nimporteou.Controllers
             //Get l'eventnement
             if (id != null)
             {
-                Evenement ev =  _db.Evenements.Where(e => e.id == id).FirstOrDefault();
-                if (ev != null)
-                {
-                    ConsultationEvenementViewModel cev = new ConsultationEvenementViewModel();
-
-                    cev.EvenementID = ev.id;
-                    cev.Nom = ev.Nom;
-                    cev.Description = ev.Description;
-                    //cev.Public = ev.Public;       <== sa existe pas
-                    cev.DateLimite = ev.DateLimite;
-                    //cev.VenteBillet               <== sa existe pas
-                    cev.PrixBillet = ev.PrixBillet;
-                    cev.Debut = ev.Debut;
-                    cev.Fin = ev.Fin;
-                    cev.Categorie = ev.Categorie.Nom;
-                    cev.AdresseComplete = ev.Endroit.ToString();
-                    cev.CheminPhoto = ev.CheminPhoto;
-
-                    return View(cev);
-                }
+                return RedirectToAction("Consulter", id);
             }
             return View();
         }
@@ -57,7 +44,7 @@ namespace nimporteou.Controllers
         }
 
         [HttpPost]
-        public IActionResult Creer(CreationEvenementViewModel e)
+        public async Task<IActionResult> Creer(CreationEvenementViewModel e, ICollection<IFormFile> files)
         {
             //todo creer et enregistrer dans la bd
             if (ModelState.IsValid)
@@ -128,14 +115,58 @@ namespace nimporteou.Controllers
                 {
                     ev.Endroit = ad;
                 }
-                ev.CheminPhoto = e.CheminPhoto;
+                //ev.CheminPhoto = e.CheminPhoto;
+
+                var uploads = Path.Combine(_environment.WebRootPath, "uploads");
+                //todo :  ajouter le dossier du user au path et changer le nom de l'image! verifier si elle existe -> remplace ou renomme?
+                foreach (var file in files)
+                {
+                    if (file.Length > 0)
+                    {
+                        using (var fileStream = new FileStream(Path.Combine(uploads, file.FileName), FileMode.Create))
+                        {
+                            await file.CopyToAsync(fileStream);
+                            ev.CheminPhoto = Path.Combine(uploads, file.FileName);
+                        }
+                    }
+                }
 
                 _db.Evenements.Add(ev);
                 _db.SaveChanges();
-                return RedirectToAction("Index", ev.id);
+                return RedirectToAction("Consulter", new { id = ev.id });
             }
 
 
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Consulter(int? id)
+        {
+            //Get l'eventnement
+            if (id != null)
+            {
+                Evenement ev = _db.Evenements.Include(a => a.Categorie).Include(a => a.Endroit.Ville).Where(e => e.id == id).FirstOrDefault();
+                if (ev != null)
+                {
+                    ConsultationEvenementViewModel cev = new ConsultationEvenementViewModel();
+
+                    cev.EvenementID = ev.id;
+                    cev.Nom = ev.Nom;
+                    cev.Description = ev.Description;
+                    //cev.Public = ev.Public;       <== sa existe pas
+                    cev.DateLimite = ev.DateLimite;
+                    //cev.VenteBillet               <== sa existe pas
+                    cev.PrixBillet = ev.PrixBillet;
+                    cev.Debut = ev.Debut;
+                    cev.Fin = ev.Fin;
+                    cev.Categorie = ev.Categorie.Nom;
+                    cev.AdresseComplete = ev.Endroit.ToString();
+                    cev.CheminPhoto = ev.CheminPhoto;
+
+                    return View(cev);
+                }
+            }
             return View();
         }
     }
