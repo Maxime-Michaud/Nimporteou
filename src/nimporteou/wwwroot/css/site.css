@@ -63,7 +63,7 @@ input[type="file"] {
     cursor: pointer;
     /*float: right;*/
     width: 5.25em;
-    margin-left:200px;
+    margin-left:50px;
 }
 
 .photo{
@@ -71,6 +71,7 @@ input[type="file"] {
     height: 9em; 
     border: 1px solid rgb(197, 197, 197); 
     border-radius: 4px 4px 4px 4px; 
-    float:right;
+    margin-left:50px;
+    /*float:right;*/
 }
 /* Fin des styles pour afficher l'image avant l'upload  */

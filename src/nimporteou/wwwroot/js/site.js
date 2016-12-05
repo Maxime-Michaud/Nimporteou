@@ -6,7 +6,7 @@
 
             reader.onload = function (e) {
                 $('#blah').attr('src', e.target.result);
-            }
+            };
             reader.readAsDataURL(input.files[0]);
         }
     }
@@ -14,3 +14,9 @@
 $("#imgInp").change(function () {
     readURL(this);
 });
+
+function heure() {
+    $(function () {
+        $('#basicExample').timepicker();
+    });
+}

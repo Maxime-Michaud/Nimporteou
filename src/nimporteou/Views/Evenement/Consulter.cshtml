@@ -11,40 +11,10 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.EvenementID)
+            @Html.DisplayName("Catégorie")
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.EvenementID)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.BilletNecessaire)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.BilletNecessaire)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.DateLimite)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DateLimite)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Debut)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Debut)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Fin)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Fin)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.Categorie)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Nom)
@@ -53,28 +23,64 @@
             @Html.DisplayFor(model => model.Nom)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.CheminPhoto)
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.CheminPhoto)
+            @Html.DisplayFor(model => model.Description)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.PrixBillet)
+            @Html.DisplayName("Vente de Billet")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BilletNecessaire)
+        </dd>
+        <dt>
+            @Html.DisplayName("Date limite de l'inscription")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateLimite)
+        </dd>
+        <dt>
+           @Html.DisplayName("Début")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Debut)
+        </dd>
+        <dt>
+           @Html.DisplayName("Fin")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Fin)
+        </dd>
+        <dt>
+            <img src="@Html.DisplayFor(model => model.CheminPhoto)" />
+        </dt>
+        <dd>
+            @*@Html.DisplayFor(model => model.CheminPhoto)*@
+        </dd>
+        <dt>
+           @Html.DisplayName("Prix du billet")
         </dt>
         <dd>
             @Html.DisplayFor(model => model.PrixBillet)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Categorie)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Categorie)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AdresseComplete)
+            @Html.DisplayName("Adresse")
         </dt>
         <dd>
             @Html.DisplayFor(model => model.AdresseComplete)
+        </dd>
+        <dt>
+            @Html.DisplayName("Heure")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.HeureDebut)
+        </dd>
+        <dt>
+            @Html.DisplayName("Durée")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Duree)
         </dd>
     </dl>
 </div>

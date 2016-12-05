@@ -14,18 +14,18 @@
         <div class="form-group">
             <label asp-for="Nom" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Nom" class="form-control" />
+                <input asp-for="Nom" class="form-control" minlength="5" maxlength="100" required/>
                 <span asp-validation-for="Nom" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
             <label asp-for="Description" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Description" class="form-control"/>
+                <input asp-for="Description" class="form-control" maxlength="2000"/>
                 <span asp-validation-for="Description" class="text-danger" />
             </div>
         </div>
-
+        
         <div class="form-group">
             <label asp-for="Public" class="col-md-2 control-label">Public</label>
             <div class="col-md-10 checkbox">
@@ -57,9 +57,25 @@
         </div>
 
         <div class="form-group">
+            <label asp-for="HeureDebut" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="HeureDebut" id="basicExample" type="text" class="time" data-time-format="H:i:s" onclick="heure()" required/>
+                <span asp-validation-for="HeureDebut" class="text-danger" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Duree" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Duree" id="basicExample" type="text" class="time" data-time-format="H:i:s" onclick="heure()"/>
+                <span asp-validation-for="Duree" class="text-danger" />
+            </div>
+        </div>
+
+        <div class="form-group">
             <label asp-for="Debut" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Debut" class="form-control" />
+                <input asp-for="Debut" class="form-control" required/>
                 <span asp-validation-for="Debut" class="text-danger" />
             </div>
         </div>
@@ -67,7 +83,7 @@
         <div class="form-group">
             <label asp-for="Fin" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Fin" class="form-control" />
+                <input asp-for="Fin" class="form-control" required/>
                 <span asp-validation-for="Fin" class="text-danger" />
             </div>
         </div>
@@ -84,7 +100,7 @@
         <div class="form-group">
             <label asp-for="AgeMinimum" class="col-md-2 control-label">Age minimum</label>
             <div class="col-md-10">
-                <input asp-for="AgeMinimum" class="form-control" />
+                <input asp-for="AgeMinimum" class="form-control" required/>
                 <span asp-validation-for="AgeMinimum" class="text-danger" />
             </div>
         </div>
@@ -92,7 +108,7 @@
         <div class="form-group">
             <label asp-for="AdresseComplete" class="col-md-2 control-label">Adresse</label>
             <div class="col-md-10">
-                <input asp-for="AdresseComplete" class="form-control" />
+                <input asp-for="AdresseComplete" class="form-control" required/>
                 <span asp-validation-for="AdresseComplete" class="text-danger" />
             </div>
         </div>

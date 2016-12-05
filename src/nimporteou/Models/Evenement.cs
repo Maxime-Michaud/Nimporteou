@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace nimporteou.Models
@@ -30,11 +31,13 @@ namespace nimporteou.Models
         /// <summary>
         /// La description détaillée de l'évènement
         /// </summary>
+        [StringLength(1000, ErrorMessage = "Le nom doit contenir plus de 5 caratères et moins de 100 caratères")]
         public string Description { get; set; }
 
         /// <summary>
         /// Le nom de l'évènement (ex: Festival de nain de jardin)
         /// </summary>
+        [StringLength(100, ErrorMessage = "Le nom doit contenir plus de 5 caratères et moins de 100 caratères", MinimumLength = 5)]
         public string Nom { get; set; }
 
         /// <summary>
@@ -74,5 +77,9 @@ namespace nimporteou.Models
         public Categorie Categorie { get; set; }
 
         public int Categorie_id { get; set; }
+
+        public DateTime HeureDebut { get; set; }
+
+        public DateTime Duree { get; set; }
     }
 }
