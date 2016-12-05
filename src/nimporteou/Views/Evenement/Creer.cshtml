@@ -18,19 +18,21 @@
                 <span asp-validation-for="Nom" class="text-danger" />
             </div>
         </div>
-            <div class="form-group">
+        <div class="form-group">
             <label asp-for="Description" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="Description" class="form-control"/>
                 <span asp-validation-for="Description" class="text-danger" />
             </div>
         </div>
+
         <div class="form-group">
             <label asp-for="Public" class="col-md-2 control-label">Public</label>
             <div class="col-md-10 checkbox">
                 <input asp-for="Public" />
             </div>
         </div>
+
         <div class="form-group">
             <label asp-for="DateLimite" class="col-md-2 control-label">Date limite d'inscription</label>
             <div class="col-md-10">
@@ -38,12 +40,14 @@
                 <span asp-validation-for="DateLimite" class="text-danger" />
             </div>
         </div>
+
         <div class="form-group">
             <label asp-for="BilletNecessaire" class="col-md-2 control-label">Vente de billet</label>
             <div class="col-md-10 checkbox">
                 <input asp-for="BilletNecessaire" />
             </div>
         </div>
+
         <div class="form-group">
             <label asp-for="PrixBillet" class="col-md-2 control-label">Prix du billet</label>
             <div class="col-md-10">
@@ -51,6 +55,7 @@
                 <span asp-validation-for="PrixBillet" class="text-danger" />
             </div>
         </div>
+
         <div class="form-group">
             <label asp-for="Debut" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -58,6 +63,7 @@
                 <span asp-validation-for="Debut" class="text-danger" />
             </div>
         </div>
+
         <div class="form-group">
             <label asp-for="Fin" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -65,14 +71,16 @@
                 <span asp-validation-for="Fin" class="text-danger" />
             </div>
         </div>
+
         <div class="form-group">
-            <label asp-for="Categorie" class="col-md-2 control-label"></label>
+            <label asp-for="Categorie" class="col-md-2 control-label">Catégorie</label>
             <div class="col-md-10">
-                @*@Html.DropDownListFor(m => m.Categorie, new List<SelectListItem> { "Nain de ta màre" });*@
-                <input asp-for="Categorie" class="form-control" />
+                <select asp-for="Categorie"
+                        asp-items="ViewBag.Categories" class="form-control"></select>
                 <span asp-validation-for="Categorie" class="text-danger" />
             </div>
         </div>
+
         <div class="form-group">
             <label asp-for="AgeMinimum" class="col-md-2 control-label">Age minimum</label>
             <div class="col-md-10">
@@ -80,6 +88,7 @@
                 <span asp-validation-for="AgeMinimum" class="text-danger" />
             </div>
         </div>
+
         <div class="form-group">
             <label asp-for="AdresseComplete" class="col-md-2 control-label">Adresse</label>
             <div class="col-md-10">
@@ -87,13 +96,20 @@
                 <span asp-validation-for="AdresseComplete" class="text-danger" />
             </div>
         </div>
+
         <div class="form-group">
+            <img id="blah" class="photo" ImageUrl="img/user-5.png" />
+            <label for="imgInp" class="custom-file-upload">
+                <i class="fa fa-cloud-upload"></i>Add Image
+            </label>
+
             <label asp-for="CheminPhoto" class="col-md-2 control-label">Image</label>
             <div class="col-md-10">
-                <input asp-for="CheminPhoto" type="file" name="files" multiple class="form-control" />
+                <input asp-for="CheminPhoto" type="file" id="imgInp" name="files" multiple class="form-control" />
                 <span asp-validation-for="CheminPhoto" class="text-danger" />
             </div>
         </div>
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Creer" class="btn btn-default" />

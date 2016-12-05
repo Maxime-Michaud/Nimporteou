@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace nimporteou.Controllers
 {
@@ -40,6 +41,12 @@ namespace nimporteou.Controllers
         [HttpGet]
         public IActionResult Creer()
         {
+            List<SelectListItem> lstCat = new List<SelectListItem>();
+            foreach (var item in _db.Categories)
+            {
+                lstCat.Add(new SelectListItem { Text = item.Nom, Value = item.Nom});
+            }
+            ViewBag.Categories = lstCat;
             return View();
         }
 
@@ -58,22 +65,11 @@ namespace nimporteou.Controllers
                 ev.BilletNecessaire = e.BilletNecessaire;
                 ev.PrixBillet = e.PrixBillet;
                 ev.Debut = e.Debut;
-                ev.Fin = e.Fin;
-
-                Categorie cat = new Categorie();
-                cat.Nom = e.Categorie;
-                if (_db.Categories.Where(a => a.Nom == cat.Nom).FirstOrDefault() == null)
-                {
-                    _db.Categories.Add(cat);
-                    ev.Categorie = cat;
-                }
-                else
-                {
-                    ev.Categorie = _db.Categories.Where(a => a.Nom == cat.Nom).FirstOrDefault();
-                }
+                ev.Fin = e.Fin;       
+                ev.Categorie = _db.Categories.Where(a => a.Nom == e.Categorie).FirstOrDefault();
                 ev.AgeMinimum = e.AgeMinimum;
-                Adresse ad = new Adresse();
 
+                Adresse ad = new Adresse();
                 string adresseComplete = e.AdresseComplete;
                 string noCivique;
                 string rue;
