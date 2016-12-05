@@ -53,10 +53,12 @@
             @Html.DisplayFor(model => model.Fin)
         </dd>
         <dt>
-            <img src="@Html.DisplayFor(model => model.CheminPhoto)" />
+            @*<img src="@Html.DisplayFor(model => model.CheminPhoto)" />*@
+            @Html.DisplayName("Image")
         </dt>
         <dd>
             @*@Html.DisplayFor(model => model.CheminPhoto)*@
+            <img src="@Html.DisplayFor(model => model.CheminPhoto)" />
         </dd>
         <dt>
            @Html.DisplayName("Prix du billet")
