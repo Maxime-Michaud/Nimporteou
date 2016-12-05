@@ -27,14 +27,15 @@ namespace nimporteou.Controllers
             _environment = environment;
         }
 
-        public IActionResult Index(int? id)
+        async public Task<IActionResult> Index(int? id)
         {
             //Get l'eventnement
             if (id != null)
             {
-                return RedirectToAction("Consulter", id);
+                return RedirectToAction("Consulter", "evenement", id);
             }
-            return View();
+
+            return View(EvenementViewModelFactory.CreerListe(_db, await _userManager.GetUserAsync(HttpContext.User)));
         }
 
         [HttpGet]
@@ -126,7 +127,7 @@ namespace nimporteou.Controllers
                         using (var fileStream = new FileStream(Path.Combine(uploads, file.FileName), FileMode.Create))
                         {
                             await file.CopyToAsync(fileStream);
-                            ev.CheminPhoto = Path.Combine(uploads, file.FileName);
+                            ev.CheminPhoto = "/uploads/" + file.FileName;
                         }
                     }
                 }
@@ -140,7 +141,6 @@ namespace nimporteou.Controllers
             return View();
         }
 
-        [HttpGet]
         public IActionResult Consulter(int? id)
         {
             //Get l'eventnement

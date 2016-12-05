@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -40,5 +41,14 @@ namespace nimporteou.Models
         /// Les catégories d'événements préférés de l'utilisateur
         /// </summary>
         public IEnumerable<CategorieUtilisateur> CategoriesPreferees { get; set; }
+
+        [NotMapped]
+        public int? Age
+        {
+            get
+            {
+                return DateTime.Now.Year - DateNaissance?.Year;
+            }
+        }
     }
 }
