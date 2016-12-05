@@ -29,14 +29,21 @@ namespace nimporteou.Controllers
             _environment = environment;
         }
 
-        public IActionResult Index(int? id)
+        async public Task<IActionResult> Index(int? id)
         {
             //Get l'eventnement
             if (id != null)
             {
-                return RedirectToAction("Consulter", id);
+                return RedirectToAction("Consulter", "evenement", id);
             }
-            return View();
+
+            return View(EvenementViewModelFactory.CreerListe(_db, await _userManager.GetUserAsync(HttpContext.User)));
+        }
+
+        [Authorize]
+        async public Task<IActionResult> Participation()
+        {
+            return View(EvenementViewModelFactory.CreerListeParticipation(_db, await _userManager.GetUserAsync(HttpContext.User)));
         }
 
         public IActionResult Creer()

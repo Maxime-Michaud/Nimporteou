@@ -75,3 +75,7 @@ input[type="file"] {
     /*float:right;*/
 }
 /* Fin des styles pour afficher l'image avant l'upload  */
+
+.rangee-evenement:hover{
+    background-color: lightblue; 
+}

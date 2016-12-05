@@ -7,6 +7,11 @@ namespace nimporteou.Models.EvenementViewModels
 {
     public class ListeEvenementViewModel
     {
-        public IEnumerable<ConsultationEvenementViewModel> Evenements { get; set; }
+        public IEnumerable<BaseEvenementViewModel> Evenements { get; private set; }
+
+        public ListeEvenementViewModel(IEnumerable<BaseEvenementViewModel> Evenements)
+        {
+            this.Evenements = Evenements;
+        }
     }
 }
