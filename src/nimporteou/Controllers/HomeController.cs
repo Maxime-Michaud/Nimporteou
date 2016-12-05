@@ -10,10 +10,10 @@ namespace nimporteou.Controllers
 {
     public class HomeController : Controller
     {
-        private ApplicationDbContext db;
+        private ApplicationDbContext _db;
         public HomeController(ApplicationDbContext db)
         {
-            this.db = db;
+            _db = db;
         }
 
         public IActionResult Index()

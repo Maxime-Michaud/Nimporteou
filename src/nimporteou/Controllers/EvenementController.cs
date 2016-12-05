@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace nimporteou.Controllers
 {
@@ -36,6 +37,12 @@ namespace nimporteou.Controllers
             }
 
             return View(EvenementViewModelFactory.CreerListe(_db, await _userManager.GetUserAsync(HttpContext.User)));
+        }
+
+        [Authorize]
+        async public Task<IActionResult> Participation()
+        {
+            return View(EvenementViewModelFactory.CreerListeParticipation(_db, await _userManager.GetUserAsync(HttpContext.User)));
         }
 
         [HttpGet]
@@ -83,7 +90,7 @@ namespace nimporteou.Controllers
                 {
                     adresseComplete = adresseComplete.Trim();
                     adresseComplete = adresseComplete.Replace(',',' ');
-                    string []data = adresseComplete.Split(' ');
+                    string []data = adresseComplete.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     noCivique = data[0].ToString();
                     rue = data[1].ToString();
                     ville = data[2].ToString();

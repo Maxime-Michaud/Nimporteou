@@ -6,12 +6,9 @@
 
 <h2>Index</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <div class="container">
     @foreach (var item in Model.Evenements)
     {
         Html.RenderPartial("_EvenementPartial", item);
-    }
+    }       
 </div>
