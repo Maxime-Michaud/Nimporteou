@@ -77,6 +77,10 @@ namespace nimporteou.Controllers
             if (id != null)
             {
                 Evenement ev = _db.Evenements.Include(a => a.Categorie).Include(a => a.Endroit.Ville).Where(e => e.id == id).FirstOrDefault();
+                /*if (!ev.Public)
+                {
+
+                }*/
                 if (ev != null)
                 {
                     ConsultationEvenementViewModel cev = new ConsultationEvenementViewModel();
