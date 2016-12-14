@@ -10,6 +10,7 @@ namespace nimporteou.Models.EvenementViewModels
         public DateTime Duree { get; set; }
         public DateTime Debut { get; set; }
         public DateTime Fin { get; set; }
+        public string Ville { get; set; }
 
         [StringLength(1000, ErrorMessage = "Le nom doit contenir moins de 1000 caratères")]
         public string Description { get; set; }
