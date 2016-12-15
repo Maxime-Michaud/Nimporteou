@@ -7,8 +7,6 @@
 @using System.Collections.Generic
 @using Microsoft.AspNetCore.Http
 @using Microsoft.AspNetCore.Http.Authentication
-@model LoginViewModel
-
 
 @if (SignInManager.IsSignedIn(User))
 {
@@ -39,7 +37,7 @@ else
     <div>
         <ul class="nav navbar-nav navbar-right">
             <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
-            <li><div onclick="modifierService2()"  asp-area="">Log in</div></li>
+            <li><div onclick="LoginModal()"  asp-area="">Log in</div></li>
         </ul>
     </div>
 

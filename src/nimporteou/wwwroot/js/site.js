@@ -18,7 +18,7 @@ window.onclick = function(event) {
 }
 
       
-function modifierService2() {
+function LoginModal() {
 
     $.ajax({
         type: "GET",

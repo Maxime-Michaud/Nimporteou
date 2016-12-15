@@ -9,13 +9,18 @@ namespace nimporteou.Models.EvenementViewModels
 {
     static public class EvenementViewModelFactory
     {
-        static public ListeEvenementViewModel CreerListe(ApplicationDbContext db, ApplicationUser user)
+        static public ListeEvenementViewModel CreerListe(ApplicationDbContext db, ApplicationUser user, int count = 25, int start = 0)
         {
             IQueryable<Evenement> evenements;
 
             evenements = db.Evenements.Include(e => e.Endroit.Ville);
-            evenements = CreerListeBase(evenements, user);
 
+            //Si l'utilisateur n'a pas d'age ou est null, on utilise 0 pour lui permettre d'aller aux évènements qui n'ont pas d'age minimum ou ceux qui ont 0 ans comme age minimum
+            evenements = CreerListeBase(evenements, user?.Age ?? 0);
+
+            evenements = evenements.Skip(start);
+
+            evenements = evenements.Take(count);
 
             return CreerListeViewModel(evenements);
         }
@@ -29,16 +34,13 @@ namespace nimporteou.Models.EvenementViewModels
                             .Where(p => p.Role != Role.Signalement)
                             .Select(p => p.Evenement);
 
-            evenements = CreerListeBase(evenements, user);
+            evenements = CreerListeBase(evenements, user.Age ?? 0);
 
             return CreerListeViewModel(evenements);
         }
 
-        static private IQueryable<Evenement> CreerListeBase(IQueryable<Evenement> evs, ApplicationUser user)
+        static private IQueryable<Evenement> CreerListeBase(IQueryable<Evenement> evs, int age)
         {
-            //Si l'utilisateur n'a pas d'age, on utilise 1 pour lui permettre d'aller aux évènements qui n'ont pas d'age minimum ou ceux qui ont 0 ans comme age minimum
-            int age = user?.Age ?? 0;
-
             return evs.Where(e => (e.AgeMinimum ?? 0) <= age)
                         .Where(e => e.Public)
                         .Where(e => !e.Annulé)

@@ -1,0 +1,153 @@
+<svg version="1.1"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink" height="0" width="0">
+    <defs>
+        <g id="balcon" width="800" height="600
+           " transform="translate(-60,-130)">    
+            
+            <!-- plancher du balcon-->
+            <polygon points="71,375 152,450 542,450 442,375"
+                style="fill: rgb(166,166,166)" />
+
+            <!-- Porte patio-->
+            <polygon points="71,375 71,125 442,125 442,375"
+                style="fill: rgb(156,206,220); stroke: rgb(255,255,255);
+                        stroke-width:10" />
+
+            <!-- séparateur porte patio -->
+            <line x1="260" y1="375" x2="260" y2="125" 
+                style="stroke:rgb(255,255,255);stroke-width:10" />
+
+            <!-- poignée de porte gauche -->
+            <line x1="90" y1="265" x2="90" y2="215" 
+                style="stroke:rgb(0,0,0);stroke-width:10" />
+
+            <!-- poignée de porte droite -->
+            <line x1="422" y1="265" x2="422" y2="215" 
+                style="stroke:rgb(0,0,0);stroke-width:10" />
+            
+            <!-- base diagonale gauche -->
+            <line x1="65" y1="375" x2="155" y2="459" 
+                style="stroke:rgb(127,127,127);stroke-width:10" />
+
+            <!-- base diagonale gauche -->
+            <line x1="70" y1="368" x2="165" y2="459" 
+                style="stroke:rgb(127,127,127);stroke-width:10" />
+
+            <!-- base balcon --> 
+            <line x1="150" y1="455" x2="544" y2="455"
+                style="stroke:rgb(127,127,127);stroke-width:15" />
+
+            <!-- Barreau latérale gauche #1 -->
+            <line x1="71" y1="375" x2="71" y2="230" 
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+
+            <!-- Barreau latérale gauche #2 -->
+            <line x1="91" y1="395" x2="91" y2="245" 
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+
+            <!-- Barreau latérale gauche #3 -->
+            <line x1="111" y1="415" x2="111" y2="260" 
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+
+            <!-- Barreau latérale gauche #4 -->
+            <line x1="131" y1="435" x2="131" y2="275" 
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+
+            <!-- top clotûre latérale gauche -->
+            <line x1="70" y1="230" x2="155" y2="292" 
+                style="stroke:rgb(127,127,127);stroke-width:10" />
+
+            <!-- Barreau Frontal -->
+            <line x1="152" y1="450" x2="152" y2="290" 
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+
+            <!-- Barreau Frontal -->
+            <line x1="182" y1="450" x2="182" y2="290"
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+            
+            <!-- Barreau Frontal -->
+            <line x1="212" y1="450" x2="212" y2="290" 
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+            
+            <!-- Barreau Frontal -->
+            <line x1="242" y1="450" x2="242" y2="290" 
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+            
+            <!-- Barreau Frontal -->
+            <line x1="272" y1="450" x2="272" y2="290" 
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+            
+            <!-- Barreau Frontal -->
+            <line x1="302" y1="450" x2="302" y2="290" 
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+
+            <!-- Barreau Frontal -->
+            <line x1="332" y1="450" x2="332" y2="290" 
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+
+            <!-- Barreau Frontal -->
+            <line x1="362" y1="450" x2="362" y2="290" 
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+
+            <!-- Barreau Frontal -->
+            <line x1="392" y1="450" x2="392" y2="290" 
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+            
+            <!-- Barreau Frontal -->
+            <line x1="422" y1="450" x2="422" y2="290" 
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+
+            <!-- Barreau Frontal -->
+            <line x1="452" y1="450" x2="452" y2="290" 
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+
+            <!-- Barreau Frontal -->
+            <line x1="482" y1="450" x2="482" y2="290" 
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+
+            <!-- Barreau Frontal -->
+            <line x1="512" y1="450" x2="512" y2="290" 
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+            
+            <!-- Barreau Frontal -->
+            <line x1="542" y1="450" x2="542" y2="290" 
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+
+            <!-- top clôture --> 
+            <line x1="148" y1="290" x2="544" y2="290"
+                style="stroke:rgb(127,127,127);stroke-width:10" />
+
+            <!-- base diagonale droite -->
+            <line x1="442" y1="375" x2="540" y2="459" 
+                style="stroke:rgb(127,127,127);stroke-width:10" />
+
+            <!-- Barreau latérale droite #1 -->
+            <line x1="442" y1="377" x2="442" y2="230" 
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+
+            <!-- Barreau latérale droite #2 -->
+            <line x1="462" y1="395" x2="462" y2="245" 
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+
+            <!-- Barreau latérale droite #3 -->
+            <line x1="482" y1="415" x2="482" y2="260" 
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+
+            <!-- Barreau latérale droite #4 -->
+            <line x1="502" y1="430" x2="502" y2="270" 
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+
+            <!-- Barreau latérale droite #5 -->
+            <line x1="522" y1="440" x2="522" y2="275" 
+                style="stroke:rgb(127,127,127);stroke-width:5" />
+
+            <!-- top clotûre latérale droite -->
+            <line x1="442" y1="235" x2="542" y2="290" 
+                style="stroke:rgb(127,127,127);stroke-width:10" />            
+
+        </g>
+    </defs>
+    <use xlink:href="#balcon"></use>
+</svg> 
+

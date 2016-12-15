@@ -1,0 +1,11 @@
+﻿@model nimporteou.Models.EvenementViewModels.BaseEvenementViewModel
+@using System.Globalization;
+
+<div class="thumbnail"> 
+    <a href="@Url.Action( "Consulter", "Evenement", new { id = Model.EvenementID })">
+        <img src="@Model.CheminPhoto" alt="@Model.Nom" class="thumbnail-image" />
+    </a>
+    @*TODO: Changer l'adresse complete pour la ville*@ 
+    @Model.Debut.ToString("dd MMM", new CultureInfo("fr-CA")) @Model.AdresseComplete <br />
+    <div class="thumbnail-nom">@Model.Nom</div>
+</div>
