@@ -52,7 +52,7 @@
 <div class="form-group">
     <label asp-for="Fin" class="col-md-2 control-label"></label>
     <div class="col-md-10">
-        <input asp-for="Fin" type="date" class="form-control" required />
+        <input asp-for="Fin" type="date" class="form-control" DataFormatString="{0:MM/dd/yyyy}" required />
         <span asp-validation-for="Fin" class="text-danger" />
     </div>
 </div>
@@ -81,7 +81,7 @@
 
     <label asp-for="CheminPhoto" class="col-md-2 control-label">Image</label>
     <div class="col-md-10">
-        <input asp-for="CheminPhoto" type="file" id="imgInp" name="files" multiple class="form-control" />
+        <input asp-for="CheminPhoto" type="file" id="imgInp" name="files" class="form-control" />
         <span asp-validation-for="CheminPhoto" class="text-danger" />
     </div>
 </div>

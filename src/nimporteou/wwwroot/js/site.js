@@ -53,12 +53,6 @@ $("#imgInp").change(function () {
     readURL(this);
 });
 
-function heure() {
-    $(function () {
-        $('#basicExample').timepicker();
-    });
-}
-
 jQuery.extend(jQuery.validator.messages, {
     required: "Ce champs est obligatoire",
     remote: "Please fix this field.",

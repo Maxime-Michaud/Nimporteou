@@ -95,6 +95,8 @@ namespace nimporteou.Controllers
                     cev.Categorie = ev.Categorie.Nom;
                     cev.AdresseComplete = ev.Endroit.ToString();
                     cev.CheminPhoto = ev.CheminPhoto;
+                    cev.HeureDebut = ev.HeureDebut;
+                    cev.Duree = ev.Duree;
 
                     return View(cev);
                 }
@@ -102,6 +104,13 @@ namespace nimporteou.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Créer un événement
+        /// </summary>
+        /// <param name="e">Le model de la vue de création événement</param>
+        /// <param name="files">Le </param>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public async Task<int> CreerEvenement(CreationEvenementViewModel e, ICollection<IFormFile> files, ApplicationUser user)
         {
             //Creer l'evenement
@@ -161,6 +170,7 @@ namespace nimporteou.Controllers
                     }
                 }
             }
+            //Ajoute le créateur comme participant de role Createur, donc il peux éditer l'événement.
             Participation part = new Participation();
             part.Evenement = ev;
             part.NombreParticipants = 1;
@@ -168,7 +178,6 @@ namespace nimporteou.Controllers
             part.Role = Role.Createur;
 
             _db.Participations.Add(part);
-            //_db.Evenements.Add(ev);
             _db.SaveChanges();
             return _db.Evenements.Where(a=>a.id == ev.id).Select(a => a.id).First();
         }
@@ -198,7 +207,7 @@ namespace nimporteou.Controllers
                     cev.Debut = ev.Debut;
                     cev.Fin = ev.Fin;
                     cev.Categorie = ev.Categorie.Nom;
-                    cev.AdresseComplete = ev.Endroit.ToString();
+                    cev.AdresseComplete = ev.Endroit.Ad;
                     cev.Ville = ev.Endroit.Ville.Nom;
                     cev.CheminPhoto = ev.CheminPhoto;
 
@@ -225,7 +234,7 @@ namespace nimporteou.Controllers
         public async Task<int> ModifierEvenement(int id, CreationEvenementViewModel e, ICollection<IFormFile> files, ApplicationUser user)
         {
             //Creer l'evenement
-            Evenement ev = _db.Evenements.Where(a => a.id == id).FirstOrDefault();
+            Evenement ev = _db.Evenements.Include(a => a.Endroit.Ville).Where(a => a.id == id).FirstOrDefault();
             if (ev != null)
             {
                 ev.Nom = e.Nom;
@@ -240,7 +249,7 @@ namespace nimporteou.Controllers
                 ev.Fin = e.Fin;
                 if (ev.Endroit.Ad != e.AdresseComplete)
                 {
-                    if (_db.Adresses.Where(a => a.Ad == e.AdresseComplete).FirstOrDefault() != null)
+                    if (_db.Adresses.Include(a => a.Ville).Where(a => a.ToString() == e.AdresseComplete).FirstOrDefault() == null)
                     {
                         Adresse ad = new Adresse();
                         ad.Ad = e.AdresseComplete;
@@ -257,6 +266,11 @@ namespace nimporteou.Controllers
                                 ad.Ville = _db.Villes.Where(a => a.Nom == e.Ville).First();
                             }  
                         }
+                        else
+                        {
+                            ad.Ville = _db.Villes.Where(a => a.Nom == e.Ville).First();
+                        }
+                        ev.Endroit = ad;
                     }
                     else
                     {
@@ -275,8 +289,11 @@ namespace nimporteou.Controllers
                             string CheminPhoto = "/uploads/" + file.FileName;
                             if (ev.CheminPhoto != CheminPhoto)
                             {
-                                await file.CopyToAsync(fileStream);
-                                ev.CheminPhoto = "/uploads/" + file.FileName;
+                                if (CheminPhoto != null)
+                                {
+                                    await file.CopyToAsync(fileStream);
+                                    ev.CheminPhoto = "/uploads/" + file.FileName;
+                                }      
                             }
                         }
                     }
