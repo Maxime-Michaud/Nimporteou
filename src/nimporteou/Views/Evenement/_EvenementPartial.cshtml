@@ -7,7 +7,7 @@
     <div class="col-xs-2">
         @Model.AdresseComplete <br />
         @Model.Debut.ToString("dd MMMM")<br />
-        @Model.Debut.ToString("hh'h'mm")
+        @Model.HeureDebut.ToString("hh'h'mm")
     </div>
     <div class="col-xs-5 col-xs-offset-1">
         @Model.Nom
@@ -19,6 +19,7 @@
         }
         else
         {
+            <span> gratuit</span>
         }
     </div>
 </div>

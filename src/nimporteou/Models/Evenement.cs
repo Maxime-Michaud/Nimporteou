@@ -76,10 +76,19 @@ namespace nimporteou.Models
         [ForeignKey("Categorie_id")]
         public Categorie Categorie { get; set; }
 
+        /// <summary>
+        /// ID de la catégorie
+        /// </summary>
         public int Categorie_id { get; set; }
 
+        /// <summary>
+        /// L'heure ou l'événement débute
+        /// </summary>
         public TimeSpan HeureDebut { get; set; }
 
+        /// <summary>
+        /// La durée de l'événement
+        /// </summary>
         public string Duree { get; set; }
     }
 }
