@@ -30,3 +30,21 @@ function modifierService2() {
         }
     });
 }
+var hideShow = false; //Si on doit réduire ou agrandir la description dans FAQ
+function showContent(number) {
+    if (!hideShow)
+    {
+        var html = document.getElementsByClassName("collapsedFAQTitle")[number];
+        document.getElementsByClassName("collapseFAQHiddenShow")[number].style.display = "block";
+        html.style.backgroundColor = "lightgray";
+        html.innerHTML = html.innerHTML.replace('⇓', '↑');
+    }
+    else
+    {
+        var html = document.getElementsByClassName("collapsedFAQTitle")[number];
+        document.getElementsByClassName("collapseFAQHiddenShow")[number].style.display = "none";
+        html.style.backgroundColor = "transparent";
+        html.innerHTML = html.innerHTML.replace('↑', '⇓');
+    }
+    hideShow = !hideShow
+}
