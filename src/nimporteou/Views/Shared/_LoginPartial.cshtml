@@ -14,12 +14,10 @@
         <ul class="nav navbar-nav navbar-right">
             <li>
                 <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User) !</a>
+            </li>
 
-</li>
-
-<li>
-
-<button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
+            <li>
+                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
             </li>
         </ul>
     </form>
@@ -32,12 +30,13 @@ else
                 <span class="close">×</span>
             </div>
         </div>
-
     </div>
+
     <div>
         <ul class="nav navbar-nav navbar-right">
-            <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
-            <li><div onclick="LoginModal()"  asp-area="">Log in</div></li>
+            <li><a onclick="LoginModal()">Connexion</a></li>
+            <li><a> | </a></li>
+            <li><a onclick="RegisterModal()">Inscription</a></li>
         </ul>
     </div>
 
