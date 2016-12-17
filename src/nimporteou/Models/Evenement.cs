@@ -78,8 +78,8 @@ namespace nimporteou.Models
 
         public int Categorie_id { get; set; }
 
-        public DateTime HeureDebut { get; set; }
+        public TimeSpan HeureDebut { get; set; }
 
-        public DateTime Duree { get; set; }
+        public string Duree { get; set; }
     }
 }

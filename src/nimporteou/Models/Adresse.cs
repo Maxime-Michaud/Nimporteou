@@ -4,9 +4,7 @@
     {
         public int id { get; set; }
 
-        public int NumeroCivique { get; set; }
-
-        public string Rue { get; set; }
+        public string Ad { get; set; }
 
         public Ville Ville { get; set; }
 
@@ -16,7 +14,7 @@
         /// <returns>L'adresse en un string</returns>
         public override string ToString()
         {
-            string adresseComplete = NumeroCivique.ToString() + " " + Rue + " " + Ville.Nom;
+            string adresseComplete = Ad + " " + Ville.Nom;
             return adresseComplete;
         }
     }

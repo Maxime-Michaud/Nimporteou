@@ -6,8 +6,8 @@ namespace nimporteou.Models.EvenementViewModels
     abstract public class EvenementViewModel : BaseEvenementViewModel
     {
         public DateTime? DateLimite { get; set; }
-        public DateTime HeureDebut { get; set; }
-        public DateTime Duree { get; set; }
+        public TimeSpan HeureDebut { get; set; }
+        public string Duree { get; set; }
         public DateTime Debut { get; set; }
         public DateTime Fin { get; set; }
         public string Ville { get; set; }
