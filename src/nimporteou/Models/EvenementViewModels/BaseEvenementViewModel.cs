@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace nimporteou.Models.EvenementViewModels
 {
@@ -12,5 +13,15 @@ namespace nimporteou.Models.EvenementViewModels
         public string AdresseComplete { get; set; }
         public bool BilletNecessaire { get; set; }
         public DateTime Debut { get; set; }
+
+        public string PrixToString
+        {
+            get
+            {
+                return PrixBillet == null ?
+                    "Gratuit" :
+                    (PrixBillet.Value / 100.0).ToString("C", new CultureInfo("fr-CA"));
+            }
+        }
     }
 }

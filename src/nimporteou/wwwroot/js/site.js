@@ -18,11 +18,18 @@ window.onclick = function(event) {
 }
 
       
-function modifierService2() {
+function LoginModal() {
+    ShowModal('/Account/Login'); 
+}
 
+function RegisterModal() {
+    ShowModal('/Account/Register');
+}
+
+function ShowModal(url) {
     $.ajax({
         type: "GET",
-        url: '/Account/login',
+        url: url,
         data: {},
         success: function (html) {
             modal.style.display = "block";
