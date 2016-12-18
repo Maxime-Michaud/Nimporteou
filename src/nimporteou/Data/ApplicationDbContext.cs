@@ -28,5 +28,8 @@ namespace nimporteou.Data
             builder.Entity<Participation>().HasKey(p => new { p.Participant_id, p.Evenement_id });
             builder.Entity<CategorieUtilisateur>().HasKey(c => new { c.Categorie_id, c.Utilisateur_id });
         }
+
+
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
     }
 }

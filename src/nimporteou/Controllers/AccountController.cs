@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using nimporteou.Data;
 using nimporteou.Models;
 using nimporteou.Models.AccountViewModels;
 using nimporteou.Services;
@@ -22,19 +23,22 @@ namespace nimporteou.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private readonly ApplicationDbContext _db;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            ApplicationDbContext db)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _db = db;
         }
 
         //
@@ -92,7 +96,13 @@ namespace nimporteou.Controllers
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            return View();
+
+            var vm = new RegisterViewModel()
+            {
+                CategoriesPossible = _db.Categories.Select(c => c.Nom).ToList()
+            };
+
+            return View(vm);
         }
 
         //
@@ -103,9 +113,12 @@ namespace nimporteou.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            if (ModelState.IsValid)
+
+            if (! ModelState.Where(m => m.Value.ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
+                .Any(m => m.Key == "Username" || m.Key == "Password" || m.Key == "Email"))
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = model.ToApplicationUser(_db);
+                //new ApplicationUser { UserName = model.Username, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

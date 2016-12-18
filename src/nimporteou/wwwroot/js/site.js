@@ -19,11 +19,11 @@ window.onclick = function(event) {
 
       
 function LoginModal() {
-    ShowModal('/Account/Login'); 
+    ShowModal('/Account/Login/');
 }
 
 function RegisterModal() {
-    ShowModal('/Account/Register');
+    ShowModal('/Account/Register/');
 }
 
 function ShowModal(url) {

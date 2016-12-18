@@ -24,14 +24,6 @@
 }
 else
 {
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <div id="modal-content" class="modal-body">
-                <span class="close">×</span>
-            </div>
-        </div>
-    </div>
-
     <div>
         <ul class="nav navbar-nav navbar-right">
             <li><a onclick="LoginModal()">Connexion</a></li>
@@ -39,5 +31,8 @@ else
             <li><a onclick="RegisterModal()">Inscription</a></li>
         </ul>
     </div>
-
+    @for (int i = 0; i < 345678; ++i)
+    {
+        <div id="wathever">@i</div>
+    }
 }
