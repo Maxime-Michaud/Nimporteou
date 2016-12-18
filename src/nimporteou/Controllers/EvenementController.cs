@@ -22,6 +22,12 @@ namespace nimporteou.Controllers
         private UserManager<ApplicationUser> _userManager;
         private IHostingEnvironment _environment;
 
+        /// <summary>
+        /// Constructeur du controleur
+        /// </summary>
+        /// <param name="db"></param>
+        /// <param name="userManager"></param>
+        /// <param name="environment"></param>
         public EvenementController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IHostingEnvironment environment)
         {
             _db = db;
@@ -29,6 +35,11 @@ namespace nimporteou.Controllers
             _environment = environment;
         }
 
+        /// <summary>
+        /// Gere la page Index qui affiche les événements public
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         async public Task<IActionResult> Index(int? id)
         {
             //Get l'eventnement
@@ -40,12 +51,38 @@ namespace nimporteou.Controllers
             return View(EvenementViewModelFactory.CreerListe(_db, await _userManager.GetUserAsync(HttpContext.User)));
         }
 
+        /// <summary>
+        /// Gere la page MesEvenement qui contient les événements crée par l'utilisateur ou bien des événements
+        /// dont il est organisateur.
+        /// </summary>
+        /// <param name="id">id d'un événement, si null affiche tous les événements,
+        /// sinon ouvre la page de consultations de l'événement</param>
+        /// <returns></returns>
+        async public Task<IActionResult> MesEvenement(int? id)
+        {
+            //Get l'événement
+            if (id != null)
+            {
+                return RedirectToAction("Consulter", "evenement", id);
+            }
+
+            return View(EvenementViewModelFactory.CreerListe(_db, await _userManager.GetUserAsync(HttpContext.User)));
+        }
+
+        /// <summary>
+        /// TODO pcq -_-
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         async public Task<IActionResult> Participation()
         {
             return View(EvenementViewModelFactory.CreerListeParticipation(_db, await _userManager.GetUserAsync(HttpContext.User)));
         }
 
+        /// <summary>
+        /// Crée la liste de catégorie
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Creer()
         {
             List<SelectListItem> lstCat = new List<SelectListItem>();
@@ -57,10 +94,16 @@ namespace nimporteou.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Gere la page de création d'événement
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="files"></param>
+        /// <returns></returns>
         [HttpPost, Authorize]
         public async Task<IActionResult> Creer(CreationEvenementViewModel e, ICollection<IFormFile> files)
         {
-            //todo creer et enregistrer dans la bd
+            // Vérifie si le model est valide
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -71,6 +114,11 @@ namespace nimporteou.Controllers
             return RedirectToAction("Creer");
         }
 
+        /// <summary>
+        /// Gere la page de consultation d'un événement (la même pour le créateur/Organisateur et les autres)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Consulter(int? id)
         {
@@ -247,7 +295,7 @@ namespace nimporteou.Controllers
                 }
                 ev.Debut = e.Debut;
                 ev.Fin = e.Fin;
-                if (ev.Endroit.Ad != e.AdresseComplete)
+                if (ev.Endroit.Ad != e.AdresseComplete || ev.Endroit.Ville.Nom != e.Ville)
                 {
                     if (_db.Adresses.Include(a => a.Ville).Where(a => a.ToString() == e.AdresseComplete).FirstOrDefault() == null)
                     {
@@ -258,7 +306,7 @@ namespace nimporteou.Controllers
                             if (_db.Villes.Where(a=>a.Nom == e.Ville).FirstOrDefault() == null)
                             {
                                 Ville vi = new Ville();
-                                vi.Nom = e.Nom;
+                                vi.Nom = e.Ville;
                                 ad.Ville = vi;
                             }
                             else

@@ -38,9 +38,10 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Accueil</a></li>
                     @if (_usermanager.GetUserName(@User) != null)
                     {
+                        <li><a asp-area="" asp-controller="Evenement" asp-action="MesEvenement">Mes Événements</a></li>
                         <li><a asp-area="" asp-controller="Mes Evenement" asp-action="Participation">Participations</a></li>
                     }
-                    <li><a asp-area="" asp-controller="Evenement" asp-action="Index">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Evenement" asp-action="Index">Événements</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="FAQ">FAQ</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")

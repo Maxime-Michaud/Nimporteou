@@ -1,0 +1,17 @@
+﻿@model nimporteou.Models.EvenementViewModels.ListeEvenementViewModel
+
+@{
+    ViewData["Title"] = "Mes événements";
+}
+
+<h2>Liste d'événements</h2>
+
+<div>
+    <a asp-action="Creer">Créer un événement</a>
+</div>
+<div class="container">
+    @foreach (var item in Model.Evenements)
+    {
+        Html.RenderPartial("_EvenementPartial", item);
+    }       
+</div>

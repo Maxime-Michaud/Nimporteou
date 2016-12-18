@@ -53,18 +53,23 @@
             @Html.DisplayFor(model => model.Fin)
         </dd>
         <dt>
-            @*<img src="@Html.DisplayFor(model => model.CheminPhoto)" />*@
             @Html.DisplayName("Image")
         </dt>
         <dd>
-            @*@Html.DisplayFor(model => model.CheminPhoto)*@
             <img src="@Html.DisplayFor(model => model.CheminPhoto)" height="400" width="500"/>
         </dd>
         <dt>
            @Html.DisplayName("Prix du billet")
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.PrixBillet)
+                @if (Model.BilletNecessaire)
+                {
+                    @Html.DisplayFor(model => model.PrixBillet)
+                }
+                else
+                {
+                    <span> gratuit</span>
+                } 
         </dd>
         <dt>
             @Html.DisplayName("Adresse")
@@ -88,5 +93,5 @@
 </div>
 <div>
     @Html.ActionLink("Modifier", "Modifier", new {  id = Model.EvenementID }) |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Retour</a>
 </div>
