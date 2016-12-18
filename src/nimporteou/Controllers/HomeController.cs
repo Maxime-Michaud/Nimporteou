@@ -29,14 +29,21 @@ namespace nimporteou.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "Cette appliquation permet aux gens de voir et d'organiser les événements plus facilement";
+
+            return View();
+        }
+
+        public IActionResult Support()
+        {
+            ViewData["Message"] = "Vous avez des difficultés à utiliser notre site? Laissé le nous savoir et nous corrigerons le tir!";
 
             return View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = "N'hésitez pas à nous contacter si vous avez des question!";
 
             return View();
         }

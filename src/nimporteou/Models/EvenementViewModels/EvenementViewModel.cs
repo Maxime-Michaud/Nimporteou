@@ -5,9 +5,15 @@ namespace nimporteou.Models.EvenementViewModels
 {
     abstract public class EvenementViewModel : BaseEvenementViewModel
     {
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime? DateLimite { get; set; }
-        public DateTime HeureDebut { get; set; }
-        public DateTime Duree { get; set; }
+        public TimeSpan HeureDebut { get; set; }
+        public string Duree { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:d}")]
+        public DateTime Debut { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime Fin { get; set; }
         public string Ville { get; set; }
 

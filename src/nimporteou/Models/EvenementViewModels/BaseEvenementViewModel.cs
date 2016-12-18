@@ -13,6 +13,7 @@ namespace nimporteou.Models.EvenementViewModels
         public string AdresseComplete { get; set; }
         public bool BilletNecessaire { get; set; }
         public DateTime Debut { get; set; }
+        public TimeSpan HeureDebut { get; set; }
 
         public string PrixToString
         {

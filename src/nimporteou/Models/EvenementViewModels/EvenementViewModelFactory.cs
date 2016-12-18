@@ -59,7 +59,8 @@ namespace nimporteou.Models.EvenementViewModels
                                             CheminPhoto = e.CheminPhoto,
                                             Nom = e.Nom,
                                             Debut = e.Debut,
-                                            EvenementID = e.id
+                                            EvenementID = e.id,
+                                            HeureDebut = e.HeureDebut
                                         })
                                         .ToList());
         }

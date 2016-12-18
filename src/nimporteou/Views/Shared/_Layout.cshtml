@@ -44,10 +44,12 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Accueil</a></li>
                     @if (_usermanager.GetUserName(@User) != null)
                     {
+                        <li><a asp-area="" asp-controller="Evenement" asp-action="MesEvenement">Mes Événements</a></li>
                         <li><a asp-area="" asp-controller="Mes Evenement" asp-action="Participation">Participations</a></li>
                     }
-                    <li><a asp-area="" asp-controller="Evenement" asp-action="Index">Contact</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="FAQ">FAQ</a></li>
+                    <li><a asp-area="" asp-controller="Evenement" asp-action="Index">Événements</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Support">Support</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -65,6 +67,7 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/site.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
@@ -76,6 +79,7 @@
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/js/site.js"></script>
     </environment>
 
     @RenderSection("scripts", required: false)

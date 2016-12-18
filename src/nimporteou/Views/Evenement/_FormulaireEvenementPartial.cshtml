@@ -19,8 +19,8 @@
 <div class="form-group">
     <label asp-for="DateLimite" class="col-md-2 control-label">Date limite d'inscription</label>
     <div class="col-md-10">
-        <input asp-for="DateLimite" type="date" class="form-control" data-time-format="dd/mm/YYYY" />
-        <span asp-validation-for="DateLimite" class="text-danger" />
+        <input asp-for="DateLimite" type="date" class="form-control" data-time-format="dd/mm/YYYY" required/>
+        <span asp-validation-for="DateLimite" class="text-danger"/>
     </div>
 </div>
 
@@ -28,7 +28,7 @@
     <label asp-for="HeureDebut" class="col-md-2 control-label">Heure</label>
     <div class="col-md-10">
         <input asp-for="HeureDebut" placeholder="H:M" id="heuredebut" type="time" class="form-control" data-time-format="H:i" required />
-        <span asp-validation-for="HeureDebut" class="text-danger" />
+        <span asp-validation-for="HeureDebut" class="text-danger"/>
         
     </div>
 </div>
@@ -52,7 +52,7 @@
 <div class="form-group">
     <label asp-for="Fin" class="col-md-2 control-label"></label>
     <div class="col-md-10">
-        <input asp-for="Fin" type="date" class="form-control" required />
+        <input asp-for="Fin" type="date" class="form-control" DataFormatString="{0:MM/dd/yyyy}" required />
         <span asp-validation-for="Fin" class="text-danger" />
     </div>
 </div>
@@ -81,7 +81,7 @@
 
     <label asp-for="CheminPhoto" class="col-md-2 control-label">Image</label>
     <div class="col-md-10">
-        <input asp-for="CheminPhoto" type="file" id="imgInp" name="files" multiple class="form-control" />
+        <input asp-for="CheminPhoto" type="file" id="imgInp" name="files" class="form-control" />
         <span asp-validation-for="CheminPhoto" class="text-danger" />
     </div>
 </div>

@@ -80,6 +80,16 @@ textarea {
     font-weight: bold;
 }
 
+#collapseFAQHiddenShow
+{
+    display:none;
+    border:2px black solid;
+}
+
+#collapseFAQTitle{
+    background-color:transparent;
+}
+
 .close:hover,
 .close:focus {
     color: #000;
