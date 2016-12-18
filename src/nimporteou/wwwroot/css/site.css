@@ -1,6 +1,133 @@
-﻿body {
+﻿/* Pour que le logo ne soit pas coller sur le bord de l'écran à gauche */
+.margeLogo {
+	margin-left: 15px;
+}
+
+/* Pour centrer les images du carousel et leur donner hauteur min et max */
+.carousel-inner > .item > img {
+    margin: 0 auto;
+	max-height: 360px;	
+	min-height: 300px;
+	
+}
+
+/* Bannière grise Événement à venir */
+#banniereEvenementInfo{
+	background-color: #565656 !important;
+	color: #fff;
+	padding: 5px 35px;
+	margin-top: 5px;
+}
+
+/* div text-align gauche Bannière info événement */
+#textLeftBanniereInfo {
+	text-align: left;
+}
+
+/* div text-align droite Bannière info événement */
+#textRightBanniereInfo {
+	text-align: right;
+}
+
+/* Titre Bannière info événement */
+#headerBanniereInfo {
+	font-weight: bold !important;
+	font-style: italic !important;
+	margin: 2px 0px 0px;
+}
+
+/* Prix Bannière info événement */
+#paraPrixBanniereInfo {
+	margin: 2px 0px 0px;
+	font-size: 20px !important;
+	font-weight: bold !important;
+}
+
+/* Date & ville Bannière info événement */
+#paraDateVilleBanniereInfo {
+	margin: 0px;
+	font-size: 16px !important;
+}
+
+/* Bannière grise Événement à venir */
+#banniereEvenementaVenir {
+	background-color: #565656 !important;
+	color: #fff;
+	padding: 5px;
+	padding-left: 35px;
+	margin-top: 5px;
+}
+
+/* Fond gris pâle photo événement à venir */
+#backgroundEvenementaVenir {
+	background-color: #b7b7b7;
+}
+
+/* margin-top div photo thumbnail */
+#margeTopDivPhotoEvenementaVenir {
+	margin-top: 15px;
+	padding-left: 35px;
+	padding-right: 35px;
+}
+
+/* text thumbnail*/
+#textDivThumbnail {
+	text-align: center;
+	font-family: Arial, Helvetica, sans-serif !important;
+	font-weight: bold !important;
+	color: #4c4c4c;
+}
+
+/* paragraphethumbnail */
+#parathumbnail {
+	margin: 0px;
+	font-size: 16px !important;
+}
+
+/* header thumbnail */
+#headerThumbnail {
+	margin-top: 2px;
+	font-weight: bold !important;
+}
+
+/* unvisited link */
+a:link {
+    color: #4c4c4c;
+}
+
+/* visited link */
+a:visited {
+    color: #4c4c4c;
+}
+
+/* mouse over link */
+a:hover {
+    color: #4c4c4c;
+}
+
+/* selected link */
+a:active {
+    color: #4c4c4c;
+}
+
+/* garder le texte en blanc sur le btn rouge */
+#textBtnRouge {
+	color: #fff !important;
+}
+
+
+#divLogo {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+}
+
+/* background dégradé noir & blanc */
+body {
     padding-top: 50px;
     padding-bottom: 20px;
+	background-image: url("../images/degradeSite.png");
+	background-color: #000000;
 }
 
 /* Wrapping element */
