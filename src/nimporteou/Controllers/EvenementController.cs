@@ -174,22 +174,30 @@ namespace nimporteou.Controllers
                     cev.Duree = ev.Duree;
 
                     //Si le user est le Créateur ou un Organisateur == Peut modifier l'événement
-                    if (_db.Participations.Where(a=>a.Evenement_id == id && a.Participant_id == user.Id &&(a.Role == Role.Createur || a.Role == Role.Organisateur)).FirstOrDefault() != null)
+                    if (user != null)
                     {
-                        cev.peutAdministrer = true;
-                        cev.peutInscrire = false;
-                    }
-                    else if (_db.Participations.Where(a => a.Evenement_id == id && a.Participant_id == user.Id && a.Role == Role.Participant).FirstOrDefault() != null)
-                    {
-                        cev.peutAdministrer = false;
-                        cev.peutInscrire = false;
+                        if (_db.Participations.Where(a => a.Evenement_id == id && a.Participant_id == user.Id && (a.Role == Role.Createur || a.Role == Role.Organisateur)).FirstOrDefault() != null)
+                        {
+                            cev.peutAdministrer = true;
+                            cev.peutInscrire = false;
+                        }
+                        else if (_db.Participations.Where(a => a.Evenement_id == id && a.Participant_id == user.Id && a.Role == Role.Participant).FirstOrDefault() != null)
+                        {
+                            cev.peutAdministrer = false;
+                            cev.peutInscrire = false;
+                        }
+                        else
+                        {
+                            cev.peutAdministrer = false;
+                            cev.peutInscrire = true;
+                        }
                     }
                     else
                     {
                         cev.peutAdministrer = false;
-                        cev.peutInscrire = true;
+                        cev.peutInscrire = false;
                     }
-
+                   
                     return View(cev);
                 }
             }

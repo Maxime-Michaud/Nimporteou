@@ -83,22 +83,26 @@
             @Html.DisplayFor(model => model.Duree)
         </dd>
     </dl>
-    @if (Model.peutAdministrer == true)
+    @if (Model.peutAdministrer != false || Model.peutInscrire != false)
     {
-        @Html.ActionLink("Ajout d'organisateur ", "Ajout", new { evenement_id = Model.EvenementID })
-    }
-    else if (Model.peutInscrire == true)
-    {
-        @Html.ActionLink("S'incrire ", "Inscription", new { id = Model.EvenementID })
+        @if (Model.peutAdministrer == true)
+        {
+            @Html.ActionLink("Ajout d'organisateur ", "Ajout", new { evenement_id = Model.EvenementID })
+        }
+        else if (Model.peutInscrire == true)
+        {
+            @Html.ActionLink("S'incrire ", "Inscription", new { id = Model.EvenementID })
+        }
+        
+        @if (Model.peutAdministrer == false)
+        {
+            @Html.ActionLink("Signaler ", "Signaler", new { evenement_id = Model.EvenementID })
+        }
     }
     @Html.ActionLink("Inviter ", "Invitation", new { evenement_id = Model.EvenementID })
-    @if (Model.peutAdministrer == false)
-    {
-        @Html.ActionLink("Signaler ", "Signaler", new { evenement_id = Model.EvenementID })
-    }   
+       
 </div>
 <div>
-    @* TODO *@
     @if (Model.peutAdministrer == true)
     {
         @Html.ActionLink("Modifier", "Modifier", new { id = Model.EvenementID })

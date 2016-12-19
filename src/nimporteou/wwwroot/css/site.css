@@ -398,6 +398,10 @@ input[type="file"] {
     padding:2px 8px 2px 8px;
 }
 
+select option 
+{
+    color:black !important;
+}
 .carousel{
     margin-top:5%;
 }
@@ -409,4 +413,8 @@ input[type="file"] {
 .carousel-titre{
     font-weight:bold;
     
+}
+
+.modal-content *{
+    color:black !important;
 }
