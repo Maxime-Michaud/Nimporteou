@@ -1,0 +1,73 @@
+﻿@model nimporteou.Models.EvenementViewModels.ConsultationEvenementViewModel
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h2>Inscription</h2>
+
+<div>
+    <h4>Information de l'événement</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BilletNecessaire)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BilletNecessaire)
+        </dd>
+        <dt>
+            @Html.DisplayName("Prix du billet")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PrixToString)
+        </dd>
+    </dl>
+    @if (Model.PrixBillet != null && Model.PrixBillet != 0)
+    {
+        var Prix = (@Model.PrixBillet.Value / 100.0);
+        <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+            <input type="hidden" name="cmd" value="_xclick">
+            <input type="hidden" name="business" value="GKCJ33FGQSKAN">
+            <input type="hidden" name="lc" value="CA">
+            <input type="hidden" name="amount" value="@Prix">
+            <input type="hidden" name="currency_code" value="CAD">
+            <input type="hidden" name="button_subtype" value="services">
+            <input type="hidden" name="no_note" value="0">
+            <input type="hidden" name="cn" value="Add special instructions to the seller:">
+            <input type="hidden" name="no_shipping" value="2">
+            <input type="hidden" name="rm" value="1">
+            <input type="hidden" name="return" value="http://localhost:4000/Evenement/Inscrire/@Model.EvenementID">
+            <input type="hidden" name="tax_rate" value="14.9975">
+            <input type="hidden" name="shipping" value="0.00">
+            <input type="hidden" name="undefined_quantity" value="1">
+            <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHosted">
+            <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+            <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+        </form>
+    }
+    else
+    {
+        <form method="get" asp-action="InscriptionEvenement" asp-controller="Evenement" enctype="multipart/form-data">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Nombre de participant</label>
+                    <div class="col-md-10">
+                        <input type="number" name="nbr_participant" class="form-control" min="1" required />
+                    </div>
+                    <input type="hidden" name="evenement_id" class="form-control" value="@Model.EvenementID" required />
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="S'inscrire" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    }
+    
+</div>
+
+<div>
+    <a asp-action="Consulter" asp-route-id="@Model.EvenementID">Retour</a>
+</div>

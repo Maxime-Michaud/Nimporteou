@@ -50,6 +50,7 @@ namespace nimporteou.Models
         Invité = 0,
         Participant,
         Organisateur,
-        Createur
+        Createur,
+        Inviter
     };
 }

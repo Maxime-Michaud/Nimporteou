@@ -1,61 +1,24 @@
 ﻿// Write your Javascript code.
-// Get the modal
-var modal = document.getElementById('myModal');
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function () {
-    modal.style.display = "none";
-};
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
-    if (event.target === modal) {
-        modal.style.display = "none";
-    }
-};
-
-      
-function LoginModal() {
-    ShowModal('/Account/Login/');
-}
-
-function RegisterModal() {
-    ShowModal('/Account/Register/');
-}
-
-function ShowModal(url) {
-    $.ajax({
-        type: "GET",
-        url: url,
-        data: {},
-        success: function (html) {
-            modal.style.display = "block";
-            document.getElementById("modal-content").innerHTML = html;
-        }
-    });
-}
 //Preview & Update an image before it is uploaded
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
 
-            reader.onload = function (e) {
-                $('#blah').attr('src', e.target.result);
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
+        reader.onload = function (e) {
+            $('#blah').attr('src', e.target.result);
+        };
+        reader.readAsDataURL(input.files[0]);
     }
+}
 
 $("#imgInp").change(function () {
     readURL(this);
 });
 
+//Supposer changer les messages d'erreur traduit en français, mais fonctionne pas
 jQuery.extend(jQuery.validator.messages, {
     required: "Ce champs est obligatoire",
-    remote: "Please fix this field.",
+    remote: "S'il vous plaît corriger ce champ.",
     email: "Veuillez-saisir un courriel valide.",
     url: "Veuillez-saisir un url valide.",
     date: "Veuillez-saisir une date valide.",
@@ -89,5 +52,44 @@ function showContent(number) {
         html.style.backgroundColor = "transparent";
         html.innerHTML = html.innerHTML.replace('↑', '⇓');
     }
-    hideShow = !hideShow;
+    hideShow = !hideShow
+}
+
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+}
+
+
+function LoginModal() {
+    ShowModal('/Account/Login');
+}
+
+function RegisterModal() {
+    ShowModal('/Account/Register');
+}
+
+function ShowModal(url) {
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: {},
+        success: function (html) {
+            modal.style.display = "block";
+            document.getElementById("modal-content").innerHTML = html;
+        }
+    });
 }

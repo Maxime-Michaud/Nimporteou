@@ -38,7 +38,8 @@ namespace nimporteou.Controllers
         /// <summary>
         /// Gere la page Index qui affiche les événements public
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id d'un événement, si null affiche tous les événements,
+        /// sinon on ouvre la page de consultations de l'événement</param>
         /// <returns></returns>
         async public Task<IActionResult> Index(int? id)
         {
@@ -56,7 +57,7 @@ namespace nimporteou.Controllers
         /// dont il est organisateur.
         /// </summary>
         /// <param name="id">id d'un événement, si null affiche tous les événements,
-        /// sinon ouvre la page de consultations de l'événement</param>
+        /// sinon on ouvre la page de consultations de l'événement</param>
         /// <returns></returns>
         async public Task<IActionResult> MesEvenement(int? id)
         {
@@ -66,17 +67,43 @@ namespace nimporteou.Controllers
                 return RedirectToAction("Consulter", "evenement", id);
             }
 
-            return View(EvenementViewModelFactory.CreerListe(_db, await _userManager.GetUserAsync(HttpContext.User)));
+            return View(EvenementViewModelFactory.CreerListeOrganisateur(_db, await _userManager.GetUserAsync(HttpContext.User)));
         }
 
         /// <summary>
-        /// TODO pcq -_-
+        /// Gere la pages des participations qui contient les événements auquels l'utilisateur est participant
         /// </summary>
+        /// <param name="id">id d'un événement, si null affiche tous les événements,
+        /// sinon on ouvre la page de consultations de l'événement</param>
         /// <returns></returns>
         [Authorize]
-        async public Task<IActionResult> Participation()
+        async public Task<IActionResult> Participation(int? id)
         {
+            //Get l'événement
+            if (id != null)
+            {
+                return RedirectToAction("Consulter", "evenement", id);
+            }
+
             return View(EvenementViewModelFactory.CreerListeParticipation(_db, await _userManager.GetUserAsync(HttpContext.User)));
+        }
+
+        /// <summary>
+        /// Gere la page MesInvitation qui contient les événements auquels l'utilisateur à été invité
+        /// dont il est organisateur.
+        /// </summary>
+        /// <param name="id">id d'un événement, si null affiche tous les événements,
+        /// sinon on ouvre la page de consultations de l'événement</param>
+        /// <returns></returns>
+        async public Task<IActionResult> MesInvitation(int? id)
+        {
+            //Get l'événement
+            if (id != null)
+            {
+                return RedirectToAction("Consulter", "evenement", id);
+            }
+
+            return View(EvenementViewModelFactory.CreerListeInvitation(_db, await _userManager.GetUserAsync(HttpContext.User)));
         }
 
         /// <summary>
@@ -115,13 +142,14 @@ namespace nimporteou.Controllers
         }
 
         /// <summary>
-        /// Gere la page de consultation d'un événement (la même pour le créateur/Organisateur et les autres)
+        /// Gere la page de consultation d'un événement (la même pour le Créateur/Organisateur et les autres)
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Consulter(int? id)
+        public async Task<IActionResult> Consulter(int? id)
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
             //Get l'eventnement
             if (id != null)
             {
@@ -134,9 +162,7 @@ namespace nimporteou.Controllers
                     cev.EvenementID = ev.id;
                     cev.Nom = ev.Nom;
                     cev.Description = ev.Description;
-                    //cev.Public = ev.Public;       <== sa existe pas
                     cev.DateLimite = ev.DateLimite;
-                    //cev.VenteBillet               <== sa existe pas
                     cev.PrixBillet = ev.PrixBillet;
                     cev.Debut = ev.Debut;
                     cev.Fin = ev.Fin;
@@ -145,6 +171,23 @@ namespace nimporteou.Controllers
                     cev.CheminPhoto = ev.CheminPhoto;
                     cev.HeureDebut = ev.HeureDebut;
                     cev.Duree = ev.Duree;
+
+                    //Si le user est le Créateur ou un Organisateur == Peut modifier l'événement
+                    if (_db.Participations.Where(a=>a.Evenement_id == id && a.Participant_id == user.Id &&(a.Role == Role.Createur || a.Role == Role.Organisateur)).FirstOrDefault() != null)
+                    {
+                        cev.peutAdministrer = true;
+                        cev.peutInscrire = false;
+                    }
+                    else if (_db.Participations.Where(a => a.Evenement_id == id && a.Participant_id == user.Id && a.Role == Role.Participant).FirstOrDefault() != null)
+                    {
+                        cev.peutAdministrer = false;
+                        cev.peutInscrire = false;
+                    }
+                    else
+                    {
+                        cev.peutAdministrer = false;
+                        cev.peutInscrire = true;
+                    }
 
                     return View(cev);
                 }
@@ -195,6 +238,7 @@ namespace nimporteou.Controllers
                         Ville vi = new Models.Ville();
                         vi.Nom = ville;
                         _db.Villes.Add(vi);
+                        _db.SaveChanges();
                         ad.Ville = vi;
                     }
                 }
@@ -218,9 +262,11 @@ namespace nimporteou.Controllers
                     }
                 }
             }
+            _db.Evenements.Add(ev);
+            _db.SaveChanges();
             //Ajoute le créateur comme participant de role Createur, donc il peux éditer l'événement.
             Participation part = new Participation();
-            part.Evenement = ev;
+            part.Evenement = _db.Evenements.Include(a=>a.Endroit.Ville).Where(a=>a.id == ev.id).First();
             part.NombreParticipants = 1;
             part.Participant = user;
             part.Role = Role.Createur;
@@ -230,18 +276,19 @@ namespace nimporteou.Controllers
             return _db.Evenements.Where(a=>a.id == ev.id).Select(a => a.id).First();
         }
 
-
+        /// <summary>
+        /// Gere l'affichage de la page de modification d'un événement 
+        /// </summary>
+        /// <param name="id">id de l'événement</param>
+        /// <param name="user">l'utilisateur connecter</param>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Modifier(int? id, ApplicationUser user)
         {
-            //Get l'eventnement
+            //Get l'événement
             if (id != null)
             {
                 Evenement ev = _db.Evenements.Include(a => a.Categorie).Include(a => a.Endroit.Ville).Where(e => e.id == id).FirstOrDefault();
-                /*if (!ev.Public)
-                {
-
-                }*/
                 if (ev != null)
                 {
                     CreationEvenementViewModel cev = new CreationEvenementViewModel();
@@ -265,7 +312,13 @@ namespace nimporteou.Controllers
             return View();
         }
 
-        
+        /// <summary>
+        /// Gere la modification d'un événement 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="e"></param>
+        /// <param name="files"></param>
+        /// <returns></returns>
         [HttpPost, Authorize]
         public async Task<IActionResult> Modifier(int id, CreationEvenementViewModel e, ICollection<IFormFile> files)
         {
@@ -279,9 +332,17 @@ namespace nimporteou.Controllers
             return RedirectToAction("Modifier", id);
         }
 
+        /// <summary>
+        /// Méthode pour modifier un événement
+        /// </summary>
+        /// <param name="id">id de l'événement</param>
+        /// <param name="e"></param>
+        /// <param name="files">Le fichier a uploader</param>
+        /// <param name="user">L'utilisateur connecter</param>
+        /// <returns></returns>
         public async Task<int> ModifierEvenement(int id, CreationEvenementViewModel e, ICollection<IFormFile> files, ApplicationUser user)
         {
-            //Creer l'evenement
+            //Modifier l'événement
             Evenement ev = _db.Evenements.Include(a => a.Endroit.Ville).Where(a => a.id == id).FirstOrDefault();
             if (ev != null)
             {
@@ -350,5 +411,295 @@ namespace nimporteou.Controllers
             _db.SaveChanges();
             return _db.Evenements.Where(a => a.id == ev.id).Select(a => a.id).First();
         }
-    }
+
+        /// <summary>
+        /// Ouvre la page pour l'inscription d'un événement
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize]
+        public IActionResult Inscription(int? id)
+        {
+            //Get l'eventnement
+            if (id != null)
+            {
+                Evenement ev = _db.Evenements.Include(a => a.Categorie).Include(a => a.Endroit.Ville).Where(e => e.id == id).FirstOrDefault();
+
+                if (ev != null)
+                {
+                    ConsultationEvenementViewModel cev = new ConsultationEvenementViewModel();
+
+                    cev.EvenementID = ev.id;
+                    cev.Nom = ev.Nom;
+                    cev.Description = ev.Description;
+                    cev.DateLimite = ev.DateLimite;
+                    cev.PrixBillet = ev.PrixBillet;
+                    cev.Debut = ev.Debut;
+                    cev.Fin = ev.Fin;
+                    cev.Categorie = ev.Categorie.Nom;
+                    cev.AdresseComplete = ev.Endroit.ToString();
+                    cev.CheminPhoto = ev.CheminPhoto;
+                    cev.HeureDebut = ev.HeureDebut;
+                    cev.Duree = ev.Duree;
+
+                    return View(cev);
+                }
+            }
+            return View();
+        }
+
+        /// <summary>
+        /// Gere l'inscription à un événement
+        /// </summary>
+        /// <param name="nbr_participant"></param>
+        /// <param name="evenement_id"></param>
+        /// <returns></returns>
+        [HttpGet, Authorize]
+        public async Task<IActionResult> InscriptionEvenement(int nbr_participant, int evenement_id)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                Inscrire(nbr_participant, evenement_id, user);
+                return RedirectToAction("Consulter", new { id = evenement_id });
+            }
+
+            return RedirectToAction("Inscription", evenement_id);
+        }
+
+        /// <summary>
+        /// Méthode qui permet à l'utilisateur de s'inscrire à un événement gratuit en tant que participant
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="evenement_id"></param>
+        /// <param name="user"></param>
+        public void Inscrire(int nbr_participant, int evenement_id, ApplicationUser user)
+        {
+            if (_db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id && a.Role == Role.Participant).FirstOrDefault() == null)
+            {
+                Participation inscription = new Participation();
+                inscription.Evenement_id = evenement_id;
+                inscription.Evenement = _db.Evenements.Where(a => a.id == evenement_id).First();
+                inscription.Participant_id = user.Id;
+                inscription.Participant = user;
+                inscription.Role = Role.Participant;
+                inscription.NombreParticipants = nbr_participant;
+                _db.Participations.Add(inscription);
+                _db.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// Gere le signalement d'un événement
+        /// </summary>
+        /// <param name="evenement_id">id de l'événement</param>
+        /// <returns></returns>
+        [HttpGet, Authorize]
+        public async Task<IActionResult> Signaler(int evenement_id)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                Signalement(evenement_id, user);
+                return RedirectToAction("Consulter", new { id = evenement_id });
+            }
+
+            return RedirectToAction("Consulter", evenement_id);
+        }
+
+        /// <summary>
+        /// Méthode qui permet à l'utilisateur de signaler un événement
+        /// </summary>
+        /// <param name="evenement_id">id de l'événement</param>
+        /// <param name="user">l'utilisateur connecter</param>
+        public void Signalement(int evenement_id, ApplicationUser user)
+        {
+            if (_db.Participations.Where(a=>a.Participant_id == user.Id && a.Evenement_id == evenement_id && (a.Role == Role.Signalement || a.Role == Role.Participant || a.Role == Role.Inviter)).FirstOrDefault() == null)
+            {
+                Participation inscription = new Participation();
+                inscription.Evenement_id = evenement_id;
+                inscription.Evenement = _db.Evenements.Where(a => a.id == evenement_id).First();
+                inscription.Participant_id = user.Id;
+                inscription.Participant = user;
+                inscription.Role = Role.Signalement;
+                inscription.NombreParticipants = 1;
+                _db.Participations.Add(inscription);
+                _db.SaveChanges();
+            }
+            else if (_db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id && a.Role != Role.Signalement).FirstOrDefault() != null)
+            {
+                Participation inscription = _db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id).First();
+                inscription.Role = Role.Signalement;
+                _db.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// Ouvre la page pour inviter un utilisateur à un événement
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize]
+        public IActionResult Invitation(int? evenement_id)
+        {
+            //Get l'eventnement
+            if (evenement_id != null)
+            {
+                Evenement ev = _db.Evenements.Include(a => a.Categorie).Include(a => a.Endroit.Ville).Where(e => e.id == evenement_id).FirstOrDefault();
+
+                if (ev != null)
+                {
+                    ConsultationEvenementViewModel cev = new ConsultationEvenementViewModel();
+
+                    cev.EvenementID = ev.id;
+                    cev.Nom = ev.Nom;
+                    cev.Description = ev.Description;
+                    cev.DateLimite = ev.DateLimite;
+                    cev.PrixBillet = ev.PrixBillet;
+                    cev.Debut = ev.Debut;
+                    cev.Fin = ev.Fin;
+                    cev.Categorie = ev.Categorie.Nom;
+                    cev.AdresseComplete = ev.Endroit.ToString();
+                    cev.CheminPhoto = ev.CheminPhoto;
+                    cev.HeureDebut = ev.HeureDebut;
+                    cev.Duree = ev.Duree;
+
+                    return View(cev);
+                }
+            }
+            return View();
+        }
+
+        /// <summary>
+        /// Gere l'invitation à un événement
+        /// </summary>
+        /// <param name="evenement_id"></param>
+        /// <returns></returns>
+        [HttpGet, Authorize]
+        public IActionResult Inviter(int evenement_id, string nom)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _db.Users.Where(a => a.UserName == nom).FirstOrDefault();
+                if (user != null)
+                {
+                    InvitationUtilisateur(evenement_id, user);
+                    return RedirectToAction("Consulter", new { id = evenement_id });
+                }
+            }
+            return RedirectToAction("Consulter", evenement_id);
+        }
+
+        /// <summary>
+        /// Méthode qui permet à l'utilisateur d'inviter un utilisateur à un événement
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="evenement_id"></param>
+        /// <param name="user"></param>
+        public void InvitationUtilisateur(int evenement_id, ApplicationUser user)
+        {
+            if (_db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id && (a.Role == Role.Participant || a.Role == Role.Organisateur || a.Role == Role.Createur || a.Role == Role.Inviter || a.Role == Role.Signalement)).FirstOrDefault() == null)
+            { 
+                Participation inscription = new Participation();
+                inscription.Evenement_id = evenement_id;
+                inscription.Evenement = _db.Evenements.Where(a => a.id == evenement_id).First();
+                inscription.Participant_id = user.Id;
+                inscription.Participant = user;
+                inscription.Role = Role.Inviter;
+                inscription.NombreParticipants = 1;
+                _db.Participations.Add(inscription);
+                _db.SaveChanges();
+            }
+            else if (_db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id && a.Role == Role.Signalement).FirstOrDefault() != null)
+            {
+                Participation inscription = _db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id).First();
+                inscription.Role = Role.Inviter;
+                _db.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// Ouvre la page pour ajouter un utilisateur en tant qu'organisateur à un événement
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize]
+        public IActionResult Ajout(int? evenement_id)
+        {
+            //Get l'eventnement
+            if (evenement_id != null)
+            {
+                Evenement ev = _db.Evenements.Include(a => a.Categorie).Include(a => a.Endroit.Ville).Where(e => e.id == evenement_id).FirstOrDefault();
+
+                if (ev != null)
+                {
+                    ConsultationEvenementViewModel cev = new ConsultationEvenementViewModel();
+
+                    cev.EvenementID = ev.id;
+                    cev.Nom = ev.Nom;
+                    cev.Description = ev.Description;
+                    cev.DateLimite = ev.DateLimite;
+                    cev.PrixBillet = ev.PrixBillet;
+                    cev.Debut = ev.Debut;
+                    cev.Fin = ev.Fin;
+                    cev.Categorie = ev.Categorie.Nom;
+                    cev.AdresseComplete = ev.Endroit.ToString();
+                    cev.CheminPhoto = ev.CheminPhoto;
+                    cev.HeureDebut = ev.HeureDebut;
+                    cev.Duree = ev.Duree;
+
+                    return View(cev);
+                }
+            }
+            return View();
+        }
+
+        /// <summary>
+        /// Gere ajout d'un organisateur à un événement
+        /// </summary>
+        /// <param name="evenement_id"></param>
+        /// <returns></returns>
+        [HttpGet, Authorize]
+        public IActionResult Ajouter(int evenement_id, string nom)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _db.Users.Where(a => a.UserName == nom).FirstOrDefault();
+                if (user != null)
+                {
+                    AjouterOrganisateur(evenement_id, user);
+                    return RedirectToAction("Consulter", new { id = evenement_id });
+                }
+            }
+            return RedirectToAction("Consulter", evenement_id);
+        }
+
+        /// <summary>
+        /// Méthode qui permet à l'utilisateur d'ajouter un utilisateur en tant qu'organisateur à un événement
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="evenement_id"></param>
+        /// <param name="user"></param>
+        public void AjouterOrganisateur(int evenement_id, ApplicationUser user)
+        {
+            if (_db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id && (a.Role == Role.Participant || a.Role == Role.Organisateur || a.Role == Role.Createur || a.Role == Role.Inviter || a.Role == Role.Signalement)).FirstOrDefault() == null)
+            {
+                Participation inscription = new Participation();
+                inscription.Evenement_id = evenement_id;
+                inscription.Evenement = _db.Evenements.Where(a => a.id == evenement_id).First();
+                inscription.Participant_id = user.Id;
+                inscription.Participant = user;
+                inscription.Role = Role.Organisateur;
+                inscription.NombreParticipants = 1;
+                _db.Participations.Add(inscription);
+                _db.SaveChanges();
+            }
+            else if (_db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id && (a.Role != Role.Organisateur && a.Role != Role.Createur)).FirstOrDefault() != null)
+            {
+                Participation inscription = _db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id).First();
+                inscription.Role = Role.Organisateur;
+                _db.SaveChanges();
+            }
+        }
+    }    
 }
