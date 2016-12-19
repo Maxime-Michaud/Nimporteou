@@ -40,7 +40,7 @@ namespace nimporteou.Models
         /// <summary>
         /// Les catégories d'événements préférés de l'utilisateur
         /// </summary>
-        public IEnumerable<CategorieUtilisateur> CategoriesPreferees { get; set; }
+        public ICollection<CategorieUtilisateur> CategoriesPreferees { get; set; }
 
         [NotMapped]
         public int? Age

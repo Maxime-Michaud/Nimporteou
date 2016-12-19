@@ -97,10 +97,7 @@ namespace nimporteou.Controllers
         {
             ViewData["ReturnUrl"] = returnUrl;
 
-            var vm = new RegisterViewModel()
-            {
-                CategoriesPossible = _db.Categories.Select(c => c.Nom).ToList()
-            };
+            var vm = new RegisterViewModel();
 
             return View(vm);
         }

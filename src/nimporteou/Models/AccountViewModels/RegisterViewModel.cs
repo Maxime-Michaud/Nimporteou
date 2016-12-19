@@ -43,9 +43,6 @@ namespace nimporteou.Models.AccountViewModels
         [Display(Name = "Autre categorie préférée")]
         public string Categorie3 { get; set; }
 
-        [Display(AutoGenerateField = false)]
-        public IEnumerable<string> CategoriesPossible{ get; set; }
-
         public ApplicationUser ToApplicationUser(ApplicationDbContext db)
         {
             IEnumerable<Categorie> cats = db.Categories.Where(c => c.Nom == Categorie1 || c.Nom == Categorie2 || c.Nom == Categorie3);

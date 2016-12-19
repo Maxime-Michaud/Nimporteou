@@ -45,7 +45,7 @@
                     @if (_usermanager.GetUserName(@User) != null)
                     {
                         <li><a asp-area="" asp-controller="Evenement" asp-action="MesEvenement">Mes Événements</a></li>
-                        <li><a asp-area="" asp-controller="Mes Evenement" asp-action="Participation">Participations</a></li>
+                        <li><a asp-area="" asp-controller="Evenement" asp-action="Participation">Participations</a></li>
                     }
                     <li><a asp-area="" asp-controller="Evenement" asp-action="Index">Événements</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
@@ -57,10 +57,6 @@
     </div>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2016 - nimporteou</p>
-        </footer>
     </div>
 
     <environment names="Development">

@@ -1,4 +1,5 @@
 @model nimporteou.Models.AccountViewModels.RegisterViewModel
+@inject nimporteou.Data.ApplicationDbContext db
 
 @{
     ViewData["Title"] = "Register";
@@ -48,7 +49,7 @@
 
         @*Prépare la liste des valeurs du select pour le faire une fois*@
         @{
-            var categories = Model.CategoriesPossible?.Select(s => $"<option value=\"{s}\">{s}</option>").Prepend("<option value=\"\" selected disabled>Choisissez (optionnel)</option>");
+            var categories = db.Categories.Select(c => c.Nom).Select(s => $"<option value=\"{s}\">{s}</option>").Prepend("<option value=\"\" selected disabled>Choisissez (optionnel)</option>");
         }
 
         <div class="form-group">
