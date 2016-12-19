@@ -7,11 +7,8 @@ namespace nimporteou.Models.EvenementViewModels
     {
         [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime? DateLimite { get; set; }
-        public TimeSpan HeureDebut { get; set; }
         public string Duree { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:d}")]
-        public DateTime Debut { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime Fin { get; set; }

@@ -12,6 +12,8 @@ namespace nimporteou.Models.EvenementViewModels
         public int? PrixBillet { get; set; }
         public string AdresseComplete { get; set; }
         public bool BilletNecessaire { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime Debut { get; set; }
         public TimeSpan HeureDebut { get; set; }
 

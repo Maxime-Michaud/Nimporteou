@@ -40,19 +40,19 @@ var hideShow = false; //Si on doit réduire ou agrandir la description dans FAQ
 function showContent(number) {
     if (!hideShow)
     {
-        var html = document.getElementsByClassName("collapsedFAQTitle")[number];
+        var element = document.getElementsByClassName("collapsedFAQTitle")[number];
         document.getElementsByClassName("collapseFAQHiddenShow")[number].style.display = "block";
-        html.style.backgroundColor = "lightgray";
-        html.innerHTML = html.innerHTML.replace('⇓', '↑');
+        element.style.backgroundColor = "lightgray";
+        element.innerHTML = element.innerHTML.replace('⇓', '↑');
     }
     else
     {
-        var html = document.getElementsByClassName("collapsedFAQTitle")[number];
+        var element = document.getElementsByClassName("collapsedFAQTitle")[number];
         document.getElementsByClassName("collapseFAQHiddenShow")[number].style.display = "none";
-        html.style.backgroundColor = "transparent";
-        html.innerHTML = html.innerHTML.replace('↑', '⇓');
+        element.style.backgroundColor = "transparent";
+        element.innerHTML = element.innerHTML.replace('↑', '⇓');
     }
-    hideShow = !hideShow
+    hideShow = !hideShow;
 }
 
 // Get the modal
@@ -63,15 +63,19 @@ var span = document.getElementsByClassName("close")[0];
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function () {
+    var modal = document.getElementById('myModal');
+
     modal.style.display = "none";
-}
+};
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
+    var modal = document.getElementById('myModal');
+
     if (event.target === modal) {
         modal.style.display = "none";
     }
-}
+};
 
 
 function LoginModal() {
@@ -83,13 +87,15 @@ function RegisterModal() {
 }
 
 function ShowModal(url) {
+    var modal = document.getElementById('myModal');
+
     $.ajax({
         type: "GET",
         url: url,
         data: {},
-        success: function (html) {
+        success: function (data) {
             modal.style.display = "block";
-            document.getElementById("modal-content").innerHTML = html;
+            document.getElementById("modal-content").innerHTML = data;
         }
     });
 }
