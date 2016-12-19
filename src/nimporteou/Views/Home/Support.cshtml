@@ -1,8 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Support";
 }
-<h2>@ViewData["Title"].</h2>
-<h3>@ViewData["Message"]</h3>
+<h2 id="headerRegister">@ViewData["Title"]</h2>
+<h3 id="headerRegister">@ViewData["Message"]</h3>
 
 <style>
 .collapseFAQHiddenShow
@@ -16,14 +16,14 @@
 }
 
 </style>
-<p>Pour nous contacter, vous pouvez cliquer <a href="~/Views/Home/Contact.cshtml">ici</a></p>
+<p id="headerRegister">Pour nous contacter, vous pouvez cliquer <a id="headerEmailContact" href="~/Views/Home/Contact.cshtml">ici</a></p>
 
 
 
 @{int nombre = -1;}
 @{nombre++;}
 <div class="collapsedFAQTitle" onclick="showContent(@nombre)">
-    <h1>Par où dois-je commencer?&nbsp;&nbsp;&nbsp;⇓</h1>
+    <h3 id="headerRegister">Par où dois-je commencer ?&nbsp;&nbsp;&nbsp;⇓</h3>
 </div>
 <div class="collapseFAQHiddenShow">
     TODO:RÉPONSE
@@ -31,7 +31,7 @@
 
 @{nombre++;}
 <div class="collapsedFAQTitle" onclick="showContent(@nombre)">
-    <h1>Comment je fais pour participer à un événement?&nbsp;&nbsp;&nbsp;⇓</h1>
+    <h3 id="headerRegister">Comment je fais pour participer à un événement ?&nbsp;&nbsp;&nbsp;⇓</h3>
 </div>
 <div class="collapseFAQHiddenShow">
     TODO:RÉPONSE
@@ -39,7 +39,7 @@
 
 @{nombre++;}
 <div class="collapsedFAQTitle" onclick="showContent(@nombre)">
-    <h1>Comment je fais pour créer un événement?&nbsp;&nbsp;&nbsp;⇓</h1>
+    <h3 id="headerRegister">Comment je fais pour créer un événement ?&nbsp;&nbsp;&nbsp;⇓</h3>
 </div>
 <div class="collapseFAQHiddenShow">
     TODO:RÉPONSE
@@ -47,7 +47,7 @@
 
 @{nombre++;}
 <div class="collapsedFAQTitle" onclick="showContent(@nombre)">
-    <h1>Comment je fais pour modifier les paramètre de mon compte et mes préférences?&nbsp;&nbsp;&nbsp;⇓</h1>
+    <h3 id="headerRegister">Comment je fais pour modifier les paramètre de mon compte et mes préférences ?&nbsp;&nbsp;&nbsp;⇓</h3>
 </div>
 <div class="collapseFAQHiddenShow">
     TODO:RÉPONSE
@@ -55,7 +55,7 @@
 
 @{nombre++;}
 <div class="collapsedFAQTitle" onclick="showContent(@nombre)">
-    <h1>Comment je fais pour créer un événement pour mes ami(e)s uniquement?&nbsp;&nbsp;&nbsp;⇓</h1>
+    <h3 id="headerRegister">Comment je fais pour créer un événement pour mes ami(e)s uniquement ?&nbsp;&nbsp;&nbsp;⇓</h3>
 </div>
 <div class="collapseFAQHiddenShow">
     TODO:RÉPONSE
@@ -63,7 +63,7 @@
 
 @{nombre++;}
 <div class="collapsedFAQTitle" onclick="showContent(@nombre)">
-    <h1>Si j'achète un billet, quels sont les étapes suivante?&nbsp;&nbsp;&nbsp;⇓</h1>
+    <h3 id="headerRegister">Si j'achète un billet, quels sont les étapes suivante ?&nbsp;&nbsp;&nbsp;⇓</h3>
 </div>
 <div class="collapseFAQHiddenShow">
     TODO:RÉPONSE
@@ -71,7 +71,7 @@
 
 @{nombre++;}
 <div class="collapsedFAQTitle" onclick="showContent(@nombre)">
-    <h1>Comment j'ajoute un ami(e)?&nbsp;&nbsp;&nbsp;⇓</h1>
+    <h3 id="headerRegister">Comment j'ajoute un ami(e) ?&nbsp;&nbsp;&nbsp;⇓</h3>
 </div>
 <div class="collapseFAQHiddenShow">
     TODO:RÉPONSE
@@ -79,7 +79,7 @@
 
 @{nombre++;}
 <div class="collapsedFAQTitle" onclick="showContent(@nombre)">
-    <h1>Comment je fais pour poser une autre question que ceux-ci?&nbsp;&nbsp;&nbsp;⇓</h1>
+    <h3 id="headerRegister">Comment je fais pour poser une autre question que ceux-ci ?&nbsp;&nbsp;&nbsp;⇓</h3>
 </div>
 <div class="collapseFAQHiddenShow">
     TODO:RÉPONSE

@@ -29,7 +29,7 @@
 else
 {
     <div id="myModal" class="modal">
-        <div class="modal-content">
+        <div id="backgroungConnecterModal" class="modal-content">
             <div id="modal-content" class="modal-body">
                 <span class="close">×</span>
             </div>
@@ -38,8 +38,12 @@ else
     </div>
     <div>
         <ul class="nav navbar-nav navbar-right">
-            <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
-            <li><div onclick="modifierService2()"  asp-area="">Log in</div></li>
+            <li><a asp-area="" asp-controller="Account" asp-action="Register">Inscription</a></li>
+            <li><div id="margeConnecter" onclick="modifierService2()"  asp-area="">Connexion</div></li>
+            <!-- Devrait utiliser le li en bas au lieu de celui en haut car sinon lorsqu'on met la souris sur 
+                 le btn "Connecter", on ne sait pas que c'est un lien et en 
+                + je suis obliger d'un id pour corriger alignement-->
+            <!-- <li><a onclick="modifierService2()" asp-area="">Connecter</a></li> -->
         </ul>
     </div>
 

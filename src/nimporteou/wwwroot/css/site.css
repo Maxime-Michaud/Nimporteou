@@ -1,4 +1,8 @@
-﻿/* Pour que le logo ne soit pas coller sur le bord de l'écran à gauche */
+﻿/*****************************************************************************
+layout.cshtml
+*****************************************************************************/
+
+/* Pour que le logo ne soit pas coller sur le bord de l'écran à gauche */
 .margeLogo {
 	margin-left: 15px;
 }
@@ -9,6 +13,32 @@
 	max-height: 360px;	
 	min-height: 300px;
 	
+}
+
+/*****************************************************************************
+index.cshtml
+*****************************************************************************/
+
+#backgroungConnecterModal {
+	
+	background-image: url("../images/degradeSite.png");
+}
+
+#backgroungConnecterModalExterne {
+	background-color: #fff;
+}
+
+/* Correction marge div btn Connecter */
+#margeConnecter {
+	margin-top: 12px;
+	color: #9d9d9d;
+}
+
+/* Titre menu navigation */
+#menuNavigationFont {
+	font-weight: bold !important;	
+	font-size: 20px !important;
+	color: #fff;
 }
 
 /* Bannière grise Événement à venir */
@@ -121,6 +151,40 @@ a:active {
 	flex-direction: row;
 	justify-content: flex-start;
 }
+
+/***************************************************************
+register.cshtml
+***************************************************************/
+#headerRegister {
+	font-weight: bold;
+	color: #fff;
+}
+
+#paraRegister {
+	font-size: 20px;
+}
+
+
+/***************************************************************
+login.cshtml
+***************************************************************/
+#headerLogin {
+	font-weight: bold;
+	color: #fff !important;
+}
+
+/***************************************************************
+Contact.cshtml
+***************************************************************/
+#headerEmailContact {
+	color: #DF0000 !important;
+}
+
+#textColorEmailContact {	
+	font-weight: bold;
+	color: #fff !important;
+}
+
 
 /* background dégradé noir & blanc */
 body {
