@@ -16,7 +16,7 @@
 }
 
 </style>
-<p>Pour nous contacter, vous pouvez cliquer <a href="~/Views/Home/Contact.cshtml">ici</a></p>
+<p>Pour nous contacter, vous pouvez cliquer <a asp-area="" asp-controller="Home" asp-action="Contact">ici</a></p>
 
 
 
@@ -26,7 +26,9 @@
     <h1>Par où dois-je commencer?&nbsp;&nbsp;&nbsp;⇓</h1>
 </div>
 <div class="collapseFAQHiddenShow">
-    TODO:RÉPONSE
+    Vous pouvez consulter les événements sans être inscrit, mais pour utiliser la plupart des fonctions du site, vous devez être inscrit.
+     Pour ce faire,  vous pouvez cliquer sur "inscription" dans le menu en haut à droite. Tout est gratuit et vous pourrez par la suite voir
+    tous les événements selon vos préférences!
 </div>
 
 @{nombre++;}
@@ -71,7 +73,7 @@
 
 @{nombre++;}
 <div class="collapsedFAQTitle" onclick="showContent(@nombre)">
-    <h1>Comment j'ajoute un ami(e)?&nbsp;&nbsp;&nbsp;⇓</h1>
+    <h1>Un événement est clairement faux ou offensant, comment dois-je le reporter?&nbsp;&nbsp;&nbsp;⇓</h1>
 </div>
 <div class="collapseFAQHiddenShow">
     TODO:RÉPONSE
@@ -82,5 +84,5 @@
     <h1>Comment je fais pour poser une autre question que ceux-ci?&nbsp;&nbsp;&nbsp;⇓</h1>
 </div>
 <div class="collapseFAQHiddenShow">
-    TODO:RÉPONSE
+    Cliquer sur "contact" dans le menu d'en haut et écrivez-nous! Il nous fera un plaisir de répondre à vos questions.
 </div>
