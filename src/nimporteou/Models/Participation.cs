@@ -49,6 +49,7 @@ namespace nimporteou.Models
         Signalement = -1,
         Participant = 0,
         Organisateur,
-        Createur
+        Createur,
+        Inviter
     };
 }

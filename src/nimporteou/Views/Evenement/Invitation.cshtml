@@ -1,0 +1,32 @@
+﻿@model nimporteou.Models.EvenementViewModels.ConsultationEvenementViewModel
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h2>Invitation</h2>
+
+<div>
+    <h4>Entrer le nom d'utilisateur de la personne que vous voulez inviter.</h4>
+    <hr />
+    <form method="get" asp-action="Inviter" asp-controller="Evenement" enctype="multipart/form-data">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="col-md-2 control-label">Nom d'utilisateur</label>
+                <div class="col-md-10">
+                    <input type="text" name="nom" class="form-control" required />
+                </div>
+                <input type="hidden" name="evenement_id" class="form-control" value="@Model.EvenementID" required />
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Inviter" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div>
+    <a asp-action="Consulter" asp-route-id="@Model.EvenementID">Retour</a>
+</div>

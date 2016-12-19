@@ -2,5 +2,7 @@
 {
     public class ConsultationEvenementViewModel : EvenementViewModel
     {
+        public bool peutAdministrer;
+        public bool peutInscrire;
     }
 }

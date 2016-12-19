@@ -90,8 +90,24 @@
             @Html.DisplayFor(model => model.Duree)
         </dd>
     </dl>
+    @if (Model.peutAdministrer == true)
+    {
+        <p>More Admin oki ^^</p>
+    }
+    else if (Model.peutInscrire == true)
+    {
+        @Html.ActionLink("S'incrire ", "Inscription", new { evenement_id = Model.EvenementID })
+    }
+    @Html.ActionLink("Inviter ", "Invitation", new { evenement_id = Model.EvenementID })
+    @Html.ActionLink("Signaler ", "Signaler", new { evenement_id = Model.EvenementID })
+    
 </div>
 <div>
-    @Html.ActionLink("Modifier", "Modifier", new {  id = Model.EvenementID }) |
+    @* TODO *@
+    @if (Model.peutAdministrer == true)
+    {
+        @Html.ActionLink("Modifier", "Modifier", new { id = Model.EvenementID })
+    }
+    |
     <a asp-action="Index">Retour</a>
 </div>

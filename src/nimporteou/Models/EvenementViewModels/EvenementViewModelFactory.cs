@@ -39,12 +39,36 @@ namespace nimporteou.Models.EvenementViewModels
             return CreerListeViewModel(evenements);
         }
 
+        static public ListeEvenementViewModel CreerListeOrganisateur(ApplicationDbContext db, ApplicationUser user)
+        {
+            IQueryable<Participation> participations;
+            IQueryable<Evenement> evenements;
+            List<Evenement> events = new List<Evenement>();
+            
+            // si je commente ce qui se trouve entre le deux groupes de //, sa marche pu
+            participations = db.Participations.Where(p => p.Participant_id == user.Id)
+                            .Where(p => (p.Role == Role.Createur || p.Role == Role.Organisateur));
+            
+            foreach (var item in participations)
+            {
+                events.Add(db.Evenements.Include(e => e.Endroit.Ville).Where(e => e.id == item.Evenement_id).First());
+            }
+            // -_- -_- -_- -_- -_- -_- -_- -_- -_- -_- -_- -_- -_- -_- -_- -_- -_- -_-
+            evenements = db.Participations.Where(p => p.Participant_id == user.Id)
+                            .Where(p => (p.Role == Role.Createur || p.Role == Role.Organisateur))
+                            .Select(p => p.Evenement).Include(e=>e.Endroit.Ville);
+
+            evenements = CreerListeBase(evenements, user.Age ?? 0);
+
+            return CreerListeViewModel(evenements);
+        }
+
         static private IQueryable<Evenement> CreerListeBase(IQueryable<Evenement> evs, int age)
         {
             return evs.Where(e => (e.AgeMinimum ?? 0) <= age)
-                        .Where(e => e.Public)
-                        .Where(e => !e.Annulé)
-                        .Where(e => e.DateLimite > DateTime.Now);
+                    .Where(e => e.Public)
+                    .Where(e => !e.Annulé)
+                    .Where(e => e.DateLimite > DateTime.Now);
         }
 
         private static ListeEvenementViewModel CreerListeViewModel(IQueryable<Evenement> evenements)
