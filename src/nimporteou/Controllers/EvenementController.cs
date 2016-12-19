@@ -498,11 +498,11 @@ namespace nimporteou.Controllers
                 insciption.NombreParticipants = 1;
                 _db.Participations.Add(insciption);
                 _db.SaveChanges();
-            }     
+            }
         }
 
         /// <summary>
-        /// Ouvre la page pour l'inscription d'un événement
+        /// Ouvre la page pour inviter un utilisateur à un événement
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -575,6 +575,96 @@ namespace nimporteou.Controllers
                 insciption.Role = Role.Inviter;
                 insciption.NombreParticipants = 1;
                 _db.Participations.Add(insciption);
+                _db.SaveChanges();
+            }
+            else if (_db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id && a.Role == Role.Signalement).FirstOrDefault() != null)
+            {
+                Participation insciption = _db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id).First();
+                insciption.Role = Role.Organisateur;
+                _db.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// Ouvre la page pour ajouter un utilisateur en tant qu'organisateur à un événement
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize]
+        public IActionResult Ajout(int? evenement_id)
+        {
+            //Get l'eventnement
+            if (evenement_id != null)
+            {
+                Evenement ev = _db.Evenements.Include(a => a.Categorie).Include(a => a.Endroit.Ville).Where(e => e.id == evenement_id).FirstOrDefault();
+
+                if (ev != null)
+                {
+                    ConsultationEvenementViewModel cev = new ConsultationEvenementViewModel();
+
+                    cev.EvenementID = ev.id;
+                    cev.Nom = ev.Nom;
+                    cev.Description = ev.Description;
+                    cev.DateLimite = ev.DateLimite;
+                    cev.PrixBillet = ev.PrixBillet;
+                    cev.Debut = ev.Debut;
+                    cev.Fin = ev.Fin;
+                    cev.Categorie = ev.Categorie.Nom;
+                    cev.AdresseComplete = ev.Endroit.ToString();
+                    cev.CheminPhoto = ev.CheminPhoto;
+                    cev.HeureDebut = ev.HeureDebut;
+                    cev.Duree = ev.Duree;
+
+                    return View(cev);
+                }
+            }
+            return View();
+        }
+
+        /// <summary>
+        /// Gere ajout d'un organisateur à un événement
+        /// </summary>
+        /// <param name="evenement_id"></param>
+        /// <returns></returns>
+        [HttpGet, Authorize]
+        public IActionResult Ajouter(int evenement_id, string nom)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _db.Users.Where(a => a.UserName == nom).FirstOrDefault();
+                if (user != null)
+                {
+                    AjouterOrganisateur(evenement_id, user);
+                    return RedirectToAction("Consulter", new { id = evenement_id });
+                }
+            }
+            return RedirectToAction("Consulter", evenement_id);
+        }
+
+        /// <summary>
+        /// Méthode qui permet à l'utilisateur d'ajouter un utilisateur en tant qu'organisateur à un événement
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="evenement_id"></param>
+        /// <param name="user"></param>
+        public void AjouterOrganisateur(int evenement_id, ApplicationUser user)
+        {
+            if (_db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id && (a.Role == Role.Participant || a.Role == Role.Organisateur || a.Role == Role.Createur || a.Role == Role.Inviter || a.Role == Role.Signalement)).FirstOrDefault() == null)
+            {
+                Participation insciption = new Participation();
+                insciption.Evenement_id = evenement_id;
+                insciption.Evenement = _db.Evenements.Where(a => a.id == evenement_id).First();
+                insciption.Participant_id = user.Id;
+                insciption.Participant = user;
+                insciption.Role = Role.Organisateur;
+                insciption.NombreParticipants = 1;
+                _db.Participations.Add(insciption);
+                _db.SaveChanges();
+            }
+            else if (_db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id && (a.Role != Role.Organisateur && a.Role != Role.Createur)).FirstOrDefault() != null)
+            {
+                Participation insciption = _db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id).First();
+                insciption.Role = Role.Organisateur;
                 _db.SaveChanges();
             }
         }

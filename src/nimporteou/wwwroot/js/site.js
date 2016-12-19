@@ -15,9 +15,10 @@ $("#imgInp").change(function () {
     readURL(this);
 });
 
+//Supposer changer les messages d'erreur traduit en français, mais fonctionne pas
 jQuery.extend(jQuery.validator.messages, {
     required: "Ce champs est obligatoire",
-    remote: "Please fix this field.",
+    remote: "S'il vous plaît corriger ce champ.",
     email: "Veuillez-saisir un courriel valide.",
     url: "Veuillez-saisir un url valide.",
     date: "Veuillez-saisir une date valide.",
