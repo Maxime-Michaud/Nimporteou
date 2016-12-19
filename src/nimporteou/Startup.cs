@@ -41,7 +41,7 @@ namespace nimporteou
         {
             // Add framework services.
             #region Ajoute le DBContext a services. La configuration en debug utilise une BD MSSQLEXPRESS sur localhost, les autres config utilisent une BD postgreSQL située sur db.nimporteou.tk
-#if false
+#if DEBUG
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("LocalMSSQLServer")));
 #else

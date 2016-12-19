@@ -27,7 +27,19 @@ namespace nimporteou.Models.EvenementViewModels
 
         static public ListeEvenementViewModel CreerListeParticipation(ApplicationDbContext db, ApplicationUser user)
         {
+            IQueryable<Participation> participations;
             IQueryable<Evenement> evenements;
+            List<Evenement> events = new List<Evenement>();
+
+            participations = db.Participations.Include(p => p.Evenement)
+                            .Include(p => p.Evenement.Endroit.Ville)
+                            .Where(p => p.Participant_id == user.Id)
+                            .Where(p => p.Role != Role.Signalement);
+
+            foreach (var item in participations)
+            {
+                events.Add(db.Evenements.Include(e => e.Endroit.Ville).Where(e => e.id == item.Evenement_id).First());
+            }
 
             evenements = db.Participations.Include(p => p.Evenement)
                             .Include(p => p.Evenement.Endroit.Ville)
