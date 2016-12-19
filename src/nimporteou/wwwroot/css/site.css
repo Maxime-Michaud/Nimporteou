@@ -1,8 +1,8 @@
 ﻿/*****************************************************************************
 layout.cshtml
 *****************************************************************************/
-*{
-    color: #fff!important;
+body *{
+    color: #fff;
 
 }
 /* Pour que le logo ne soit pas coller sur le bord de l'écran à gauche */

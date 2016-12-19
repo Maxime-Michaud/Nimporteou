@@ -41,7 +41,7 @@ namespace nimporteou
         {
             // Add framework services.
             #region Ajoute le DBContext a services. La configuration en debug utilise une BD MSSQLEXPRESS sur localhost, les autres config utilisent une BD postgreSQL située sur db.nimporteou.tk
-#if DEBUG
+#if false
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("LocalMSSQLServer")));
 #else
@@ -83,7 +83,6 @@ namespace nimporteou
             app.UseIdentity();
             
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

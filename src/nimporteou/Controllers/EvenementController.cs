@@ -85,7 +85,7 @@ namespace nimporteou.Controllers
                 return RedirectToAction("Consulter", "evenement", id);
             }
 
-            return View(EvenementViewModelFactory.CreerListeParticipation(_db, await _userManager.GetUserAsync(HttpContext.User)));
+            return View("Index",EvenementViewModelFactory.CreerListeParticipation(_db, await _userManager.GetUserAsync(HttpContext.User)));
         }
 
         /// <summary>
@@ -135,10 +135,11 @@ namespace nimporteou.Controllers
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 var nid = await CreerEvenement(e, files, user);
+
                 return RedirectToAction("Consulter", new { id = nid });
             }
 
-            return RedirectToAction("Creer");
+            return RedirectToAction("Creer", e);
         }
 
         /// <summary>
@@ -475,18 +476,26 @@ namespace nimporteou.Controllers
         /// <param name="user"></param>
         public void Inscrire(int nbr_participant, int evenement_id, ApplicationUser user)
         {
-            if (_db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id && a.Role == Role.Participant).FirstOrDefault() == null)
+            var participation = _db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id).FirstOrDefault();
+
+            if (participation == null)
             {
-                Participation inscription = new Participation();
-                inscription.Evenement_id = evenement_id;
-                inscription.Evenement = _db.Evenements.Where(a => a.id == evenement_id).First();
-                inscription.Participant_id = user.Id;
-                inscription.Participant = user;
-                inscription.Role = Role.Participant;
-                inscription.NombreParticipants = nbr_participant;
-                _db.Participations.Add(inscription);
-                _db.SaveChanges();
+                participation = new Participation();
+                participation.Evenement_id = evenement_id;
+                participation.Evenement = _db.Evenements.Where(a => a.id == evenement_id).First();
+                participation.Participant_id = user.Id;
+                participation.Participant = user;
+                participation.Role = Role.Participant;
+                participation.NombreParticipants = nbr_participant;
+                _db.Participations.Add(participation);
             }
+            else if (participation.Role == Role.Signalement || participation.Role == Role.Inviter)
+            {
+                participation.Role = Role.Participant;
+                participation.NombreParticipants = nbr_participant;
+            }
+
+            _db.SaveChanges();
         }
 
         /// <summary>

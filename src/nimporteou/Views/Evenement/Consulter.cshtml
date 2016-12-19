@@ -96,7 +96,7 @@
     }
     else if (Model.peutInscrire == true)
     {
-        @Html.ActionLink("S'incrire ", "Inscription", new { evenement_id = Model.EvenementID })
+        @Html.ActionLink("S'incrire ", "Inscription", new { id = Model.EvenementID })
     }
     @Html.ActionLink("Inviter ", "Invitation", new { evenement_id = Model.EvenementID })
     @if (Model.peutAdministrer == false)

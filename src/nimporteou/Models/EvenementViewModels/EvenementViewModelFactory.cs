@@ -29,7 +29,8 @@ namespace nimporteou.Models.EvenementViewModels
         {
             IQueryable<Evenement> evenements;
 
-            evenements = db.Participations.Include(p => p.Evenement.Endroit.Ville)
+            evenements = db.Participations.Include(p => p.Evenement)
+                            .Include(p => p.Evenement.Endroit.Ville)
                             .Where(p => p.Participant_id == user.Id)
                             .Where(p => p.Role != Role.Signalement)
                             .Select(p => p.Evenement);
@@ -107,7 +108,7 @@ namespace nimporteou.Models.EvenementViewModels
                             evenements.AsEnumerable() //Effectue la requête pour permettre d'effectuer le Select en mémoire plûtot que sur le serveur de BD
                                         .Select(e => new BaseEvenementViewModel
                                         {
-                                            AdresseComplete = e.Endroit.ToString(),
+                                            AdresseComplete = e?.Endroit?.ToString(),
                                             BilletNecessaire = e.BilletNecessaire,
                                             PrixBillet = e.PrixBillet,
                                             CheminPhoto = e.CheminPhoto,

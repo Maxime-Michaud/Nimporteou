@@ -11,10 +11,12 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.BilletNecessaire)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.BilletNecessaire)
+            @if (Model.BilletNecessaire)
+            {
+                @Html.DisplayNameFor(model => model.BilletNecessaire)
+            }
         </dd>
         <dt>
             @Html.DisplayName("Prix du billet")

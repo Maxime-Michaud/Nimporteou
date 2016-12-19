@@ -11,6 +11,7 @@ namespace nimporteou.Models.EvenementViewModels
         public string CheminPhoto { get; set; }
         public int? PrixBillet { get; set; }
         public string AdresseComplete { get; set; }
+        [Display(Name = "Billet nécéssaire")]
         public bool BilletNecessaire { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:d}")]

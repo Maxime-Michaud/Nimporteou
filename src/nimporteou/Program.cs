@@ -16,7 +16,6 @@ namespace nimporteou
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()
                 .UseUrls("http://*:4000")
-                .UseEnvironment("Development")
                 .Build();
 
             host.Run();
