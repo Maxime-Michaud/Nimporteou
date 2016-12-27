@@ -83,30 +83,36 @@
             @Html.DisplayFor(model => model.Duree)
         </dd>
     </dl>
+   
+       
+</div>
+<div>
     @if (Model.peutAdministrer != false || Model.peutInscrire != false)
     {
         @if (Model.peutAdministrer == true)
         {
-            @Html.ActionLink("Ajout d'organisateur ", "Ajout", new { evenement_id = Model.EvenementID })
+            @Html.ActionLink("Ajout d'organisateur", "Ajout", new { evenement_id = Model.EvenementID })
+            @Html.DisplayName(" | ")
         }
         else if (Model.peutInscrire == true)
         {
-            @Html.ActionLink("S'incrire ", "Inscription", new { id = Model.EvenementID })
+            @Html.ActionLink("S'incrire", "Inscription", new { id = Model.EvenementID })
+            @Html.DisplayName(" | ")
         }
-        
+
         @if (Model.peutAdministrer == false)
         {
-            @Html.ActionLink("Signaler ", "Signaler", new { evenement_id = Model.EvenementID })
+            @Html.ActionLink("Signaler", "Signalement", new { evenement_id = Model.EvenementID })
+            @Html.DisplayName(" | ")
         }
     }
-    @Html.ActionLink("Inviter ", "Invitation", new { evenement_id = Model.EvenementID })
-       
-</div>
-<div>
+    @Html.ActionLink("Inviter", "Invitation", new { evenement_id = Model.EvenementID })
+    @Html.DisplayName(" | ")
+
     @if (Model.peutAdministrer == true)
     {
         @Html.ActionLink("Modifier", "Modifier", new { id = Model.EvenementID })
+        @Html.DisplayName(" | ")
     }
-    |
     <a asp-action="Index">Retour</a>
 </div>
