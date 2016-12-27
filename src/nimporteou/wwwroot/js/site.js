@@ -15,7 +15,7 @@ $("#imgInp").change(function () {
     readURL(this);
 });
 
-//Supposer changer les messages d'erreur traduit en français, mais fonctionne pas
+//Change les messages d'erreurs et traduit les messages en français
 jQuery.extend(jQuery.validator.messages, {
     required: "Ce champs est obligatoire",
     remote: "S'il vous plaît corriger ce champ.",
