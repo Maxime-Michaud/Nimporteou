@@ -95,6 +95,7 @@ namespace nimporteou.Controllers
         /// <param name="id">id d'un événement, si null affiche tous les événements,
         /// sinon on ouvre la page de consultations de l'événement</param>
         /// <returns></returns>
+        [Authorize]
         async public Task<IActionResult> MesInvitation(int? id)
         {
             //Get l'événement
@@ -110,6 +111,7 @@ namespace nimporteou.Controllers
         /// Crée la liste de catégorie
         /// </summary>
         /// <returns></returns>
+        [Authorize]
         public IActionResult Creer()
         {
             List<SelectListItem> lstCat = new List<SelectListItem>();
@@ -291,7 +293,7 @@ namespace nimporteou.Controllers
         /// <param name="id">id de l'événement</param>
         /// <param name="user">l'utilisateur connecter</param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet, Authorize]
         public IActionResult Modifier(int? id, ApplicationUser user)
         {
             //Get l'événement
@@ -349,6 +351,7 @@ namespace nimporteou.Controllers
         /// <param name="files">Le fichier a uploader</param>
         /// <param name="user">L'utilisateur connecter</param>
         /// <returns></returns>
+        [Authorize]
         public async Task<int> ModifierEvenement(int id, CreationEvenementViewModel e, ICollection<IFormFile> files, ApplicationUser user)
         {
             //Modifier l'événement
@@ -482,6 +485,7 @@ namespace nimporteou.Controllers
         /// <param name="id"></param>
         /// <param name="evenement_id"></param>
         /// <param name="user"></param>
+        [Authorize]
         public void Inscrire(int nbr_participant, int evenement_id, ApplicationUser user)
         {
             var participation = _db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id).FirstOrDefault();
@@ -505,7 +509,6 @@ namespace nimporteou.Controllers
 
             _db.SaveChanges();
         }
-
       
         /// <summary>
         /// Ouvre la page pour inviter un utilisateur à un événement
@@ -569,6 +572,7 @@ namespace nimporteou.Controllers
         /// <param name="id"></param>
         /// <param name="evenement_id"></param>
         /// <param name="user"></param>
+        [Authorize]
         public void InvitationUtilisateur(int evenement_id, ApplicationUser user)
         {
             if (_db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id && (a.Role == Role.Participant || a.Role == Role.Organisateur || a.Role == Role.Createur || a.Role == Role.Inviter || a.Role == Role.Signalement)).FirstOrDefault() == null)
@@ -653,6 +657,7 @@ namespace nimporteou.Controllers
         /// <param name="id"></param>
         /// <param name="evenement_id"></param>
         /// <param name="user"></param>
+        [Authorize]
         public void AjouterOrganisateur(int evenement_id, ApplicationUser user)
         {
             if (_db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id && (a.Role == Role.Participant || a.Role == Role.Organisateur || a.Role == Role.Createur || a.Role == Role.Inviter || a.Role == Role.Signalement)).FirstOrDefault() == null)
@@ -736,6 +741,7 @@ namespace nimporteou.Controllers
         /// </summary>
         /// <param name="evenement_id">id de l'événement</param>
         /// <param name="user">l'utilisateur connecter</param>
+        [Authorize]
         public void AjoutSignalement(int evenement_id, string message, ApplicationUser user)
         {
             if (_db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id && (a.Role == Role.Signalement || a.Role == Role.Participant || a.Role == Role.Inviter)).FirstOrDefault() == null)
