@@ -1,0 +1,25 @@
+﻿@model nimporteou.Models.EvenementViewModels.BaseEvenementViewModel
+
+<div class="row rangee-evenement" onclick="window.location='/evenement/Consulter/' + @Model.EvenementID"> 
+    <div class="col-xs-1">
+        <img width="100%" src="@Model.CheminPhoto" alt="@Model.Nom" />
+    </div>
+    <div class="col-xs-2">
+        @Model.AdresseComplete <br />
+        @Model.Debut.ToString("dd MMMM")<br />
+        @Model.HeureDebut.ToString("hh'h'mm")
+    </div>
+    <div class="col-xs-5 col-xs-offset-1">
+        @Model.Nom
+    </div>
+    <div class="col-xs-3">
+        Prix: @if (Model.BilletNecessaire)
+        {
+            <span> @Model.PrixToString</span>
+        }
+        else
+        {
+            <span> gratuit</span>
+        }
+    </div>
+</div>

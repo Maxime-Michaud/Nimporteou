@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using nimporteou.Models;
 
@@ -13,6 +9,8 @@ namespace nimporteou.Data
         public DbSet<Participation> Participations { get; set; }
         public DbSet<Evenement> Evenements { get; set; }
         public DbSet<Categorie> Categories { get; set; }
+        public DbSet<Ville> Villes { get; set; }
+        public DbSet<Adresse> Adresses { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -27,5 +25,8 @@ namespace nimporteou.Data
             builder.Entity<Participation>().HasKey(p => new { p.Participant_id, p.Evenement_id });
             builder.Entity<CategorieUtilisateur>().HasKey(c => new { c.Categorie_id, c.Utilisateur_id });
         }
+
+
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
     }
 }

@@ -1,0 +1,32 @@
+﻿@model nimporteou.Models.EvenementViewModels.CreationEvenementViewModel
+
+@{
+    ViewData["Title"] = "Modifier";
+}
+
+<h2>Modifier</h2>
+
+<form asp-action="Modifier">
+    <div class="form-horizontal">
+        <h4>Modifier l'événement</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.Partial("_FormulaireEvenementPartial", Model)
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Modifier" class="btn btn-default" />
+            </div>
+        </div>
+    </div> 
+</form>
+
+<div>
+    <a asp-action="MesEvenement">Retour a mes événement</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript" src="~/js/site.js"></script>
+}
+

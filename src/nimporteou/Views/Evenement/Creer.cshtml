@@ -1,0 +1,70 @@
+﻿@model nimporteou.Models.EvenementViewModels.CreationEvenementViewModel
+
+@{
+    ViewData["Title"] = "Creer un evenement";
+}
+
+<h2>Creation d'événement</h2>
+
+<form method="post" asp-action="Creer" asp-controller="Evenement" enctype="multipart/form-data">
+    <div class="form-horizontal">
+        <h4>Quelles est votre événement?</h4>
+        <hr />
+        
+        @Html.Partial("_FormulaireEvenementPartial", Model) 
+
+        <div class="form-group">
+            <label asp-for="Public" class="col-md-2 control-label">Public</label>
+            <div class="col-md-10 checkbox">
+                <input asp-for="Public" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="BilletNecessaire" class="col-md-2 control-label">Vente de billet</label>
+            <div class="col-md-10 checkbox">
+                <input asp-for="BilletNecessaire" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PrixBillet" class="col-md-2 control-label">Prix du billet</label>
+            <div class="col-md-10">
+                <input asp-for="PrixBillet" placeholder="Le prix en $" class="form-control" />
+                <span asp-validation-for="PrixBillet" class="text-danger" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Categorie" class="col-md-2 control-label">Catégorie</label>
+            <div class="col-md-10">
+                <select asp-for="Categorie"
+                        asp-items="ViewBag.Categories" class="form-control"></select>
+                <span asp-validation-for="Categorie" class="text-danger" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="AgeMinimum" class="col-md-2 control-label">Age minimum</label>
+            <div class="col-md-10">
+                <input asp-for="AgeMinimum" class="form-control"/>
+                <span asp-validation-for="AgeMinimum" class="text-danger" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Creer" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Retour</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript" src="~/js/site.js"></script>
+}

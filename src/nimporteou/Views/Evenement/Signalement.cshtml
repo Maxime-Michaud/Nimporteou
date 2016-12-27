@@ -1,0 +1,32 @@
+﻿@model nimporteou.Models.EvenementViewModels.ConsultationEvenementViewModel
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h2>Signalement</h2>
+
+<div>
+    <h4>Saisir la raison du signalement.</h4>
+    <hr />
+    <form method="get" asp-action="Signaler" asp-controller="Evenement" enctype="multipart/form-data">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="col-md-2 control-label">Raison du signalement</label>
+                <div class="col-md-10">
+                    <input type="text" name="message" class="form-control" min="10" required />
+                </div>
+                <input type="hidden" name="evenement_id" class="form-control" value="@Model.EvenementID" required />
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Signaler" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div>
+    <a asp-action="Consulter" asp-route-id="@Model.EvenementID">Retour</a>
+</div>

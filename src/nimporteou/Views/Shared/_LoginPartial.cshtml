@@ -7,44 +7,28 @@
 @using System.Collections.Generic
 @using Microsoft.AspNetCore.Http
 @using Microsoft.AspNetCore.Http.Authentication
-@model LoginViewModel
-
 
 @if (SignInManager.IsSignedIn(User))
 {
     <form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)} !</a>
+                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User) !</a>
+            </li>
 
-</li>
-
-<li>
-
-<button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
+            <li>
+                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
             </li>
         </ul>
     </form>
 }
 else
 {
-    <div id="myModal" class="modal">
-        <div id="backgroungConnecterModal" class="modal-content">
-            <div id="modal-content" class="modal-body">
-                <span class="close">×</span>
-            </div>
-        </div>
-
-    </div>
     <div>
         <ul class="nav navbar-nav navbar-right">
-            <li><a asp-area="" asp-controller="Account" asp-action="Register">Inscription</a></li>
-            <li><div id="margeConnecter" onclick="modifierService2()"  asp-area="">Connexion</div></li>
-            <!-- Devrait utiliser le li en bas au lieu de celui en haut car sinon lorsqu'on met la souris sur 
-                 le btn "Connecter", on ne sait pas que c'est un lien et en 
-                + je suis obliger d'un id pour corriger alignement-->
-            <!-- <li><a onclick="modifierService2()" asp-area="">Connecter</a></li> -->
+            <li><a onclick="LoginModal()">Connexion</a></li>
+            <li><a> | </a></li>
+            <li><a onclick="RegisterModal()">Inscription</a></li>
         </ul>
     </div>
-
 }

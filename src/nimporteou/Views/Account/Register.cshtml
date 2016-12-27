@@ -1,42 +1,98 @@
-﻿@model RegisterViewModel
+@model nimporteou.Models.AccountViewModels.RegisterViewModel
+@inject nimporteou.Data.ApplicationDbContext db
+
 @{
     ViewData["Title"] = "Inscription";
 }
 
-<h2 id="headerRegister">@ViewData["Title"]</h2>
+<h2>Inscription</h2>
 
-<form id="headerRegister" asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-    <h4>Créer un nouveau compte NimporteOU</h4>
-    <hr />
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div id="paraRegister" class="form-group">
-        <label asp-for="Email" class="col-md-4 control-label"></label>
-        <div class="col-md-8">
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
+<form asp-action="Register">
+    <div class="form-horizontal">
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Username" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="text-danger" />
+            </div>
         </div>
-    </div>
-    <div id="paraRegister" class="form-group">
-        <label asp-for="Password" class="col-md-4 control-label"></label>
-        <div class="col-md-8">
-            <input asp-for="Password" class="form-control" />
-            <span asp-validation-for="Password" class="text-danger"></span>
+        <div class="form-group">
+            <label asp-for="Password" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger" />
+            </div>
         </div>
-    </div>
-    <div id="paraRegister" class="form-group">
-        <label asp-for="ConfirmPassword" class="col-md-4 control-label"></label>
-        <div class="col-md-8">
-            <input asp-for="ConfirmPassword" class="form-control" />
-            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        <div class="form-group">
+            <label asp-for="ConfirmPassword" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger" />
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-4 col-md-8">
-            <button id="paraRegister" type="submit" class="btn btn-default">Inscription</button>
+        <div class="form-group">
+            <label asp-for="Email" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="DateNaissance" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DateNaissance" class="form-control" />
+                <span asp-validation-for="DateNaissance" class="text-danger" />
+            </div>
+        </div>
+
+        @*Pr�pare la liste des valeurs du select pour le faire une fois*@
+        @{
+            var categories = db.Categories.Select(c => c.Nom).Select(s => $"<option value=\"{s}\">{s}</option>").Prepend("<option value=\"\" selected disabled>Choisissez (optionnel)</option>");
+        }
+
+        <div class="form-group">
+            <label asp-for="Categorie1" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="Categorie1" class="form-control">
+                    @foreach (var item in categories)
+                    {
+                        @Html.Raw(item)
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Categorie2" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="Categorie2" class="form-control">
+                    @foreach (var item in categories)
+                    {
+                        @Html.Raw(item)
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Categorie3" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="Categorie3" class="form-control">
+                    @foreach (var item in categories)
+                    {
+                        @Html.Raw(item)
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Enregistrer" class="btn btn-default" />
+            </div>
         </div>
     </div>
 </form>
 
 @section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

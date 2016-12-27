@@ -47,8 +47,10 @@ namespace nimporteou.Models
     public enum Role
     {
         Signalement = -1,
-        Participant = 0,
+        Inviter = 0,
+        Participant,
         Organisateur,
         Createur
+        
     };
 }

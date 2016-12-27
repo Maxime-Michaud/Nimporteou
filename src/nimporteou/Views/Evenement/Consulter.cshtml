@@ -1,0 +1,118 @@
+﻿@model nimporteou.Models.EvenementViewModels.ConsultationEvenementViewModel
+
+@{
+    ViewData["Title"] = "Consulter";
+}
+
+<h2>Consultation</h2>
+
+<div>
+    <h4>Détail de ton événement</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Catégorie")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Categorie)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Nom)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Nom)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayName("Vente de Billet")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BilletNecessaire)
+        </dd>
+        <dt>
+            @Html.DisplayName("Date limite de l'inscription")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateLimite)
+        </dd>
+        <dt>
+           @Html.DisplayName("Début")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Debut)
+        </dd>
+        <dt>
+           @Html.DisplayName("Fin")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Fin)
+        </dd>
+        <dt>
+            @Html.DisplayName("Image")
+        </dt>
+        <dd>
+            <img src="@Html.DisplayFor(model => model.CheminPhoto)" height="400" width="500"/>
+        </dd>
+        <dt>
+            @Html.DisplayName("Prix du billet")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PrixToString)
+        </dd>
+        <dt>
+            @Html.DisplayName("Adresse")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdresseComplete)
+        </dd>
+        <dt>
+            @Html.DisplayName("Heure")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.HeureDebut)
+        </dd>
+        <dt>
+            @Html.DisplayName("Durée")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Duree)
+        </dd>
+    </dl>
+   
+       
+</div>
+<div>
+    @if (Model.peutAdministrer != false || Model.peutInscrire != false)
+    {
+        @if (Model.peutAdministrer == true)
+        {
+            @Html.ActionLink("Ajout d'organisateur", "Ajout", new { evenement_id = Model.EvenementID })
+            @Html.DisplayName(" | ")
+        }
+        else if (Model.peutInscrire == true)
+        {
+            @Html.ActionLink("S'incrire", "Inscription", new { id = Model.EvenementID })
+            @Html.DisplayName(" | ")
+        }
+
+        @if (Model.peutAdministrer == false)
+        {
+            @Html.ActionLink("Signaler", "Signalement", new { evenement_id = Model.EvenementID })
+            @Html.DisplayName(" | ")
+        }
+    }
+    @Html.ActionLink("Inviter", "Invitation", new { evenement_id = Model.EvenementID })
+    @Html.DisplayName(" | ")
+
+    @if (Model.peutAdministrer == true)
+    {
+        @Html.ActionLink("Modifier", "Modifier", new { id = Model.EvenementID })
+        @Html.DisplayName(" | ")
+    }
+    <a asp-action="Index">Retour</a>
+</div>

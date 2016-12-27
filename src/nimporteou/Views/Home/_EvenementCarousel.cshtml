@@ -1,0 +1,12 @@
+﻿@model nimporteou.Models.EvenementViewModels.BaseEvenementViewModel
+@using System.Globalization;
+
+<div class="item">
+    <div class="carousel-header">
+        <div class="carousel-titre col-xs-6">@Model.Nom</div>
+        <div class="col-xs-6 text-right">@Model.PrixToString</div>
+        <div>Le @Model.Debut.ToString("dd MMMM", new CultureInfo("fr-CA"))</div>
+    </div>
+    <img src="@Model.CheminPhoto" alt="@Model.Nom" class="carousel-image" />
+    @Html.ActionLink("Information", "Consulter", "Evenement", new { id = Model.EvenementID }, new {@class="carousel-info" })
+</div>

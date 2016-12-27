@@ -126,9 +126,7 @@ namespace nimporteou.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("NumeroCivique");
-
-                    b.Property<string>("Rue");
+                    b.Property<string>("Ad");
 
                     b.Property<int?>("Villeid");
 
@@ -136,7 +134,7 @@ namespace nimporteou.Migrations
 
                     b.HasIndex("Villeid");
 
-                    b.ToTable("Adresse");
+                    b.ToTable("Adresses");
                 });
 
             modelBuilder.Entity("nimporteou.Models.ApplicationUser", b =>
@@ -257,13 +255,19 @@ namespace nimporteou.Migrations
 
                     b.Property<DateTime>("Debut");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasAnnotation("MaxLength", 1000);
+
+                    b.Property<string>("Duree");
 
                     b.Property<int?>("Endroitid");
 
                     b.Property<DateTime>("Fin");
 
-                    b.Property<string>("Nom");
+                    b.Property<TimeSpan>("HeureDebut");
+
+                    b.Property<string>("Nom")
+                        .HasAnnotation("MaxLength", 100);
 
                     b.Property<int?>("PrixBillet");
 
@@ -326,7 +330,7 @@ namespace nimporteou.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("Ville");
+                    b.ToTable("Villes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<int>", b =>

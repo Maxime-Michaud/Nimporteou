@@ -1,7 +1,10 @@
 ﻿/*****************************************************************************
 layout.cshtml
 *****************************************************************************/
+body *{
+    color: #fff;
 
+}
 /* Pour que le logo ne soit pas coller sur le bord de l'écran à gauche */
 .margeLogo {
 	margin-left: 15px;
@@ -31,7 +34,7 @@ index.cshtml
 /* Correction marge div btn Connecter */
 #margeConnecter {
 	margin-top: 12px;
-	color: #9d9d9d;
+	color: #9d9d9d!important;
 }
 
 /* Titre menu navigation */
@@ -105,7 +108,7 @@ index.cshtml
 	text-align: center;
 	font-family: Arial, Helvetica, sans-serif !important;
 	font-weight: bold !important;
-	color: #4c4c4c;
+	color: #4c4c4c!important;
 }
 
 /* paragraphethumbnail */
@@ -121,23 +124,23 @@ index.cshtml
 }
 
 /* unvisited link */
-a:link {
-    color: #4c4c4c;
+a:link, .btn-link {
+    color: #4c4c4c!important;
 }
 
 /* visited link */
 a:visited {
-    color: #4c4c4c;
+    color: #4c4c4c!important;
 }
 
 /* mouse over link */
 a:hover {
-    color: #4c4c4c;
+    color: #4c4c4c!important;
 }
 
 /* selected link */
 a:active {
-    color: #4c4c4c;
+    color: #4c4c4c!important;
 }
 
 /* garder le texte en blanc sur le btn rouge */
@@ -258,6 +261,11 @@ textarea {
     to {top:0; opacity:1}
 }
 
+@-moz-keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
 @keyframes animatetop {
     from {top:-300px; opacity:0}
     to {top:0; opacity:1}
@@ -314,4 +322,99 @@ textarea {
   .carousel-caption {
     display: none
   }
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0} 
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+  /* Hide captions */
+  .carousel-caption {
+    display: none
+  }
+}
+
+/* Des styles pour voir les images avant l'upload sur le serveur */
+input[type="file"] {
+     display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid rgb(197, 197, 197);
+    border-radius: 4px 4px 4px 4px;
+
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    /*float: right;*/
+    width: 5.25em;
+    margin-left:50px;
+}
+
+.photo{
+    width: 7em; 
+    height: 9em; 
+    border: 1px solid rgb(197, 197, 197); 
+    border-radius: 4px 4px 4px 4px; 
+    margin-left:50px;
+    /*float:right;*/
+}
+/* Fin des styles pour afficher l'image avant l'upload  */
+
+.rangee-evenement:hover{
+    background-color: lightblue; 
+}
+
+.thumbnail-container{
+    display:inline-block;
+    width:20%;
+    margin-left:2%;
+    margin-right:2%;
+    margin-top:0;
+    max-height:20vh;
+    overflow:hidden;
+}
+
+.thumbnail{
+    width:100%;
+
+}
+
+.carousel-info{
+    position:relative;
+    bottom:50px;
+    left:75%;
+    background-color:red;
+    color:#fff !important;
+    border-radius:8px;
+    padding:2px 8px 2px 8px;
+}
+
+select option 
+{
+    color:black !important;
+}
+.carousel{
+    margin-top:5%;
+}
+
+.carousel + div{
+    font-size:large;
+}
+
+.carousel-titre{
+    font-weight:bold;
+    
+}
+
+.modal-content *{
+    color:black !important;
 }
