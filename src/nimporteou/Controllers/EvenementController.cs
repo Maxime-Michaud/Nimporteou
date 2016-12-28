@@ -111,6 +111,22 @@ namespace nimporteou.Controllers
         }
 
         /// <summary>
+        /// Gere la page Signalement qui contient une liste des événements signaler par un ou plusieurs utilisateurs.
+        /// </summary>
+        /// <param name="id">id de l'événement</param>
+        /// <returns></returns>
+        async public Task<IActionResult> Moderation(int? id)
+        {
+            //Get l'événement
+            if (id != null)
+            {
+                return RedirectToAction("Consulter", "evenement", id);
+            }
+
+            return View(EvenementViewModelFactory.CreerListeEventSignaler(_db, await _userManager.GetUserAsync(HttpContext.User)));
+        }
+
+        /// <summary>
         /// Crée la liste de catégorie
         /// </summary>
         /// <returns></returns>
@@ -182,6 +198,7 @@ namespace nimporteou.Controllers
                     //Si le user est le Créateur ou un Organisateur == Peut modifier l'événement
                     if (user != null)
                     {
+                        cev._user = user;
                         if (_db.Participations.Where(a => a.Evenement_id == id && a.Participant_id == user.Id && (a.Role == Role.Createur || a.Role == Role.Organisateur)).FirstOrDefault() != null)
                         {
                             cev.peutAdministrer = true;
@@ -202,6 +219,10 @@ namespace nimporteou.Controllers
                     {
                         cev.peutAdministrer = false;
                         cev.peutInscrire = false;
+                    }
+                    if (user.Admin == true)
+                    {
+                        cev.signalements = _db.Participations.Where(e => e.Evenement_id == id && e.Signalement != null).Select(s => s.Signalement).ToList();
                     }
                    
                     return View(cev);
@@ -848,7 +869,7 @@ namespace nimporteou.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
-                AnnuelerEvenement(evenement_id, user);
+                AnnulerEvenement(evenement_id, user);
                 return RedirectToAction("Consulter", new { id = evenement_id });
             }
 
@@ -856,7 +877,7 @@ namespace nimporteou.Controllers
         }
 
         [Authorize]
-        public void AnnuelerEvenement(int evenement_id, ApplicationUser user)
+        public void AnnulerEvenement(int evenement_id, ApplicationUser user)
         {
             if (_db.Evenements.Where(a=> a.id == evenement_id).FirstOrDefault() != null)
             {

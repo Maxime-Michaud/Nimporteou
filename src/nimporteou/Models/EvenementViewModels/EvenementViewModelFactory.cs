@@ -99,6 +99,25 @@ namespace nimporteou.Models.EvenementViewModels
             return CreerListeViewModel(evenements);
         }
 
+        static public ListeEvenementViewModel CreerListeEventSignaler(ApplicationDbContext db, ApplicationUser user)
+        {  
+            IQueryable<Evenement> evenements;   
+            evenements = db.Evenements.Include(e => e.Endroit.Ville);
+
+            List<Evenement> eventSignaler = new List<Evenement>();
+            foreach (var item in evenements)
+            {
+                if (db.Participations.Where(p => p.Signalement != null && p.Evenement_id == item.id).FirstOrDefault() != null)
+                {
+                    eventSignaler.Add(item);
+                }
+            }
+            
+            evenements = CreerListeModeration(eventSignaler.AsQueryable(), user.Age ?? 0);
+
+            return CreerListeViewModel(evenements);
+        }
+
         static private IQueryable<Evenement> CreerListeBase(IQueryable<Evenement> evs, int age)
         {
             return evs.Where(e => (e.AgeMinimum ?? 0) <= age)
@@ -121,6 +140,12 @@ namespace nimporteou.Models.EvenementViewModels
                     .Where(e => e.DateLimite > DateTime.Now);
         }
 
+        static private IQueryable<Evenement> CreerListeModeration(IQueryable<Evenement> evs, int age)
+        {
+            return evs.Where(e => !e.Annulé)
+                    .Where(e => e.DateLimite > DateTime.Now);
+        }
+
         private static ListeEvenementViewModel CreerListeViewModel(IQueryable<Evenement> evenements)
         {
             return new ListeEvenementViewModel(
@@ -138,5 +163,25 @@ namespace nimporteou.Models.EvenementViewModels
                                         })
                                         .ToList());
         }
+
+        static public ListeSignalementViewModel CreerListeSignalement(int id, ApplicationDbContext db, ApplicationUser user)
+        {
+            IQueryable<Signalement> signalements;
+            signalements = db.Participations.Where(p => p.Evenement_id == id).Select(s => s.Signalement);
+
+            return CreerListeViewModelSignalement(signalements);
+        }
+
+        private static ListeSignalementViewModel CreerListeViewModelSignalement(IQueryable<Signalement> signalements)
+        {
+            return new ListeSignalementViewModel(
+                            signalements.AsEnumerable() //Effectue la requête pour permettre d'effectuer le Select en mémoire plûtot que sur le serveur de BD
+                                        .Select(e => new BaseSignalementViewModel
+                                        {
+                                            message = e.Commentaire
+                                        })
+                                        .ToList());
+        }
+
     }
 }

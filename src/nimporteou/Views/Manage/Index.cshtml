@@ -1,4 +1,18 @@
 ﻿@model nimporteou.Models.AccountViewModels.RegisterViewModel
+@inject UserManager<ApplicationUser> _usermanager
+@inject nimporteou.Data.ApplicationDbContext db 
+@*@inject ApplicationUser util*@ 
+
+@if (_usermanager.GetUserName(@User) != null)
+{
+    ApplicationUser util = db.ApplicationUser.Where(a => a.Id.ToString() == _usermanager.GetUserId(@User)).First();
+    List<CategorieUtilisateur> lCat;
+
+    if (util.CategoriesPreferees != null)
+    {
+        lCat = util.CategoriesPreferees.ToList();
+    }
+
 <h1>Paramètres de votre compte</h1>
 <h2>Changer vos paramètres de compte</h2>
 
@@ -8,38 +22,39 @@
     <table>
         <tr>
             <td style="width:40%">Nom d'utilisateur:</td> 
-            <td style="width:45%" id="UserName">@Model.Username </td>
+            <td style="width:45%" id="UserName">@util.UserName </td>
             <td style="width:15%"><img onclick="modifierAttribut(0)" src="https://cdn4.iconfinder.com/data/icons/simplicio/128x128/file_edit.png" alt="Modifier" height="30" width="30" /></td>
         </tr>
         <tr>
             <td style="width:40%">Mot de passe</td>
             <td style="width:45%" id="MDP">**********</td>
-            <td style="width:15%"><a asp-controller="Manage" asp-action="ChangePassword" class="btn-bracketed"><img onclick="modifierAttribut(0)" src="https://cdn4.iconfinder.com/data/icons/simplicio/128x128/file_edit.png" alt="Modifier" height="30" width="30" /></a></td>
+            <td style="width:15%"><a asp-controller="Manage" asp-action="ChangePassword"><img onclick="modifierAttribut(0)" src="https://cdn4.iconfinder.com/data/icons/simplicio/128x128/file_edit.png" alt="Modifier" height="30" width="30" /></a></td>
         </tr>
         <tr>
             <td style="width:40%">Courriel:</td>
-            <td style="width:45%" id="Courriel">@Model.Email</td>
+            <td style="width:45%" id="Courriel">@util.Email</td>
             <td style="width:15%"><img onclick="modifierAttribut(1)" src="https://cdn4.iconfinder.com/data/icons/simplicio/128x128/file_edit.png" alt="Modifier" height="30" width="30" /></td>
         </tr>
         <tr>
             <td style="width:40%">Catégorie favorite no1:</td>
-            <td style="width:45%" id="Fav1">@Model.Categorie1</td>
+            <td style="width:45%" id="Fav1"></td>
             <td style="width:15%"><img onclick="modifierAttribut(2)" src="https://cdn4.iconfinder.com/data/icons/simplicio/128x128/file_edit.png" alt="Modifier" height="30" width="30" /></td>
         </tr>
         <tr>
             <td style="width:40%">Catégorie favorite no2:</td>
-            <td style="width:45%" id="Fav2">@Model.Categorie2</td>
+            <td style="width:45%" id="Fav2"></td>
             <td style="width:15%"><img onclick="modifierAttribut(3)" src="https://cdn4.iconfinder.com/data/icons/simplicio/128x128/file_edit.png" alt="Modifier" height="30" width="30" /></td>
         </tr>
         <tr>
             <td style="width:40%">Catégorie favorite no3:</td>
-            <td style="width:45%" id="Fav3">@Model.Categorie3</td>
+            <td style="width:45%" id="Fav3"></td>
             <td style="width:15%"><img onclick="modifierAttribut(4)" src="https://cdn4.iconfinder.com/data/icons/simplicio/128x128/file_edit.png" alt="Modifier" height="30" width="30" /></td>
         </tr>
         <tr>
             <td style="width:40%">Date de naissance</td>
-            <td style="width:45%" id="DDN">@Model.DateNaissance</td>
+            <td style="width:45%" id="DDN">@util.DateNaissance</td>
             <td style="width:15%"><img onclick="modifierAttribut(5)" src="https://cdn4.iconfinder.com/data/icons/simplicio/128x128/file_edit.png" alt="Modifier" height="30" width="30" /></td>
         </tr>
     </table>
 </div>
+}

@@ -8,6 +8,10 @@
 
 <div>
     <h4>Détail de ton événement</h4>
+    @if (Model._user.Admin == true)
+    {
+        @Html.ActionLink("Supprimer", "Annulement", new { evenement_id = Model.EvenementID })
+    }
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -83,10 +87,25 @@
             @Html.DisplayFor(model => model.Duree)
         </dd>
     </dl>
-   
-       
+    @if (Model._user.Admin == true)
+    {
+        int i = 1;
+        foreach (var item in Model.signalements)
+        {
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayName(i.ToString())
+                </dt>
+                <dd>
+                    @Html.DisplayName(item.Commentaire)
+                </dd>
+            </dl>
+            i++;
+        }
+    }
+
 </div>
-<div>
+<div>  
     @if (Model.annuler != true)
     {
         @if (Model.peutAdministrer != false || Model.peutInscrire != false)
