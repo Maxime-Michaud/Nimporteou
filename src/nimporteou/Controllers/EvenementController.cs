@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
+using System.Net;
+using Newtonsoft.Json.Linq;
+using System.Text.RegularExpressions;
 
 namespace nimporteou.Controllers
 {
@@ -286,6 +289,40 @@ namespace nimporteou.Controllers
             _db.Participations.Add(part);
             _db.SaveChanges();
             return _db.Evenements.Where(a=>a.id == ev.id).Select(a => a.id).First();
+        }
+
+        public IActionResult LoadFacebook(string eventid, string authToken)
+        {
+            try
+            {
+                var url = "https://graph.facebook.com/" + eventid + "?access_token=" + authToken;
+                var uri = new Uri(url);
+                var req = HttpWebRequest.Create(url);
+
+
+                var responseStream = req.GetResponseAsync().Result.GetResponseStream();
+
+                var response = new StreamReader(responseStream).ReadToEnd();
+
+                var json = JObject.Parse(response);
+
+                var evt = new CreationEvenementViewModel
+                {
+                    AgeMinimum = null,
+                    DateLimite = (DateTime)json["start_time"],
+                    AdresseComplete = (string)json["place"]["name"],
+                    Ville = (string)json["place"]["location"]["city"],
+                    Debut = (DateTime)json["start_time"],
+                    Nom = (string)json["name"],
+                    Fin = (DateTime)json["end_time"]
+                };
+
+                return View("Creer", evt);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         /// <summary>

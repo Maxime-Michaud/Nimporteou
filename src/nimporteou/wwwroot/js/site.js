@@ -160,3 +160,44 @@ exports.handler = (event, context, callback) => {
     });
 
 };
+}
+
+
+//Charge un évènement de facebook
+function loadFBEvent() {
+    if (FB.getAuthResponse() == null)
+    {
+        FB.login(function (response) {
+            var token = response.authResponse.accessToken;
+
+            loadFBEventWithToken(token);
+        });
+    }
+    else {
+        var token = FB.getAuthResponse().accessToken;
+
+        loadFBEventWithToken(token);
+    }
+    
+
+}
+
+function loadFBEventWithToken(token){
+    alert(token);
+
+    var url = document.getElementById("fburl").value;
+
+    var eventid = /(?:events\/)?(\d+)/i.exec(url)[1];
+    alert("ok1");
+    $.ajax({
+        type: "GET",
+        data: {},
+        url: '/Evenement/LoadFacebook?eventid=' + eventid + '&authToken=' + token,
+        success: function (data) {
+            alert("ok");
+            alert(data);
+            //je sais pas comment juste remplacer le DOM de la page :(
+            window.location = '/Evenement/LoadFacebook?eventid=' + eventid + '&authToken=' + token;
+        }
+    });
+}
