@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
+using System.Net;
+using Newtonsoft.Json.Linq;
+using System.Text.RegularExpressions;
 
 namespace nimporteou.Controllers
 {
@@ -174,6 +177,7 @@ namespace nimporteou.Controllers
                     cev.CheminPhoto = ev.CheminPhoto;
                     cev.HeureDebut = ev.HeureDebut;
                     cev.Duree = ev.Duree;
+                    cev.annuler = ev.Annulé;
 
                     //Si le user est le Créateur ou un Organisateur == Peut modifier l'événement
                     if (user != null)
@@ -285,6 +289,40 @@ namespace nimporteou.Controllers
             _db.Participations.Add(part);
             _db.SaveChanges();
             return _db.Evenements.Where(a=>a.id == ev.id).Select(a => a.id).First();
+        }
+
+        public IActionResult LoadFacebook(string eventid, string authToken)
+        {
+            try
+            {
+                var url = "https://graph.facebook.com/" + eventid + "?access_token=" + authToken;
+                var uri = new Uri(url);
+                var req = HttpWebRequest.Create(url);
+
+
+                var responseStream = req.GetResponseAsync().Result.GetResponseStream();
+
+                var response = new StreamReader(responseStream).ReadToEnd();
+
+                var json = JObject.Parse(response);
+
+                var evt = new CreationEvenementViewModel
+                {
+                    AgeMinimum = null,
+                    DateLimite = (DateTime)json["start_time"],
+                    AdresseComplete = (string)json["place"]["name"],
+                    Ville = (string)json["place"]["location"]["city"],
+                    Debut = (DateTime)json["start_time"],
+                    Nom = (string)json["name"],
+                    Fin = (DateTime)json["end_time"]
+                };
+
+                return View("Creer", evt);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -768,5 +806,67 @@ namespace nimporteou.Controllers
             
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="evenement_id"></param>
+        /// <returns></returns>
+        [Authorize]
+        public IActionResult Annulement(int? evenement_id)
+        {
+            //Get l'eventnement
+            if (evenement_id != null)
+            {
+                Evenement ev = _db.Evenements.Include(a => a.Categorie).Include(a => a.Endroit.Ville).Where(e => e.id == evenement_id).FirstOrDefault();
+
+                if (ev != null)
+                {
+                    ConsultationEvenementViewModel cev = new ConsultationEvenementViewModel();
+
+                    cev.EvenementID = ev.id;
+                    cev.Nom = ev.Nom;
+                    cev.Description = ev.Description;
+                    cev.DateLimite = ev.DateLimite;
+                    cev.PrixBillet = ev.PrixBillet;
+                    cev.Debut = ev.Debut;
+                    cev.Fin = ev.Fin;
+                    cev.Categorie = ev.Categorie.Nom;
+                    cev.AdresseComplete = ev.Endroit.ToString();
+                    cev.CheminPhoto = ev.CheminPhoto;
+                    cev.HeureDebut = ev.HeureDebut;
+                    cev.Duree = ev.Duree;
+
+                    return View(cev);
+                }
+            }
+            return View();
+        }
+
+        [HttpGet, Authorize]
+        public async Task<IActionResult> Annuler(int evenement_id, string message)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                AnnuelerEvenement(evenement_id, user);
+                return RedirectToAction("Consulter", new { id = evenement_id });
+            }
+
+            return RedirectToAction("Consulter", evenement_id);
+        }
+
+        [Authorize]
+        public void AnnuelerEvenement(int evenement_id, ApplicationUser user)
+        {
+            if (_db.Evenements.Where(a=> a.id == evenement_id).FirstOrDefault() != null)
+            {
+                Evenement annuler = _db.Evenements.Where(a => a.id == evenement_id).FirstOrDefault();
+                string nouveauNom = annuler.Nom + " - ANNULER";
+                annuler.Nom = nouveauNom;
+                annuler.Annulé = true;
+                _db.SaveChanges();
+            }
+
+        }
     }
 }

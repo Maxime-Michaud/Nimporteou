@@ -4,5 +4,6 @@
     {
         public bool peutAdministrer;
         public bool peutInscrire;
+        public bool annuler;
     }
 }
