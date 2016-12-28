@@ -1,4 +1,5 @@
 ﻿@inject UserManager<ApplicationUser> _usermanager
+@inject nimporteou.Data.ApplicationDbContext db 
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,9 +62,17 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Accueil</a></li>
                     @if (_usermanager.GetUserName(@User) != null)
                     {
-                        <li><a asp-area="" asp-controller="Evenement" asp-action="MesEvenement">Mes Événements</a></li>
-                        <li><a asp-area="" asp-controller="Evenement" asp-action="MesInvitation">Mes invitations</a></li>
-                        <li><a asp-area="" asp-controller="Evenement" asp-action="Participation">Participations</a></li>
+                        ApplicationUser util = db.ApplicationUser.Where(a => a.Id.ToString() == _usermanager.GetUserId(@User)).First();
+                        if (util.Admin == true)
+                        {
+                            <li><a asp-area="" asp-controller="Evenement" asp-action="Moderation">Signalement</a></li>
+                        }
+                        else
+                        {
+                            <li><a asp-area="" asp-controller="Evenement" asp-action="MesEvenement">Mes Événements</a></li>
+                            <li><a asp-area="" asp-controller="Evenement" asp-action="MesInvitation">Mes invitations</a></li>
+                            <li><a asp-area="" asp-controller="Evenement" asp-action="Participation">Participations</a></li>
+                        }
                     }
                     <li><a asp-area="" asp-controller="Evenement" asp-action="Index">Événements</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>

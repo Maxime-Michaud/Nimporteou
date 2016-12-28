@@ -1,0 +1,14 @@
+﻿@model nimporteou.Models.EvenementViewModels.ListeEvenementViewModel
+
+@{
+    ViewData["Title"] = "Evenement signaler";
+}
+
+<h2>Liste des invitations reçues</h2>
+
+<div class="container">
+    @foreach (var item in Model.Evenements)
+    {
+        Html.RenderPartial("_EvenementPartial", item);
+    }       
+</div>
