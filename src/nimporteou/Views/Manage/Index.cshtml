@@ -14,32 +14,42 @@
     }
 
 <h1>Paramètres de votre compte</h1>
-<h2>Changer vos paramètres de compte</h2>
+<h4>Changer vos paramètres de compte</h4>
 
 <div>
-    <h4>Change your account settings</h4>
     <hr />
     @*Prépare la liste des valeurs du select pour le faire une fois*@
     @{
-        var categories = db.Categories.Select(c => c.Nom).Select(s => $"<option value=\"{s}\">{s}</option>").Prepend("<option value=\"\" selected disabled>Choisissez (optionnel)</option>");
+        var categories2 = db.Categories.Select(c => c.Nom).Select(s => $"<option value=\"{s}\">{s}</option>").Prepend("<option value=\"\" selected disabled>Choisissez (optionnel)</option>");
+
+        var user = db.Users.Where(w => w.UserName == util.UserName).First();
+        var categories = db.Users.Where(w => w.UserName == util.UserName).SelectMany(u => u.CategoriesPreferees).Select(c => c.Categorie).ToList();
+        if (categories.Count < 3)
+        {
+            var cat = new Categorie();
+            cat.Nom = "Aucune";
+            categories.Add(cat);
+            categories.Add(cat);
+            categories.Add(cat);
+        }
     }
     <select asp-for="Categorie1" class="form-control" id="allOptions" style="visibility:hidden">
-        @foreach (var item in categories)
+        @foreach (var item in categories2)
         {
             @Html.Raw(item)
         }
     </select>
-
+    @*@categories = util.CategoriesPreferees.ToList();*@
     <table>
         <tr>
             <td style="width:40%">Nom d'utilisateur:</td> 
             <td style="width:45%" id="UserName">@util.UserName </td>
-            <td style="width:15%"><img onclick="modifierAttribut(0)" src="https://cdn4.iconfinder.com/data/icons/simplicio/128x128/file_edit.png" alt="Modifier" height="30" width="30" /></td>
+            <td style="width:15%"></td>
         </tr>
         <tr>
             <td style="width:40%">Mot de passe</td>
             <td style="width:45%" id="MDP">**********</td>
-            <td style="width:15%"><a asp-controller="Manage" asp-action="ChangePassword"><img onclick="modifierAttribut(0)" src="https://cdn4.iconfinder.com/data/icons/simplicio/128x128/file_edit.png" alt="Modifier" height="30" width="30" /></a></td>
+            <td style="width:15%"><a asp-controller="Manage" asp-action="ChangePassword"><img onclick="" src="https://cdn4.iconfinder.com/data/icons/simplicio/128x128/file_edit.png" alt="Modifier" height="30" width="30" /></a></td>
         </tr>
         <tr>
             <td style="width:40%">Courriel:</td>
@@ -48,17 +58,17 @@
         </tr>
         <tr>
             <td style="width:40%">Catégorie favorite no1:</td>
-            <td style="width:45%" id="Fav1"></td>
+            <td style="width:45%" id="Fav1">@categories.ElementAt(0).Nom</td>
             <td style="width:15%"><img onclick="modifierAttribut(2)" src="https://cdn4.iconfinder.com/data/icons/simplicio/128x128/file_edit.png" alt="Modifier" height="30" width="30" /></td>
         </tr>
         <tr>
             <td style="width:40%">Catégorie favorite no2:</td>
-            <td style="width:45%" id="Fav2"></td>
+            <td style="width:45%" id="Fav2">@categories.ElementAt(1).Nom</td>
             <td style="width:15%"><img onclick="modifierAttribut(3)" src="https://cdn4.iconfinder.com/data/icons/simplicio/128x128/file_edit.png" alt="Modifier" height="30" width="30" /></td>
         </tr>
         <tr>
             <td style="width:40%">Catégorie favorite no3:</td>
-            <td style="width:45%" id="Fav3"></td>
+            <td style="width:45%" id="Fav3">@categories.ElementAt(2).Nom</td>
             <td style="width:15%"><img onclick="modifierAttribut(4)" src="https://cdn4.iconfinder.com/data/icons/simplicio/128x128/file_edit.png" alt="Modifier" height="30" width="30" /></td>
         </tr>
         <tr>

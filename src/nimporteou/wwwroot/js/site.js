@@ -115,20 +115,29 @@ function modifierAttribut(number) {
         }
     };
     var actual, input, btnAppliquer;
+    actualUsername = document.getElementById('UserName').innerHTML;
     //Le username
     if (number == 0)
     {
         actual = document.getElementById('UserName').innerHTML;
         input = document.createElement('input');
         input.type = "text";
+        input.id = "nvUserName";
         btnAppliquer = document.createElement('Button')
         btnAppliquer.type = "Button";
         btnAppliquer.textContent = "Appliquer";
         btnAppliquer.onclick = function ()
         {
-            /*TODO changer le nom d'utilisateur*/
+            var nouveauUser = document.getElementById('nvUserName').value;
+            $.ajax({
+                type: "GET",
+                url: '/Account/changeUserName',
+                data: { username: actualUsername, newUserName: nouveauUser },
+                success: function (data) {
+                }
+            });
             modal.style.display = "none";
-            reload();
+            document.location.reload(true);
         }
         modal.style.display = "block";
         document.getElementById("modal-content").innerHTML = "Nom d'utilisateur actuel: " + actual + "<br>";
@@ -142,13 +151,21 @@ function modifierAttribut(number) {
         actual = document.getElementById('Courriel').innerHTML;
         input = document.createElement('input');
         input.type = "text";
+        input.id = "emailTbx"
         btnAppliquer = document.createElement('Button')
         btnAppliquer.type = "Button";
         btnAppliquer.textContent = "Appliquer";
         btnAppliquer.onclick = function () {
-            /*TODO changer le courriel*/
+            var nouveauEmail = document.getElementById('emailTbx').value;
+            $.ajax({
+                type: "GET",
+                url: '/Account/changeEmail',
+                data: { username: actualUsername, newEmail: nouveauEmail},
+                success: function (data) {
+                }
+            });
             modal.style.display = "none";
-            reload();
+            document.location.reload(true);
         }
         modal.style.display = "block";
         document.getElementById("modal-content").innerHTML = "Courriel actuel: " + actual + "<br>";
@@ -162,7 +179,7 @@ function modifierAttribut(number) {
         actual = document.getElementById('Fav1').innerHTML;
         input = document.createElement('select');
         input.type = "multiple";
-
+        input.id = "cat"
         //Toutes les catégories d'event
         var allOptions = document.getElementById('allOptions')
         for (i = 0; i < allOptions.length; i++) {
@@ -175,9 +192,16 @@ function modifierAttribut(number) {
         btnAppliquer.type = "Button";
         btnAppliquer.textContent = "Appliquer";
         btnAppliquer.onclick = function () {
-            /*TODO changer la catégorie favorite 1*/
+            var nouvelleCat = document.getElementById('cat').value;
+            $.ajax({
+                type: "GET",
+                url: '/Account/changeCategorie',
+                data: { username: actualUsername, oldCat: actual, newCategorie: nouvelleCat },
+                success: function (data) {
+                }
+            });
             modal.style.display = "none";
-            reload();
+            document.location.reload(true);
         }
         modal.style.display = "block";
         document.getElementById("modal-content").innerHTML = "Favoris 1 actuel: " + actual + "<br>";
@@ -189,9 +213,9 @@ function modifierAttribut(number) {
     //La catégorie favorite no2
     else if (number == 3) {
         actual = document.getElementById('Fav2').innerHTML;
-        input = document.createElement('input');
-        input.type = "select multiple";
-
+        input = document.createElement('select');
+        input.type = "multiple";
+        input.id = "cat"
         //Toutes les catégories d'event
         var allOptions = document.getElementById('allOptions')
         for (i = 0; i < allOptions.length; i++) {
@@ -204,9 +228,16 @@ function modifierAttribut(number) {
         btnAppliquer.type = "Button";
         btnAppliquer.textContent = "Appliquer";
         btnAppliquer.onclick = function () {
-            /*TODO changer la catégorie favorite2*/
+            var nouvelleCat = document.getElementById('cat').value;
+            $.ajax({
+                type: "GET",
+                url: '/Account/changeCategorie',
+                data: { username: actualUsername, oldCat: actual, newCategorie: nouvelleCat },
+                success: function (data) {
+                }
+            });
             modal.style.display = "none";
-            reload();
+            document.location.reload(true);
         }
         modal.style.display = "block";
         document.getElementById("modal-content").innerHTML = "Favoris 2 actuel: " + actual + "<br>";
@@ -218,9 +249,9 @@ function modifierAttribut(number) {
     //La catégorie favorite no3
     else if (number == 4) {
         actual = document.getElementById('Fav3').innerHTML;
-        input = document.createElement('input');
-        input.type = "select multiple";
-
+        input = document.createElement('select');
+        input.type = "multiple";
+        input.id = "cat"
         //Toutes les catégories d'event
         var allOptions = document.getElementById('allOptions')
         for (i = 0; i < allOptions.length; i++) {
@@ -233,9 +264,16 @@ function modifierAttribut(number) {
         btnAppliquer.type = "Button";
         btnAppliquer.textContent = "Appliquer";
         btnAppliquer.onclick = function () {
-            /*TODO changer la catégorie favorite2*/
+            var nouvelleCat = document.getElementById('cat').value;
+            $.ajax({
+                type: "GET",
+                url: '/Account/changeCategorie',
+                data: { username: actualUsername, oldCat: actual, newCategorie: nouvelleCat },
+                success: function (data) {
+                }
+            });
             modal.style.display = "none";
-            reload();
+            document.location.reload(true);
         }
         modal.style.display = "block";
         document.getElementById("modal-content").innerHTML = "Favoris 3 actuel: " + actual + "<br>";
@@ -249,13 +287,21 @@ function modifierAttribut(number) {
         actual = document.getElementById('DDN').innerHTML;
         input = document.createElement('input');
         input.type = "date";
+        input.id = "DDN"
         btnAppliquer = document.createElement('Button')
         btnAppliquer.type = "Button";
         btnAppliquer.textContent = "Appliquer";
         btnAppliquer.onclick = function () {
-            /*TODO changer le courriel*/
+            var nouveauDDN = document.getElementById('DDN').value;
+            $.ajax({
+                type: "GET",
+                url: '/Account/changeDDN',
+                data: { username: actualUsername, newDDN: nouveauDDN},
+                success: function (data) {
+                }
+            });
             modal.style.display = "none";
-            reload();
+            document.location.reload(true);
         }
         modal.style.display = "block";
         document.getElementById("modal-content").innerHTML = "Date de naissance actuel: " + actual + "<br>";

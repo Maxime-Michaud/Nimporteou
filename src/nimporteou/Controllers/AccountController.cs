@@ -12,6 +12,7 @@ using nimporteou.Data;
 using nimporteou.Models;
 using nimporteou.Models.AccountViewModels;
 using nimporteou.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace nimporteou.Controllers
 {
@@ -51,6 +52,58 @@ namespace nimporteou.Controllers
             return View();
         }
 
+        [HttpGet]
+        public void changeEmail(string username, string newEmail)
+        {
+            var u = _db.Users.Where(t => t.UserName == username).First();
+            u.Email = newEmail;
+            _db.SaveChanges();
+        }
+
+        [HttpGet]
+        public void changeUserName(string username, string newUserName)
+        {
+            var u = _db.Users.Where(t => t.UserName == username).First();
+            u.UserName = newUserName;
+            _db.SaveChanges();
+        }
+
+        [HttpGet]
+        public void changeDDN(string username, string newDDN)
+        {
+            DateTime? date = null;
+            try
+            {
+                date = DateTime.Parse(newDDN);
+            }
+            catch
+            {
+                return;
+            }
+            var u = _db.Users.Where(t => t.UserName == username).First();
+            u.DateNaissance = date;
+            _db.SaveChanges();
+        }
+        [HttpGet]
+        public void changeCategorie(string username, string oldCat, string newCategorie)
+        {
+            var u = _db.Users.Where(t => t.UserName == username).First();
+            var old = _db.Users.Where(w => w.UserName == username).Include(d => d.CategoriesPreferees).ThenInclude(c => c.Categorie).First();
+            //var old2 = _db.Users.Where(w => w.UserName == username).Select(s => s.CategoriesPreferees).Select(c => c.Categorie).ToList();
+            foreach (var element in old.CategoriesPreferees)
+            {
+                if(element.Categorie.Nom == oldCat)
+                {
+                    old.CategoriesPreferees.Remove(element);
+                    break;
+                }
+            }
+            var cat = new CategorieUtilisateur();
+            cat.Categorie = new Categorie();
+            cat.Categorie.Nom = newCategorie;
+            old.CategoriesPreferees.Add(cat);
+            _db.SaveChanges();
+        }
         //
         // POST: /Account/Login
         [HttpPost]
