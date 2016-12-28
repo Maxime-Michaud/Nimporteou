@@ -68,6 +68,8 @@ span.onclick = function () {
     modal.style.display = "none";
 };
 
+var elementtohide = document.getElementById('tohide');
+elementtohide.style.visibility
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
     var modal = document.getElementById('myModal');
@@ -158,16 +160,16 @@ function modifierAttribut(number) {
     //La catégorie favorite no1
     else if (number == 2) {
         actual = document.getElementById('Fav1').innerHTML;
-        input = document.createElement('input');
-        input.type = "select multiple";
+        input = document.createElement('select');
+        input.type = "multiple";
 
         //Toutes les catégories d'event
-        var allOptions = /*TODO loader la liste des catégories ici*/0;
-        /*for (element of allOptions) {
+        var allOptions = document.getElementById('allOptions')
+        for (i = 0; i < allOptions.length; i++) {
             var option = document.createElement("option");
-            option.text = element;
-            input.add(option);
-        }*/
+            option.text = allOptions.options[i].text;
+            input.appendChild(option);
+        }
 
         btnAppliquer = document.createElement('Button')
         btnAppliquer.type = "Button";
@@ -191,12 +193,12 @@ function modifierAttribut(number) {
         input.type = "select multiple";
 
         //Toutes les catégories d'event
-        var allOptions = /*TODO loader la liste des catégories ici*/0;
-        /*for (element of allOptions) {
+        var allOptions = document.getElementById('allOptions')
+        for (i = 0; i < allOptions.length; i++) {
             var option = document.createElement("option");
-            option.text = element;
-            input.add(option);
-        }*/
+            option.text = allOptions.options[i].text;
+            input.appendChild(option);
+        }
 
         btnAppliquer = document.createElement('Button')
         btnAppliquer.type = "Button";
@@ -220,12 +222,12 @@ function modifierAttribut(number) {
         input.type = "select multiple";
 
         //Toutes les catégories d'event
-        var allOptions = /*TODO loader la liste des catégories ici*/0;
-        /*for (element of allOptions) {
+        var allOptions = document.getElementById('allOptions')
+        for (i = 0; i < allOptions.length; i++) {
             var option = document.createElement("option");
-            option.text = element;
-            input.add(option);
-        }*/
+            option.text = allOptions.options[i].text;
+            input.appendChild(option);
+        }
 
         btnAppliquer = document.createElement('Button')
         btnAppliquer.type = "Button";

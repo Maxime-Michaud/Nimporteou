@@ -19,6 +19,17 @@
 <div>
     <h4>Change your account settings</h4>
     <hr />
+    @*Prépare la liste des valeurs du select pour le faire une fois*@
+    @{
+        var categories = db.Categories.Select(c => c.Nom).Select(s => $"<option value=\"{s}\">{s}</option>").Prepend("<option value=\"\" selected disabled>Choisissez (optionnel)</option>");
+    }
+    <select asp-for="Categorie1" class="form-control" id="allOptions" style="visibility:hidden">
+        @foreach (var item in categories)
+        {
+            @Html.Raw(item)
+        }
+    </select>
+
     <table>
         <tr>
             <td style="width:40%">Nom d'utilisateur:</td> 
