@@ -100,8 +100,173 @@ function ShowModal(url) {
     });
 }
 
+function modifierAttribut(number) {
+    // Get the modal
+    var modal = document.getElementById('myModal');
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        var modal = document.getElementById('myModal');
+
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    };
+    var actual, input, btnAppliquer;
+    //Le username
+    if (number == 0)
+    {
+        actual = document.getElementById('UserName').innerHTML;
+        input = document.createElement('input');
+        input.type = "text";
+        btnAppliquer = document.createElement('Button')
+        btnAppliquer.type = "Button";
+        btnAppliquer.textContent = "Appliquer";
+        btnAppliquer.onclick = function ()
+        {
+            /*TODO changer le nom d'utilisateur*/
+            modal.style.display = "none";
+            reload();
+        }
+        modal.style.display = "block";
+        document.getElementById("modal-content").innerHTML = "Nom d'utilisateur actuel: " + actual + "<br>";
+        document.getElementById("modal-content").innerHTML += "Nouveau nom d'utilisateur: ";
+        document.getElementById("modal-content").appendChild(input);
+        document.getElementById("modal-content").innerHTML += "<br>";
+        document.getElementById("modal-content").appendChild(btnAppliquer);
+    }
+    //Le courriel
+    else if (number == 1) {
+        actual = document.getElementById('Courriel').innerHTML;
+        input = document.createElement('input');
+        input.type = "text";
+        btnAppliquer = document.createElement('Button')
+        btnAppliquer.type = "Button";
+        btnAppliquer.textContent = "Appliquer";
+        btnAppliquer.onclick = function () {
+            /*TODO changer le courriel*/
+            modal.style.display = "none";
+            reload();
+        }
+        modal.style.display = "block";
+        document.getElementById("modal-content").innerHTML = "Courriel actuel: " + actual + "<br>";
+        document.getElementById("modal-content").innerHTML += "Nouveau courriel: ";
+        document.getElementById("modal-content").appendChild(input);
+        document.getElementById("modal-content").innerHTML += "<br>";
+        document.getElementById("modal-content").appendChild(btnAppliquer);
+    }
+    //La catégorie favorite no1
+    else if (number == 2) {
+        actual = document.getElementById('Fav1').innerHTML;
+        input = document.createElement('input');
+        input.type = "select multiple";
+
+        //Toutes les catégories d'event
+        var allOptions = /*TODO loader la liste des catégories ici*/0;
+        /*for (element of allOptions) {
+            var option = document.createElement("option");
+            option.text = element;
+            input.add(option);
+        }*/
+
+        btnAppliquer = document.createElement('Button')
+        btnAppliquer.type = "Button";
+        btnAppliquer.textContent = "Appliquer";
+        btnAppliquer.onclick = function () {
+            /*TODO changer la catégorie favorite 1*/
+            modal.style.display = "none";
+            reload();
+        }
+        modal.style.display = "block";
+        document.getElementById("modal-content").innerHTML = "Favoris 1 actuel: " + actual + "<br>";
+        document.getElementById("modal-content").innerHTML += "Nouveau favoris 1: ";
+        document.getElementById("modal-content").appendChild(input);
+        document.getElementById("modal-content").innerHTML += "<br>";
+        document.getElementById("modal-content").appendChild(btnAppliquer);
+    }
+    //La catégorie favorite no2
+    else if (number == 3) {
+        actual = document.getElementById('Fav2').innerHTML;
+        input = document.createElement('input');
+        input.type = "select multiple";
+
+        //Toutes les catégories d'event
+        var allOptions = /*TODO loader la liste des catégories ici*/0;
+        /*for (element of allOptions) {
+            var option = document.createElement("option");
+            option.text = element;
+            input.add(option);
+        }*/
+
+        btnAppliquer = document.createElement('Button')
+        btnAppliquer.type = "Button";
+        btnAppliquer.textContent = "Appliquer";
+        btnAppliquer.onclick = function () {
+            /*TODO changer la catégorie favorite2*/
+            modal.style.display = "none";
+            reload();
+        }
+        modal.style.display = "block";
+        document.getElementById("modal-content").innerHTML = "Favoris 2 actuel: " + actual + "<br>";
+        document.getElementById("modal-content").innerHTML += "Nouveau favoris 2: ";
+        document.getElementById("modal-content").appendChild(input);
+        document.getElementById("modal-content").innerHTML += "<br>";
+        document.getElementById("modal-content").appendChild(btnAppliquer);
+    }
+    //La catégorie favorite no3
+    else if (number == 4) {
+        actual = document.getElementById('Fav3').innerHTML;
+        input = document.createElement('input');
+        input.type = "select multiple";
+
+        //Toutes les catégories d'event
+        var allOptions = /*TODO loader la liste des catégories ici*/0;
+        /*for (element of allOptions) {
+            var option = document.createElement("option");
+            option.text = element;
+            input.add(option);
+        }*/
+
+        btnAppliquer = document.createElement('Button')
+        btnAppliquer.type = "Button";
+        btnAppliquer.textContent = "Appliquer";
+        btnAppliquer.onclick = function () {
+            /*TODO changer la catégorie favorite2*/
+            modal.style.display = "none";
+            reload();
+        }
+        modal.style.display = "block";
+        document.getElementById("modal-content").innerHTML = "Favoris 3 actuel: " + actual + "<br>";
+        document.getElementById("modal-content").innerHTML += "Nouveau favoris 3: ";
+        document.getElementById("modal-content").appendChild(input);
+        document.getElementById("modal-content").innerHTML += "<br>";
+        document.getElementById("modal-content").appendChild(btnAppliquer);
+    }
+    //La date de naissance
+    else if (number == 5) {
+        actual = document.getElementById('DDN').innerHTML;
+        input = document.createElement('input');
+        input.type = "date";
+        btnAppliquer = document.createElement('Button')
+        btnAppliquer.type = "Button";
+        btnAppliquer.textContent = "Appliquer";
+        btnAppliquer.onclick = function () {
+            /*TODO changer le courriel*/
+            modal.style.display = "none";
+            reload();
+        }
+        modal.style.display = "block";
+        document.getElementById("modal-content").innerHTML = "Date de naissance actuel: " + actual + "<br>";
+        document.getElementById("modal-content").innerHTML += "Nouvelle date de naissance: ";
+        document.getElementById("modal-content").appendChild(input);
+        document.getElementById("modal-content").innerHTML += "<br>";
+        document.getElementById("modal-content").appendChild(btnAppliquer);
+    }
+}
+
+//Lisntener IPN paypal
 /**
- * Created by chrissewell on 31/10/2016.
+ * Created by chrissewell on 31/10/2016. https://github.com/paypal/ipn-code-samples/blob/master/javascript/awslambda.js
  */
 
 const request = require('request');
@@ -160,44 +325,4 @@ exports.handler = (event, context, callback) => {
     });
 
 };
-}
-
-
-//Charge un évènement de facebook
-function loadFBEvent() {
-    if (FB.getAuthResponse() == null)
-    {
-        FB.login(function (response) {
-            var token = response.authResponse.accessToken;
-
-            loadFBEventWithToken(token);
-        });
-    }
-    else {
-        var token = FB.getAuthResponse().accessToken;
-
-        loadFBEventWithToken(token);
-    }
-    
-
-}
-
-function loadFBEventWithToken(token){
-    alert(token);
-
-    var url = document.getElementById("fburl").value;
-
-    var eventid = /(?:events\/)?(\d+)/i.exec(url)[1];
-    alert("ok1");
-    $.ajax({
-        type: "GET",
-        data: {},
-        url: '/Evenement/LoadFacebook?eventid=' + eventid + '&authToken=' + token,
-        success: function (data) {
-            alert("ok");
-            alert(data);
-            //je sais pas comment juste remplacer le DOM de la page :(
-            window.location = '/Evenement/LoadFacebook?eventid=' + eventid + '&authToken=' + token;
-        }
-    });
-}
+//Fin du listener
