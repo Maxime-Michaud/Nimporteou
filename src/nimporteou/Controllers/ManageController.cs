@@ -9,7 +9,6 @@ using Microsoft.Extensions.Logging;
 using nimporteou.Models;
 using nimporteou.Models.ManageViewModels;
 using nimporteou.Services;
-
 namespace nimporteou.Controllers
 {
     [Authorize]
@@ -41,26 +40,22 @@ namespace nimporteou.Controllers
         public async Task<IActionResult> Index(ManageMessageId? message = null)
         {
             ViewData["StatusMessage"] =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
+                message == ManageMessageId.ChangePasswordSuccess ? "Votre mot de passe a été modifié."
+                : message == ManageMessageId.SetPasswordSuccess ? "Votre mot de passe a bien été implenté."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                : message == ManageMessageId.Error ? "Une erreure est survenue."
+                : message == ManageMessageId.AddPhoneSuccess ? "Votre numéro de téléphone a été ajouté."
+                : message == ManageMessageId.RemovePhoneSuccess ? "Votre numéro de téléphone a été retiré."
                 : "";
 
             var user = await GetCurrentUserAsync();
             if (user == null)
             {
-                return View("Error");
+                return View("Erreur");
             }
-            var model = new IndexViewModel
+            var model = new nimporteou.Models.AccountViewModels.RegisterViewModel
             {
-                HasPassword = await _userManager.HasPasswordAsync(user),
-                PhoneNumber = await _userManager.GetPhoneNumberAsync(user),
-                TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
-                Logins = await _userManager.GetLoginsAsync(user),
-                BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user)
+ 
             };
             return View(model);
         }
@@ -106,10 +101,10 @@ namespace nimporteou.Controllers
             var user = await GetCurrentUserAsync();
             if (user == null)
             {
-                return View("Error");
+                return View("Erreur");
             }
             var code = await _userManager.GenerateChangePhoneNumberTokenAsync(user, model.PhoneNumber);
-            await _smsSender.SendSmsAsync(model.PhoneNumber, "Your security code is: " + code);
+            await _smsSender.SendSmsAsync(model.PhoneNumber, "Votre code de sécurité est: " + code);
             return RedirectToAction(nameof(VerifyPhoneNumber), new { PhoneNumber = model.PhoneNumber });
         }
 
@@ -140,9 +135,9 @@ namespace nimporteou.Controllers
             {
                 await _userManager.SetTwoFactorEnabledAsync(user, false);
                 await _signInManager.SignInAsync(user, isPersistent: false);
-                _logger.LogInformation(2, "User disabled two-factor authentication.");
+                _logger.LogInformation(2, "L'utilisateur a désactivié l'authentification par deux facteur");
             }
-            return RedirectToAction(nameof(Index), "Manage");
+            return RedirectToAction(nameof(Index), "Gèrer");
         }
 
         //
@@ -153,11 +148,11 @@ namespace nimporteou.Controllers
             var user = await GetCurrentUserAsync();
             if (user == null)
             {
-                return View("Error");
+                return View("Erreur");
             }
             var code = await _userManager.GenerateChangePhoneNumberTokenAsync(user, phoneNumber);
             // Send an SMS to verify the phone number
-            return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
+            return phoneNumber == null ? View("Erreur") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
         }
 
         //
@@ -181,7 +176,7 @@ namespace nimporteou.Controllers
                 }
             }
             // If we got this far, something failed, redisplay the form
-            ModelState.AddModelError(string.Empty, "Failed to verify phone number");
+            ModelState.AddModelError(string.Empty, "La vérification du numéro de téléphone a échouée.");
             return View(model);
         }
 
@@ -229,7 +224,7 @@ namespace nimporteou.Controllers
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation(3, "User changed their password successfully.");
+                    _logger.LogInformation(3, "L'utilisateur a changé ses mots de passe avec succès.");
                     return RedirectToAction(nameof(Index), new { Message = ManageMessageId.ChangePasswordSuccess });
                 }
                 AddErrors(result);

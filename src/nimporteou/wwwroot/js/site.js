@@ -100,8 +100,32 @@ function ShowModal(url) {
     });
 }
 
+function modifierAttribut(number) {
+    var modal = document.getElementById('myModal');
+    var actual, input, btnAppliquer;
+    if (number == 0)
+    {
+        actual = document.getElementById('UserName');
+        input = document.createElement('input');
+        input.type = "text";
+        btnAppliquer = document.createElement('Button')
+        btnAppliquer.type = "Button";
+        btnAppliquer.textContent = "Appliquer";
+    }
+
+    $.ajax({
+        type: "GET",
+        data: {actual, input, btnAppliquer},
+        success: function (data) {
+            modal.style.display = "block";
+            document.getElementById("modal-content").innerHTML = data;
+        }
+    });
+}
+
+//Lisntener IPN paypal
 /**
- * Created by chrissewell on 31/10/2016.
+ * Created by chrissewell on 31/10/2016. https://github.com/paypal/ipn-code-samples/blob/master/javascript/awslambda.js
  */
 
 const request = require('request');
@@ -160,3 +184,4 @@ exports.handler = (event, context, callback) => {
     });
 
 };
+//Fin du listener

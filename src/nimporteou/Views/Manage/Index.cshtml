@@ -1,71 +1,56 @@
-﻿@model IndexViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@model nimporteou.Models.AccountViewModels.RegisterViewModel
+@using System.Collections.Generic
 @{
-    ViewData["Title"] = "Manage your account";
+    ViewData["Title"] = "Paramètres de votre compte";
 }
 
-<h2>@ViewData["Title"].</h2>
-<p class="text-success">@ViewData["StatusMessage"]</p>
+<h2>Changer vos paramètres de compte</h2>
 
 <div>
     <h4>Change your account settings</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>Password:</dt>
-        <dd>
-            @if (Model.HasPassword)
-            {
-                <a asp-controller="Manage" asp-action="ChangePassword" class="btn-bracketed">Change</a>
-            }
-            else
-            {
-                <a asp-controller="Manage" asp-action="SetPassword" class="btn-bracketed">Create</a>
-            }
-        </dd>
-        <dt>External Logins:</dt>
-        <dd>
-
-            @Model.Logins.Count <a asp-controller="Manage" asp-action="ManageLogins" class="btn-bracketed">Manage</a>
-        </dd>
-        <dt>Phone Number:</dt>
-        <dd>
-            <p>
-                Phone Numbers can used as a second factor of verification in two-factor authentication.
-                See <a href="http://go.microsoft.com/fwlink/?LinkID=532713">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-            </p>
-            @*@(Model.PhoneNumber ?? "None")
-                @if (Model.PhoneNumber != null)
-                {
-                    <br />
-                    <a asp-controller="Manage" asp-action="AddPhoneNumber" class="btn-bracketed">Change</a>
-                    <form asp-controller="Manage" asp-action="RemovePhoneNumber" method="post">
-                        [<button type="submit" class="btn-link">Remove</button>]
-                    </form>
-                }
-                else
-                {
-                    <a asp-controller="Manage" asp-action="AddPhoneNumber" class="btn-bracketed">Add</a>
-                }*@
-        </dd>
-
-        <dt>Two-Factor Authentication:</dt>
-        <dd>
-            <p>
-                There are no two-factor authentication providers configured. See <a href="http://go.microsoft.com/fwlink/?LinkID=532713">this article</a>
-                for setting up this application to support two-factor authentication.
-            </p>
-            @*@if (Model.TwoFactor)
-                {
-                    <form asp-controller="Manage" asp-action="DisableTwoFactorAuthentication" method="post" class="form-horizontal">
-                        Enabled <button type="submit" class="btn-link btn-bracketed">Disable</button>
-                    </form>
-                }
-                else
-                {
-                    <form asp-controller="Manage" asp-action="EnableTwoFactorAuthentication" method="post" class="form-horizontal">
-                        <button type="submit" class="btn-link btn-bracketed">Enable</button> Disabled
-                    </form>
-                }*@
-        </dd>
-    </dl>
+    <table>
+        <tr>
+            <td style="width:40%">Nom d'utilisateur:</td> 
+            <td style="width:45%" >@Model.Username </td>
+            <td style="width:15%"><img onclick="modifierAttribut(0)" src="https://cdn4.iconfinder.com/data/icons/simplicio/128x128/file_edit.png" alt="Modifier" height="30" width="30" /></td>
+        </tr>
+        <tr>
+            <td style="width:40%">Mot de passe</td>
+            <td style="width:45%">**********</td>
+            <td style="width:15%"><a asp-controller="Manage" asp-action="ChangePassword" class="btn-bracketed"><img onclick="modifierAttribut(0)" src="https://cdn4.iconfinder.com/data/icons/simplicio/128x128/file_edit.png" alt="Modifier" height="30" width="30" /></a></td>
+            
+        </tr>
+        <tr>
+            <td style="width:40%">Courriel:</td>
+            <td style="width:45%">@Model.Email</td>
+            <td style="width:15%"><img onclick="modifierAttribut(1)" src="https://cdn4.iconfinder.com/data/icons/simplicio/128x128/file_edit.png" alt="Modifier" height="30" width="30" /></td>
+        </tr>
+        <tr>
+            <td style="width:40%">Catégorie favorite no1:</td>
+            <td style="width:45%">@Model.Categorie1</td>
+            <td style="width:15%"><img onclick="modifierAttribut(2)" src="https://cdn4.iconfinder.com/data/icons/simplicio/128x128/file_edit.png" alt="Modifier" height="30" width="30" /></td>
+        </tr>
+        <tr>
+            <td style="width:40%">Catégorie favorite no1:</td>
+            <td style="width:45%">@Model.Categorie1</td>
+            <td style="width:15%"><img onclick="modifierAttribut(3)" src="https://cdn4.iconfinder.com/data/icons/simplicio/128x128/file_edit.png" alt="Modifier" height="30" width="30" /></td>
+        </tr>
+        <tr>
+            <td style="width:40%">Catégorie favorite no2:</td>
+            <td style="width:45%">@Model.Categorie2</td>
+            <td style="width:15%"><img onclick="modifierAttribut(4)" src="https://cdn4.iconfinder.com/data/icons/simplicio/128x128/file_edit.png" alt="Modifier" height="30" width="30" /></td>
+        </tr>
+        <tr>
+            <td style="width:40%">Catégorie favorite no3:</td>
+            <td style="width:45%">@Model.Categorie3</td>
+            <td style="width:15%"><img onclick="modifierAttribut(5)" src="https://cdn4.iconfinder.com/data/icons/simplicio/128x128/file_edit.png" alt="Modifier" height="30" width="30" /></td>
+        </tr>
+        <tr>
+            <td style="width:40%">Date de naissance</td>
+            <td style="width:45%">@Model.DateNaissance</td>
+            <td style="width:15%"><img onclick="modifierAttribut(6)" src="https://cdn4.iconfinder.com/data/icons/simplicio/128x128/file_edit.png" alt="Modifier" height="30" width="30" /></td>
+        </tr>
+    </table>
 </div>
