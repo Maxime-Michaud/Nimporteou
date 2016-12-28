@@ -95,6 +95,7 @@ namespace nimporteou.Controllers
         /// <param name="id">id d'un événement, si null affiche tous les événements,
         /// sinon on ouvre la page de consultations de l'événement</param>
         /// <returns></returns>
+        [Authorize]
         async public Task<IActionResult> MesInvitation(int? id)
         {
             //Get l'événement
@@ -110,6 +111,7 @@ namespace nimporteou.Controllers
         /// Crée la liste de catégorie
         /// </summary>
         /// <returns></returns>
+        [Authorize]
         public IActionResult Creer()
         {
             List<SelectListItem> lstCat = new List<SelectListItem>();
@@ -291,7 +293,7 @@ namespace nimporteou.Controllers
         /// <param name="id">id de l'événement</param>
         /// <param name="user">l'utilisateur connecter</param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet, Authorize]
         public IActionResult Modifier(int? id, ApplicationUser user)
         {
             //Get l'événement
@@ -349,6 +351,7 @@ namespace nimporteou.Controllers
         /// <param name="files">Le fichier a uploader</param>
         /// <param name="user">L'utilisateur connecter</param>
         /// <returns></returns>
+        [Authorize]
         public async Task<int> ModifierEvenement(int id, CreationEvenementViewModel e, ICollection<IFormFile> files, ApplicationUser user)
         {
             //Modifier l'événement
@@ -482,6 +485,7 @@ namespace nimporteou.Controllers
         /// <param name="id"></param>
         /// <param name="evenement_id"></param>
         /// <param name="user"></param>
+        [Authorize]
         public void Inscrire(int nbr_participant, int evenement_id, ApplicationUser user)
         {
             var participation = _db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id).FirstOrDefault();
@@ -505,52 +509,7 @@ namespace nimporteou.Controllers
 
             _db.SaveChanges();
         }
-
-        /// <summary>
-        /// Gere le signalement d'un événement
-        /// </summary>
-        /// <param name="evenement_id">id de l'événement</param>
-        /// <returns></returns>
-        [HttpGet, Authorize]
-        public async Task<IActionResult> Signaler(int evenement_id)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await _userManager.GetUserAsync(HttpContext.User);
-                Signalement(evenement_id, user);
-                return RedirectToAction("Consulter", new { id = evenement_id });
-            }
-
-            return RedirectToAction("Consulter", evenement_id);
-        }
-
-        /// <summary>
-        /// Méthode qui permet à l'utilisateur de signaler un événement
-        /// </summary>
-        /// <param name="evenement_id">id de l'événement</param>
-        /// <param name="user">l'utilisateur connecter</param>
-        public void Signalement(int evenement_id, ApplicationUser user)
-        {
-            if (_db.Participations.Where(a=>a.Participant_id == user.Id && a.Evenement_id == evenement_id && (a.Role == Role.Signalement || a.Role == Role.Participant || a.Role == Role.Inviter)).FirstOrDefault() == null)
-            {
-                Participation inscription = new Participation();
-                inscription.Evenement_id = evenement_id;
-                inscription.Evenement = _db.Evenements.Where(a => a.id == evenement_id).First();
-                inscription.Participant_id = user.Id;
-                inscription.Participant = user;
-                inscription.Role = Role.Signalement;
-                inscription.NombreParticipants = 1;
-                _db.Participations.Add(inscription);
-                _db.SaveChanges();
-            }
-            else if (_db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id && a.Role != Role.Signalement).FirstOrDefault() != null)
-            {
-                Participation inscription = _db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id).First();
-                inscription.Role = Role.Signalement;
-                _db.SaveChanges();
-            }
-        }
-
+      
         /// <summary>
         /// Ouvre la page pour inviter un utilisateur à un événement
         /// </summary>
@@ -613,6 +572,7 @@ namespace nimporteou.Controllers
         /// <param name="id"></param>
         /// <param name="evenement_id"></param>
         /// <param name="user"></param>
+        [Authorize]
         public void InvitationUtilisateur(int evenement_id, ApplicationUser user)
         {
             if (_db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id && (a.Role == Role.Participant || a.Role == Role.Organisateur || a.Role == Role.Createur || a.Role == Role.Inviter || a.Role == Role.Signalement)).FirstOrDefault() == null)
@@ -697,6 +657,7 @@ namespace nimporteou.Controllers
         /// <param name="id"></param>
         /// <param name="evenement_id"></param>
         /// <param name="user"></param>
+        [Authorize]
         public void AjouterOrganisateur(int evenement_id, ApplicationUser user)
         {
             if (_db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id && (a.Role == Role.Participant || a.Role == Role.Organisateur || a.Role == Role.Createur || a.Role == Role.Inviter || a.Role == Role.Signalement)).FirstOrDefault() == null)
@@ -718,5 +679,94 @@ namespace nimporteou.Controllers
                 _db.SaveChanges();
             }
         }
-    }    
+
+
+        /// <summary>
+        /// Ouvre la page qui permet de signaler un événement.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize]
+        public IActionResult Signalement(int? evenement_id)
+        {
+            //Get l'eventnement
+            if (evenement_id != null)
+            {
+                Evenement ev = _db.Evenements.Include(a => a.Categorie).Include(a => a.Endroit.Ville).Where(e => e.id == evenement_id).FirstOrDefault();
+
+                if (ev != null)
+                {
+                    ConsultationEvenementViewModel cev = new ConsultationEvenementViewModel();
+
+                    cev.EvenementID = ev.id;
+                    cev.Nom = ev.Nom;
+                    cev.Description = ev.Description;
+                    cev.DateLimite = ev.DateLimite;
+                    cev.PrixBillet = ev.PrixBillet;
+                    cev.Debut = ev.Debut;
+                    cev.Fin = ev.Fin;
+                    cev.Categorie = ev.Categorie.Nom;
+                    cev.AdresseComplete = ev.Endroit.ToString();
+                    cev.CheminPhoto = ev.CheminPhoto;
+                    cev.HeureDebut = ev.HeureDebut;
+                    cev.Duree = ev.Duree;
+
+                    return View(cev);
+                }
+            }
+            return View();
+        }
+
+
+        /// <summary>
+        /// Gere le signalement d'un événement
+        /// </summary>
+        /// <param name="evenement_id">id de l'événement</param>
+        /// <returns></returns>
+        [HttpGet, Authorize]
+        public async Task<IActionResult> Signaler(int evenement_id, string message)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                AjoutSignalement(evenement_id, message, user);
+                return RedirectToAction("Consulter", new { id = evenement_id });
+            }
+
+            return RedirectToAction("Consulter", evenement_id);
+        }
+
+        /// <summary>
+        /// Méthode qui permet à l'utilisateur de signaler un événement
+        /// </summary>
+        /// <param name="evenement_id">id de l'événement</param>
+        /// <param name="user">l'utilisateur connecter</param>
+        [Authorize]
+        public void AjoutSignalement(int evenement_id, string message, ApplicationUser user)
+        {
+            if (_db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id && (a.Role == Role.Signalement || a.Role == Role.Participant || a.Role == Role.Inviter)).FirstOrDefault() == null)
+            {
+                Signalement signal = new Signalement();
+                signal.Commentaire = message;
+                Participation inscription = new Participation();
+                inscription.Evenement_id = evenement_id;
+                inscription.Evenement = _db.Evenements.Where(a => a.id == evenement_id).First();
+                inscription.Participant_id = user.Id;
+                inscription.Participant = user;
+                inscription.Role = Role.Signalement;
+                inscription.NombreParticipants = 1;
+                inscription.Signalement = signal;
+                _db.Participations.Add(inscription);
+                _db.SaveChanges();
+            }
+            else if (_db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id && a.Role != Role.Signalement).FirstOrDefault() != null)
+            {
+                Participation inscription = _db.Participations.Where(a => a.Participant_id == user.Id && a.Evenement_id == evenement_id).First();
+                inscription.Role = Role.Signalement;
+                _db.SaveChanges();
+            }
+            
+        }
+
+    }
 }

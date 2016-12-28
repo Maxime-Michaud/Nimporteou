@@ -22,6 +22,11 @@
 </form>
 
 <div>
-    <a asp-action="MesEvenements">Retour a mes événement</a>
+    <a asp-action="MesEvenement">Retour a mes événement</a>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript" src="~/js/site.js"></script>
+}
 

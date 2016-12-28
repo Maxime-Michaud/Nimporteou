@@ -11,7 +11,7 @@
 <div class="form-group">
     <label asp-for="Description" class="col-md-2 control-label"></label>
     <div class="col-md-10">
-        <input asp-for="Description" placeholder="Description" class="form-control" maxlength="2000" />
+        <input asp-for="Description" placeholder="Description" class="form-control" maxlength="2000" required/>
         <span asp-validation-for="Description" class="text-danger" />
     </div>
 </div>
@@ -27,7 +27,7 @@
 <div class="form-group">
     <label asp-for="HeureDebut" class="col-md-2 control-label">Heure</label>
     <div class="col-md-10">
-        <input asp-for="HeureDebut" placeholder="H:M" id="heuredebut" type="time" class="form-control" data-time-format="H:i" required />
+        <input asp-for="HeureDebut" type="time" class="form-control" data-time-format="H:i" required />
         <span asp-validation-for="HeureDebut" class="text-danger"/>
         
     </div>
@@ -36,7 +36,7 @@
 <div class="form-group">
     <label asp-for="Duree" class="col-md-2 control-label">Durée</label>
     <div class="col-md-10">
-        <input asp-for="Duree" placeholder="Veuillez-saisir la durée total" id="basicExample" type="text" class="form-control" data-time-format="H:i:s"/>
+        <input asp-for="Duree" placeholder="Veuillez-saisir la durée total" type="text" class="form-control" data-time-format="H:i:s" required/>
         <span asp-validation-for="Duree" class="text-danger" />
     </div>
 </div>
@@ -60,7 +60,7 @@
 <div class="form-group">
     <label asp-for="AdresseComplete" class="col-md-2 control-label">Adresse</label>
     <div class="col-md-10">
-        <input asp-for="AdresseComplete" placeholder="" class="form-control" required />
+        <input asp-for="AdresseComplete" class="form-control" required />
         <span asp-validation-for="AdresseComplete" class="text-danger" />
     </div>
 </div>
