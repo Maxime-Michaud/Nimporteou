@@ -6,6 +6,13 @@
 
 <h2>Creation d'événement</h2>
 
+<div>
+    Charger un évènement de facebook :
+    <input id="fburl" type="text" value="" style="color:black" />
+    <button onclick="loadFBEvent();" style="color:black">Charger l'évènement</button>
+</div>
+
+
 <form method="post" asp-action="Creer" asp-controller="Evenement" enctype="multipart/form-data">
     <div class="form-horizontal">
         <h4>Quelles est votre événement?</h4>
@@ -58,6 +65,7 @@
             </div>
         </div>
     </div>
+
 </form>
 
 <div>
