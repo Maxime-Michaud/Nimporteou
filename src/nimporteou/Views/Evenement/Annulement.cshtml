@@ -1,0 +1,29 @@
+﻿@model nimporteou.Models.EvenementViewModels.ConsultationEvenementViewModel
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h2>Annuler</h2>
+
+<div>
+    <h4>Annuler un événement.</h4>
+    <hr />
+    <form method="get" asp-action="Annuler" asp-controller="Evenement" enctype="multipart/form-data">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="col-md-2 control-label">Desirez-vous annuler l'événement.</label>
+                <input type="hidden" name="evenement_id" class="form-control" value="@Model.EvenementID" required />
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Oui" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div>
+    <a asp-action="Consulter" asp-route-id="@Model.EvenementID">Retour</a>
+</div>

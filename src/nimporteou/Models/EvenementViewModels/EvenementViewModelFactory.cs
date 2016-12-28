@@ -47,7 +47,7 @@ namespace nimporteou.Models.EvenementViewModels
                             .Where(p => p.Role != Role.Signalement)
                             .Select(p => p.Evenement);
 
-            evenements = CreerListeBase(evenements, user.Age ?? 0);
+            evenements = CreerListeBaseAvecAnnuler(evenements, user.Age ?? 0);
 
             return CreerListeViewModel(evenements);
         }
@@ -104,6 +104,13 @@ namespace nimporteou.Models.EvenementViewModels
             return evs.Where(e => (e.AgeMinimum ?? 0) <= age)
                     .Where(e => e.Public)
                     .Where(e => !e.Annulé)
+                    .Where(e => e.DateLimite > DateTime.Now);
+        }
+
+        static private IQueryable<Evenement> CreerListeBaseAvecAnnuler(IQueryable<Evenement> evs, int age)
+        {
+            return evs.Where(e => (e.AgeMinimum ?? 0) <= age)
+                    .Where(e => e.Public)
                     .Where(e => e.DateLimite > DateTime.Now);
         }
 
